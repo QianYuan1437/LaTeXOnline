@@ -180,7 +180,9 @@ const translations = {
     groupAlgebraExamples: "Algebra examples",
     groupCalculusExamples: "Calculus examples",
     groupMatrixExamples: "Matrix examples",
-    groupPhysicsExamples: "Physics examples"
+    groupPhysicsExamples: "Physics examples",
+    toolSearchPlaceholder: "Search tools",
+    toolEmpty: "No matching tools in this group."
   },
   zh: {
     mathWorkspace: "数学工作台",
@@ -272,7 +274,9 @@ const translations = {
     groupAlgebraExamples: "代数示例",
     groupCalculusExamples: "积分示例",
     groupMatrixExamples: "矩阵示例",
-    groupPhysicsExamples: "物理示例"
+    groupPhysicsExamples: "物理示例",
+    toolSearchPlaceholder: "搜索工具条目",
+    toolEmpty: "当前分组没有匹配项。"
   }
 };
 
@@ -311,6 +315,7 @@ const elements = {
   toolModalClose: document.getElementById("toolModalClose"),
   toolModalTitle: document.getElementById("toolModalTitle"),
   toolModalMeta: document.getElementById("toolModalMeta"),
+  toolModalSearch: document.getElementById("toolModalSearch"),
   toolModalNav: document.getElementById("toolModalNav"),
   toolModalBody: document.getElementById("toolModalBody"),
   historySearch: document.getElementById("historySearch"),
@@ -333,6 +338,7 @@ let activePane = "templates";
 let activeTemplateId = "quadratic";
 let activeToolId = toolCatalog[0]?.id || "symbol";
 let activeToolGroupIndex = 0;
+let activeToolSearch = "";
 
 function t(key) {
   return translations[language][key] || translations.en[key] || key;
@@ -357,6 +363,7 @@ function updateI18nUi() {
   });
   elements.languageToggle.textContent = t("langToggle");
   elements.toolModalClose.textContent = language === "zh" ? "关闭" : "Close";
+  elements.toolModalSearch.placeholder = t("toolSearchPlaceholder");
   elements.historySearch.placeholder = t("historySearchPlaceholder");
   elements.modeToggleGroup.setAttribute("aria-label", t("formulaDisplayMode"));
   updateModeUi();
@@ -555,17 +562,40 @@ function renderToolModal(toolId) {
   elements.toolModalTitle.textContent = localizeText(active.title);
   elements.toolModalMeta.textContent = localizeText(active.usage);
 
-  const normalizedIndex = Math.min(activeToolGroupIndex, Math.max(active.groups.length - 1, 0));
+  const searchTerm = activeToolSearch.trim().toLowerCase();
+  const groups = active.groups
+    .map((group, originalIndex) => {
+      const filteredItems = !searchTerm
+        ? group.items
+        : group.items.filter((entry) => {
+            const haystack = [
+              entry.math,
+              entry.insert,
+              entry.zh,
+              entry.en,
+              localizeText(group.title),
+              language === "zh" ? group.title.en : group.title.zh
+            ]
+              .join(" ")
+              .toLowerCase();
+            return haystack.includes(searchTerm);
+          });
+
+      return { ...group, originalIndex, items: filteredItems };
+    })
+    .filter((group) => group.items.length > 0);
+
+  const normalizedIndex = Math.min(activeToolGroupIndex, Math.max(groups.length - 1, 0));
   activeToolGroupIndex = normalizedIndex;
 
-  active.groups.forEach((group, index) => {
+  groups.forEach((group, index) => {
     const navButton = document.createElement("button");
     navButton.type = "button";
     navButton.className = "tool-modal-nav-button";
     navButton.classList.toggle("active", index === normalizedIndex);
     navButton.innerHTML = `
       <span class="tool-modal-nav-title">${localizeText(group.title)}</span>
-      <span class="tool-modal-nav-subtitle">${language === "zh" ? group.title.en : group.title.zh}</span>
+      <span class="tool-modal-nav-subtitle">${language === "zh" ? group.title.en : group.title.zh} · ${group.items.length}</span>
     `;
     navButton.addEventListener("click", () => {
       activeToolGroupIndex = index;
@@ -575,8 +605,12 @@ function renderToolModal(toolId) {
     elements.toolModalNav.appendChild(navButton);
   });
 
-  const group = active.groups[normalizedIndex];
+  const group = groups[normalizedIndex];
   if (!group) {
+    const empty = document.createElement("div");
+    empty.className = "history-empty";
+    empty.textContent = t("toolEmpty");
+    elements.toolModalBody.appendChild(empty);
     return;
   }
 
@@ -648,6 +682,8 @@ function renderToolModal(toolId) {
 function openToolModal(toolId) {
   activeToolId = toolId;
   activeToolGroupIndex = 0;
+  activeToolSearch = "";
+  elements.toolModalSearch.value = "";
   renderToolModal(toolId);
   elements.toolModal.classList.remove("is-hidden");
   elements.toolModal.setAttribute("aria-hidden", "false");
@@ -1113,6 +1149,12 @@ elements.snippetTabBtn.addEventListener("click", () => {
 
 elements.toolModalClose.addEventListener("click", closeToolModal);
 elements.toolModalBackdrop.addEventListener("click", closeToolModal);
+elements.toolModalSearch.addEventListener("input", (event) => {
+  activeToolSearch = event.target.value;
+  activeToolGroupIndex = 0;
+  renderToolModal(activeToolId);
+  void renderCardMath();
+});
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !elements.toolModal.classList.contains("is-hidden")) {
     closeToolModal();
