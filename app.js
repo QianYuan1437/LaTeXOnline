@@ -87,93 +87,7 @@ const templateCatalog = [
   }
 ];
 
-const toolCatalog = [
-  {
-    id: "symbols",
-    labelKey: "toolSymbols",
-    preview: String.raw`\times\ \cap\ \propto`,
-    groups: [
-      {
-        titleKey: "groupBinaryOps",
-        items: ["+", "-", String.raw`\times`, String.raw`\div`, String.raw`\pm`, String.raw`\cap`, String.raw`\cup`, String.raw`\otimes`, String.raw`\oplus`, String.raw`\star`, String.raw`\diamond`, String.raw`\triangleleft`]
-      },
-      {
-        titleKey: "groupRelations",
-        items: ["<", ">", String.raw`\leq`, String.raw`\geq`, String.raw`\neq`, String.raw`\approx`, String.raw`\equiv`, String.raw`\subseteq`, String.raw`\supseteq`, String.raw`\in`, String.raw`\ni`, String.raw`\propto`]
-      },
-      {
-        titleKey: "groupArrows",
-        items: [String.raw`\leftarrow`, String.raw`\rightarrow`, String.raw`\leftrightarrow`, String.raw`\uparrow`, String.raw`\downarrow`, String.raw`\Rightarrow`, String.raw`\Leftarrow`, String.raw`\Leftrightarrow`, String.raw`\mapsto`, String.raw`\hookrightarrow`]
-      },
-      {
-        titleKey: "groupOthers",
-        items: [String.raw`\infty`, String.raw`\partial`, String.raw`\nabla`, String.raw`\forall`, String.raw`\exists`, String.raw`\emptyset`, String.raw`\angle`, String.raw`\triangle`, String.raw`\square`, String.raw`\heartsuit`]
-      }
-    ]
-  },
-  {
-    id: "geometry",
-    labelKey: "toolGeometry",
-    preview: String.raw`\triangle ABC`,
-    groups: [
-      {
-        titleKey: "groupGeometryExamples",
-        items: [
-          String.raw`\triangle ABC`,
-          String.raw`a \parallel c,\ b \parallel c \Rightarrow a \parallel b`,
-          String.raw`l \perp \beta,\ l\subset \alpha \Rightarrow \alpha \perp \beta`,
-          String.raw`P\in\alpha,\ P\in\beta,\ \alpha\cap\beta=l \Rightarrow P\in l`,
-          String.raw`a\subset\beta,\ b\subset\beta,\ a\cap b=P \Rightarrow \beta \parallel \partial`,
-          String.raw`m\subset\alpha,\ n\subset\alpha,\ m\cap n=P \Rightarrow a \perp \alpha`
-        ]
-      }
-    ]
-  },
-  {
-    id: "algebra",
-    labelKey: "toolAlgebra",
-    preview: String.raw`\sqrt{a^2+b^2}`,
-    groups: [
-      {
-        titleKey: "groupAlgebraExamples",
-        items: [String.raw`\sqrt{a^2+b^2}`, String.raw`(a+b)^2=a^2+2ab+b^2`, String.raw`\frac{x^2-1}{x-1}=x+1`, String.raw`\log_a b=\frac{\ln b}{\ln a}`]
-      }
-    ]
-  },
-  {
-    id: "calculus",
-    labelKey: "toolCalculus",
-    preview: String.raw`\frac{\partial y}{\partial x}`,
-    groups: [
-      {
-        titleKey: "groupCalculusExamples",
-        items: [String.raw`\frac{dy}{dx}`, String.raw`\frac{\partial y}{\partial x}`, String.raw`\int_0^{\infty} e^{-x}\,dx=1`, String.raw`\sum_{n=1}^{\infty}\frac{1}{n^2}=\frac{\pi^2}{6}`]
-      }
-    ]
-  },
-  {
-    id: "matrix",
-    labelKey: "toolMatrix",
-    preview: String.raw`\begin{pmatrix}1&0\\0&1\end{pmatrix}`,
-    groups: [
-      {
-        titleKey: "groupMatrixExamples",
-        items: [String.raw`\begin{pmatrix}1&0\\0&1\end{pmatrix}`, String.raw`\left|\begin{matrix}a&b\\c&d\end{matrix}\right|`, String.raw`\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}`]
-      }
-    ]
-  },
-  {
-    id: "physics",
-    labelKey: "toolPhysics",
-    preview: String.raw`E=mc^2`,
-    groups: [
-      {
-        titleKey: "groupPhysicsExamples",
-        items: [String.raw`E=mc^2`, String.raw`F=G\frac{m_1m_2}{r^2}`, String.raw`pV=nRT`, String.raw`H_2O`]
-      }
-    ]
-  }
-];
+const toolCatalog = window.toolCatalogData || [];
 
 const translations = {
   en: {
@@ -392,6 +306,12 @@ const elements = {
   templateDetailPanel: document.getElementById("templateDetailPanel"),
   snippetGallery: document.getElementById("snippetGallery"),
   toolDetailPanel: document.getElementById("toolDetailPanel"),
+  toolModal: document.getElementById("toolModal"),
+  toolModalBackdrop: document.getElementById("toolModalBackdrop"),
+  toolModalClose: document.getElementById("toolModalClose"),
+  toolModalTitle: document.getElementById("toolModalTitle"),
+  toolModalMeta: document.getElementById("toolModalMeta"),
+  toolModalBody: document.getElementById("toolModalBody"),
   historySearch: document.getElementById("historySearch"),
   favoritesList: document.getElementById("favoritesList"),
   historyList: document.getElementById("historyList"),
@@ -410,10 +330,17 @@ let historySearchQuery = "";
 let historyCollapsed = false;
 let activePane = "templates";
 let activeTemplateId = "quadratic";
-let activeToolId = toolCatalog[0].id;
+let activeToolId = toolCatalog[0]?.id || "symbol";
 
 function t(key) {
   return translations[language][key] || translations.en[key] || key;
+}
+
+function localizeText(value) {
+  if (typeof value === "string") {
+    return value;
+  }
+  return value?.[language] || value?.en || value?.zh || "";
 }
 
 function setStatus(key) {
@@ -427,6 +354,7 @@ function updateI18nUi() {
     node.textContent = t(node.dataset.i18n);
   });
   elements.languageToggle.textContent = t("langToggle");
+  elements.toolModalClose.textContent = language === "zh" ? "关闭" : "Close";
   elements.historySearch.placeholder = t("historySearchPlaceholder");
   elements.modeToggleGroup.setAttribute("aria-label", t("formulaDisplayMode"));
   updateModeUi();
@@ -435,6 +363,10 @@ function updateI18nUi() {
   elements.statusText.textContent = t(lastStatusKey);
   renderHistory();
   renderToolCenter();
+  if (!elements.toolModal.classList.contains("is-hidden")) {
+    renderToolModal(activeToolId);
+    void renderCardMath();
+  }
 }
 
 function updateThemeUi() {
@@ -569,15 +501,37 @@ function renderToolGallery() {
     if (tool.id === activeToolId) {
       button.classList.add("active");
     }
-    button.append(
-      createMathNode("span", "tool-card-formula", tool.preview),
-      Object.assign(document.createElement("span"), { className: "tool-card-title", textContent: t(tool.labelKey) })
-    );
+    const head = document.createElement("div");
+    head.className = "tool-card-head";
+    const titleWrap = document.createElement("div");
+    titleWrap.className = "tool-card-title-wrap";
+    const title = document.createElement("span");
+    title.className = "tool-card-title";
+    title.textContent = localizeText(tool.title);
+    const subtitle = document.createElement("span");
+    subtitle.className = "tool-card-subtitle";
+    subtitle.textContent = language === "zh" ? tool.title.en : tool.title.zh;
+    titleWrap.append(title, subtitle);
+    const tag = document.createElement("span");
+    tag.className = "tool-card-tag";
+    tag.textContent = localizeText(tool.usage);
+    head.append(titleWrap, tag);
+
+    const formula = createMathNode("span", "tool-card-formula", tool.preview);
+
+    const foot = document.createElement("div");
+    foot.className = "tool-card-foot";
+    const meta = document.createElement("span");
+    meta.className = "tool-card-subtitle";
+    meta.textContent = `${tool.groups.length} ${language === "zh" ? "组" : "groups"}`;
+    foot.appendChild(meta);
+
+    button.append(head, formula, foot);
     button.addEventListener("click", () => {
       activeToolId = tool.id;
       persistState();
       renderToolGallery();
-      renderToolDetailPanel();
+      openToolModal(tool.id);
       void renderCardMath();
     });
     elements.snippetGallery.appendChild(button);
@@ -586,36 +540,98 @@ function renderToolGallery() {
 
 function renderToolDetailPanel() {
   elements.toolDetailPanel.textContent = "";
-  const active = toolCatalog.find((tool) => tool.id === activeToolId);
+}
+
+function renderToolModal(toolId) {
+  const active = toolCatalog.find((tool) => tool.id === toolId);
+  elements.toolModalBody.textContent = "";
   if (!active) {
     return;
   }
 
+  elements.toolModalTitle.textContent = localizeText(active.title);
+  elements.toolModalMeta.textContent = localizeText(active.usage);
+
   active.groups.forEach((group) => {
     const section = document.createElement("section");
     section.className = "tool-group";
+
+    const head = document.createElement("div");
+    head.className = "tool-group-head";
+
     const title = document.createElement("h3");
     title.className = "tool-group-title";
-    title.textContent = t(group.titleKey);
-    const grid = document.createElement("div");
-    grid.className = active.id === "symbols" ? "tool-symbol-grid" : "detail-example-grid";
+    title.textContent = localizeText(group.title);
 
-    group.items.forEach((item) => {
-      const formulaText = typeof item === "string" ? item : item.math;
-      const insertText = typeof item === "string" ? item : item.insert;
+    const subtitle = document.createElement("span");
+    subtitle.className = "tool-group-subtitle";
+    subtitle.textContent = language === "zh" ? group.title.en : group.title.zh;
+
+    head.append(title, subtitle);
+
+    const isSymbolLike = active.id === "symbol" || active.id === "greek";
+    const grid = document.createElement("div");
+    grid.className = isSymbolLike ? "tool-symbol-grid" : "detail-example-grid";
+
+    group.items.forEach((entry) => {
       const button = document.createElement("button");
       button.type = "button";
-      button.className = active.id === "symbols" ? "symbol-chip" : "detail-example-card";
-      button.appendChild(createMathNode("span", active.id === "symbols" ? "symbol-chip-math" : "detail-example-math", formulaText));
+      button.className = isSymbolLike ? "symbol-chip" : "detail-example-card tool-example-card";
       button.addEventListener("click", () => {
-        insertSnippet(insertText);
+        insertSnippet(entry.insert);
+        closeToolModal();
       });
+
+      if (isSymbolLike) {
+        button.title = language === "zh" ? `${entry.zh} / ${entry.en}` : `${entry.en} / ${entry.zh}`;
+        button.appendChild(createMathNode("span", "symbol-chip-math", entry.math));
+      } else {
+        const content = document.createElement("div");
+        content.className = "detail-example-card-content";
+        content.appendChild(createMathNode("span", "detail-example-math", entry.math));
+
+        const labels = document.createElement("div");
+        labels.className = "detail-example-labels";
+
+        const textWrap = document.createElement("div");
+        const titleNode = document.createElement("span");
+        titleNode.className = "detail-example-title";
+        titleNode.textContent = language === "zh" ? entry.zh : entry.en;
+        const subtitleNode = document.createElement("span");
+        subtitleNode.className = "detail-example-subtitle";
+        subtitleNode.textContent = language === "zh" ? entry.en : entry.zh;
+        textWrap.append(titleNode, subtitleNode);
+
+        const tag = document.createElement("span");
+        tag.className = "detail-example-tag";
+        tag.textContent = active.id.toUpperCase();
+
+        labels.append(textWrap, tag);
+        content.appendChild(labels);
+        button.appendChild(content);
+      }
+
       grid.appendChild(button);
     });
 
-    section.append(title, grid);
-    elements.toolDetailPanel.appendChild(section);
+    section.append(head, grid);
+    elements.toolModalBody.appendChild(section);
   });
+}
+
+function openToolModal(toolId) {
+  activeToolId = toolId;
+  renderToolModal(toolId);
+  elements.toolModal.classList.remove("is-hidden");
+  elements.toolModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  void renderCardMath();
+}
+
+function closeToolModal() {
+  elements.toolModal.classList.add("is-hidden");
+  elements.toolModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
 }
 
 function renderToolCenter() {
@@ -634,7 +650,10 @@ function showTemplatePane(pane) {
   elements.templateGallery.classList.toggle("is-hidden", !templateActive);
   elements.templateDetailPanel.classList.toggle("is-hidden", !templateActive);
   elements.snippetGallery.classList.toggle("is-hidden", templateActive);
-  elements.toolDetailPanel.classList.toggle("is-hidden", templateActive);
+  elements.toolDetailPanel.classList.add("is-hidden");
+  if (templateActive) {
+    closeToolModal();
+  }
   persistState();
   void renderCardMath();
 }
@@ -650,7 +669,8 @@ async function renderCardMath() {
         elements.templateGallery,
         elements.templateDetailPanel,
         elements.snippetGallery,
-        elements.toolDetailPanel
+        elements.toolDetailPanel,
+        elements.toolModalBody
       ]);
     } catch (error) {
     }
@@ -968,7 +988,7 @@ function restoreState() {
     theme = query.get("theme") === "dark" || saved.theme === "dark" ? "dark" : "light";
     historyCollapsed = Boolean(saved.historyCollapsed);
     activeTemplateId = saved.activeTemplateId || "quadratic";
-    activeToolId = saved.activeToolId || toolCatalog[0].id;
+    activeToolId = saved.activeToolId || toolCatalog[0]?.id || "symbol";
     activePane = saved.activePane || "templates";
   } catch (error) {
     elements.latexInput.value = templates.quadratic;
@@ -1062,6 +1082,14 @@ elements.templateTabBtn.addEventListener("click", () => {
 
 elements.snippetTabBtn.addEventListener("click", () => {
   showTemplatePane("snippets");
+});
+
+elements.toolModalClose.addEventListener("click", closeToolModal);
+elements.toolModalBackdrop.addEventListener("click", closeToolModal);
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && !elements.toolModal.classList.contains("is-hidden")) {
+    closeToolModal();
+  }
 });
 
 restoreState();

@@ -193,6 +193,21 @@
     </main>
   </div>
 
+  <div class="tool-modal is-hidden" id="toolModal" aria-hidden="true">
+    <div class="tool-modal-backdrop" id="toolModalBackdrop"></div>
+    <section class="tool-modal-panel" role="dialog" aria-modal="true" aria-labelledby="toolModalTitle">
+      <div class="tool-modal-head">
+        <div>
+          <p class="panel-kicker" id="toolModalMeta"></p>
+          <h2 id="toolModalTitle"></h2>
+        </div>
+        <button type="button" class="toolbar-button" id="toolModalClose">Close</button>
+      </div>
+      <div class="tool-modal-body" id="toolModalBody"></div>
+    </section>
+  </div>
+
+  <script src="tool-data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

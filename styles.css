@@ -49,6 +49,10 @@ body {
   background-size: auto, 20px 20px, 20px 20px, auto;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 button,
 select,
 textarea,
@@ -82,6 +86,7 @@ button {
   border-radius: 18px;
   margin-bottom: 12px;
   flex-wrap: wrap;
+  overflow-x: auto;
 }
 
 .bar-main,
@@ -100,8 +105,14 @@ button {
   flex-wrap: wrap;
 }
 
+.bar-main,
+.bar-actions {
+  min-width: 0;
+}
+
 .bar-actions {
   margin-left: auto;
+  flex-wrap: nowrap;
 }
 
 .bar-workspace-tools {
@@ -110,6 +121,7 @@ button {
   border-radius: 12px;
   background: var(--panel-alt);
   flex-wrap: nowrap;
+  min-width: 0;
 }
 
 .window-chrome {
@@ -142,6 +154,7 @@ button {
 
 .brand {
   flex-wrap: nowrap;
+  min-width: 0;
 }
 
 .brand h1 {
@@ -196,6 +209,7 @@ select {
   color: var(--text);
   font-size: 0.84rem;
   font-weight: 700;
+  white-space: nowrap;
   transition: background-color 140ms ease, border-color 140ms ease, transform 140ms ease, color 140ms ease;
 }
 
@@ -336,7 +350,50 @@ body.history-collapsed .app-grid {
 }
 
 .tool-card {
-  min-height: 92px;
+  min-height: 122px;
+}
+
+.tool-card-head,
+.tool-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.tool-card-head {
+  align-items: flex-start;
+}
+
+.tool-card-title-wrap {
+  min-width: 0;
+}
+
+.tool-card-title-wrap .tool-card-title {
+  margin-bottom: 2px;
+}
+
+.tool-card-subtitle {
+  display: block;
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.tool-card-tag,
+.detail-example-tag {
+  flex: 0 0 auto;
+  min-height: 22px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--panel-alt);
+  color: var(--accent-strong);
+  font-size: 0.65rem;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: normal;
 }
 
 .is-hidden {
@@ -383,16 +440,63 @@ body.history-collapsed .app-grid {
   text-align: center;
 }
 
+.detail-example-card.tool-example-card {
+  min-height: 112px;
+  align-items: stretch;
+  justify-content: space-between;
+  text-align: left;
+}
+
+.detail-example-card-content {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+}
+
 .detail-example-math {
   display: block;
   font-size: 1rem;
   color: var(--text);
 }
 
+.detail-example-labels {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.detail-example-title {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 800;
+}
+
+.detail-example-subtitle {
+  display: block;
+  color: var(--muted);
+  font-size: 0.68rem;
+  line-height: 1.2;
+}
+
 .tool-group + .tool-group {
   margin-top: 12px;
   padding-top: 12px;
   border-top: 1px solid var(--line);
+}
+
+.tool-group-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.tool-group-subtitle {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 700;
 }
 
 .tool-symbol-grid {
@@ -414,6 +518,54 @@ body.history-collapsed .app-grid {
 .symbol-chip-math {
   font-size: 1rem;
   color: var(--text);
+}
+
+.tool-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+}
+
+.tool-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 12, 28, 0.52);
+  backdrop-filter: blur(10px);
+}
+
+.tool-modal-panel {
+  position: relative;
+  z-index: 1;
+  width: min(1200px, calc(100vw - 36px));
+  max-height: min(82vh, 980px);
+  margin: 52px auto;
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  background: color-mix(in srgb, var(--panel) 96%, transparent);
+  box-shadow: 0 28px 80px rgba(5, 11, 26, 0.28);
+  overflow: hidden;
+}
+
+.tool-modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 18px 12px;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--panel-alt) 90%, transparent), transparent);
+}
+
+.tool-modal-head h2 {
+  font-size: 1.08rem;
+}
+
+.tool-modal-body {
+  max-height: calc(82vh - 84px);
+  overflow: auto;
+  padding: 16px 18px 18px;
+  display: grid;
+  gap: 14px;
 }
 
 .control-grid {
@@ -664,5 +816,15 @@ body.history-collapsed .history-panel {
 
   .tool-symbol-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .tool-modal-panel {
+    width: min(100vw - 16px, 100%);
+    margin: 10px auto;
+    max-height: calc(100vh - 20px);
+  }
+
+  .tool-modal-body {
+    max-height: calc(100vh - 110px);
   }
 }
