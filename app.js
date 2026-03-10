@@ -35,6 +35,10 @@ const translations = {
     inputArea: "Input",
     outputArea: "Output",
     memoryArea: "Memory",
+    workspaceTools: "Workspace",
+    quickActions: "Quick Actions",
+    railEditor: "Editor",
+    railPreview: "Preview",
     currentMode: "Current mode",
     themeToggle: "Dark",
     themeLight: "Light",
@@ -80,10 +84,18 @@ const translations = {
     langToggle: "中文",
     historyTitle: "Formula History",
     clearHistory: "Clear History",
+    collapseHistory: "Collapse History",
+    expandHistory: "Show History",
     historyHint: "Recent formulas are saved locally. Click one to restore it.",
+    historySearchPlaceholder: "Search history",
+    favoritesTitle: "Favorites",
+    recentTitle: "Recent",
     historyEmpty: "No formula history yet.",
+    favoritesEmpty: "No favorites yet.",
     restore: "Restore",
     remove: "Remove",
+    favorite: "Favorite",
+    unfavorite: "Unfavorite",
     historyDisplay: "Display",
     historyInline: "Inline",
     historyJustNow: "Just now",
@@ -98,6 +110,10 @@ const translations = {
     inputArea: "输入区",
     outputArea: "输出区",
     memoryArea: "历史区",
+    workspaceTools: "工作区",
+    quickActions: "快捷操作",
+    railEditor: "编辑",
+    railPreview: "预览",
     currentMode: "当前模式",
     themeToggle: "暗色",
     themeLight: "亮色",
@@ -143,10 +159,18 @@ const translations = {
     langToggle: "EN",
     historyTitle: "公式历史",
     clearHistory: "清空历史",
+    collapseHistory: "收起历史栏",
+    expandHistory: "显示历史栏",
     historyHint: "最近使用过的公式会保存在本地，点击即可恢复。",
+    historySearchPlaceholder: "搜索历史记录",
+    favoritesTitle: "收藏",
+    recentTitle: "最近记录",
     historyEmpty: "还没有公式历史。",
+    favoritesEmpty: "还没有收藏公式。",
     restore: "恢复",
     remove: "删除",
+    favorite: "收藏",
+    unfavorite: "取消收藏",
     historyDisplay: "块级",
     historyInline: "行内",
     historyJustNow: "刚刚",
@@ -169,12 +193,21 @@ const elements = {
   exportPngBtn: document.getElementById("exportPngBtn"),
   loadTemplateBtn: document.getElementById("loadTemplateBtn"),
   clearHistoryBtn: document.getElementById("clearHistoryBtn"),
+  toggleHistoryBtn: document.getElementById("toggleHistoryBtn"),
   templateSelect: document.getElementById("templateSelect"),
   statusText: document.getElementById("statusText"),
   modeIndicator: document.getElementById("modeIndicator"),
   modeToggleGroup: document.getElementById("modeToggleGroup"),
   languageToggle: document.getElementById("languageToggle"),
   themeToggle: document.getElementById("themeToggle"),
+  historyCollapseBtn: document.getElementById("historyCollapseBtn"),
+  railLoadTemplateBtn: document.getElementById("railLoadTemplateBtn"),
+  railExportSvgBtn: document.getElementById("railExportSvgBtn"),
+  railExportPngBtn: document.getElementById("railExportPngBtn"),
+  railEditorBtn: document.getElementById("railEditorBtn"),
+  railPreviewBtn: document.getElementById("railPreviewBtn"),
+  historySearch: document.getElementById("historySearch"),
+  favoritesList: document.getElementById("favoritesList"),
   historyList: document.getElementById("historyList"),
   toggles: Array.from(document.querySelectorAll(".toggle")),
   snippetButtons: Array.from(document.querySelectorAll(".snippet-button")),
@@ -188,6 +221,8 @@ let renderTimer = null;
 let historyTimer = null;
 let lastStatusKey = "waiting";
 let historyItems = [];
+let historySearchQuery = "";
+let historyCollapsed = false;
 
 function t(key) {
   return translations[language][key] || translations.en[key] || key;
@@ -204,9 +239,11 @@ function updateI18nUi() {
     node.textContent = t(node.dataset.i18n);
   });
   elements.languageToggle.textContent = t("langToggle");
+  elements.historySearch.placeholder = t("historySearchPlaceholder");
   elements.modeToggleGroup.setAttribute("aria-label", t("formulaDisplayMode"));
   updateModeUi();
   updateThemeUi();
+  updateHistoryCollapseUi();
   elements.statusText.textContent = t(lastStatusKey);
   renderHistory();
 }
@@ -221,7 +258,8 @@ function persistState() {
     source: elements.latexInput.value,
     mode,
     language,
-    theme
+    theme,
+    historyCollapsed
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
 }
@@ -249,6 +287,19 @@ function updateModeUi() {
   elements.modeIndicator.textContent = mode === "display" ? t("displayIndicator") : t("inlineIndicator");
   elements.toggles.forEach((button) => {
     button.classList.toggle("active", button.dataset.mode === mode);
+  });
+}
+
+function updateHistoryCollapseUi() {
+  document.body.classList.toggle("history-collapsed", historyCollapsed);
+  const label = historyCollapsed ? t("expandHistory") : t("collapseHistory");
+  elements.toggleHistoryBtn.textContent = label;
+  elements.historyCollapseBtn.textContent = label;
+}
+
+function setRailActive(activeButton) {
+  [elements.railEditorBtn, elements.railPreviewBtn].forEach((button) => {
+    button.classList.toggle("active", button === activeButton);
   });
 }
 
@@ -350,6 +401,7 @@ function addHistoryEntry() {
     id: existingIndex >= 0 ? historyItems[existingIndex].id : `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
     source,
     mode,
+    favorite: existingIndex >= 0 ? Boolean(historyItems[existingIndex].favorite) : false,
     updatedAt: Date.now()
   };
 
@@ -381,20 +433,20 @@ function formatRelativeTime(timestamp) {
   return language === "zh" ? `${diffDays}${t("historyDaysAgo")}` : `${diffDays}${t("historyDaysAgo")}`;
 }
 
-function renderHistory() {
-  elements.historyList.textContent = "";
+function createEmptyState(messageKey, target) {
+  target.textContent = "";
+  const empty = document.createElement("div");
+  empty.className = "history-empty";
+  empty.textContent = t(messageKey);
+  target.appendChild(empty);
+}
 
-  if (historyItems.length === 0) {
-    const empty = document.createElement("div");
-    empty.className = "history-empty";
-    empty.textContent = t("historyEmpty");
-    elements.historyList.appendChild(empty);
-    return;
-  }
-
-  historyItems.forEach((item) => {
+function createHistoryCard(item) {
     const card = document.createElement("article");
     card.className = "history-item";
+    if (item.favorite) {
+      card.classList.add("favorite");
+    }
 
     const head = document.createElement("div");
     head.className = "history-item-head";
@@ -438,10 +490,56 @@ function renderHistory() {
       renderHistory();
     });
 
-    actions.append(restoreBtn, removeBtn);
+    const favoriteBtn = document.createElement("button");
+    favoriteBtn.type = "button";
+    favoriteBtn.className = "toolbar-button";
+    favoriteBtn.textContent = item.favorite ? t("unfavorite") : t("favorite");
+    favoriteBtn.addEventListener("click", () => {
+      historyItems = historyItems.map((entry) => {
+        if (entry.id !== item.id) {
+          return entry;
+        }
+        return { ...entry, favorite: !entry.favorite };
+      });
+      persistHistory();
+      renderHistory();
+    });
+
+    actions.append(restoreBtn, favoriteBtn, removeBtn);
     card.append(head, preview, actions);
-    elements.historyList.appendChild(card);
+    return card;
+}
+
+function renderHistory() {
+  elements.historyList.textContent = "";
+  elements.favoritesList.textContent = "";
+
+  const query = historySearchQuery.trim().toLowerCase();
+  const filtered = historyItems.filter((item) => {
+    if (!query) {
+      return true;
+    }
+    return item.source.toLowerCase().includes(query);
   });
+
+  const favorites = filtered.filter((item) => item.favorite);
+  const recent = filtered.filter((item) => !item.favorite);
+
+  if (favorites.length === 0) {
+    createEmptyState("favoritesEmpty", elements.favoritesList);
+  } else {
+    favorites.forEach((item) => {
+      elements.favoritesList.appendChild(createHistoryCard(item));
+    });
+  }
+
+  if (recent.length === 0) {
+    createEmptyState("historyEmpty", elements.historyList);
+  } else {
+    recent.forEach((item) => {
+      elements.historyList.appendChild(createHistoryCard(item));
+    });
+  }
 }
 
 async function renderMath() {
@@ -510,6 +608,7 @@ function restoreState() {
     mode = query.get("mode") === "inline" || saved.mode === "inline" ? "inline" : "display";
     language = query.get("lang") === "zh" || saved.language === "zh" ? "zh" : "en";
     theme = query.get("theme") === "dark" || saved.theme === "dark" ? "dark" : "light";
+    historyCollapsed = Boolean(saved.historyCollapsed);
   } catch (error) {
     elements.latexInput.value = templates.quadratic;
     historyItems = [];
@@ -537,7 +636,10 @@ elements.copyShareBtn.addEventListener("click", () => {
 
 elements.exportSvgBtn.addEventListener("click", exportSvg);
 elements.exportPngBtn.addEventListener("click", exportPng);
+elements.railExportSvgBtn.addEventListener("click", exportSvg);
+elements.railExportPngBtn.addEventListener("click", exportPng);
 elements.loadTemplateBtn.addEventListener("click", loadTemplate);
+elements.railLoadTemplateBtn.addEventListener("click", loadTemplate);
 
 elements.clearHistoryBtn.addEventListener("click", () => {
   historyItems = [];
@@ -545,6 +647,15 @@ elements.clearHistoryBtn.addEventListener("click", () => {
   renderHistory();
   setStatus("historyCleared");
 });
+
+function toggleHistoryPanel() {
+  historyCollapsed = !historyCollapsed;
+  persistState();
+  updateHistoryCollapseUi();
+}
+
+elements.toggleHistoryBtn.addEventListener("click", toggleHistoryPanel);
+elements.historyCollapseBtn.addEventListener("click", toggleHistoryPanel);
 
 elements.toggles.forEach((button) => {
   button.addEventListener("click", () => {
@@ -566,6 +677,21 @@ elements.themeToggle.addEventListener("click", () => {
   updateThemeUi();
 });
 
+elements.historySearch.addEventListener("input", (event) => {
+  historySearchQuery = event.target.value;
+  renderHistory();
+});
+
+elements.railEditorBtn.addEventListener("click", () => {
+  setRailActive(elements.railEditorBtn);
+  document.querySelector(".editor-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
+elements.railPreviewBtn.addEventListener("click", () => {
+  setRailActive(elements.railPreviewBtn);
+  document.querySelector(".preview-panel").scrollIntoView({ behavior: "smooth", block: "start" });
+});
+
 elements.snippetButtons.forEach((button) => {
   button.addEventListener("click", () => {
     insertSnippet(button.dataset.snippet);
@@ -575,5 +701,6 @@ elements.snippetButtons.forEach((button) => {
 restoreState();
 updateThemeUi();
 updateI18nUi();
+setRailActive(elements.railEditorBtn);
 renderHistory();
 scheduleRender();

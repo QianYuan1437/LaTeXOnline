@@ -35,6 +35,11 @@
 <body>
   <div class="app-shell">
     <header class="app-bar">
+      <div class="window-chrome" aria-hidden="true">
+        <span class="chrome-dot chrome-dot-red"></span>
+        <span class="chrome-dot chrome-dot-amber"></span>
+        <span class="chrome-dot chrome-dot-green"></span>
+      </div>
       <div class="brand">
         <div class="brand-mark">L</div>
         <div>
@@ -54,6 +59,21 @@
     </header>
 
     <main class="app-grid">
+      <aside class="workspace-panel utility-rail">
+        <div class="rail-group">
+          <p class="panel-kicker" data-i18n="workspaceTools">Workspace</p>
+          <button type="button" class="rail-button active" id="railEditorBtn" data-i18n="railEditor">Editor</button>
+          <button type="button" class="rail-button" id="railPreviewBtn" data-i18n="railPreview">Preview</button>
+          <button type="button" class="rail-button" id="historyCollapseBtn" data-i18n="collapseHistory">Collapse History</button>
+        </div>
+        <div class="rail-group">
+          <p class="panel-kicker" data-i18n="quickActions">Quick Actions</p>
+          <button type="button" class="rail-button" id="railLoadTemplateBtn" data-i18n="loadTemplate">Load Template</button>
+          <button type="button" class="rail-button" id="railExportSvgBtn" data-i18n="exportSvg">Export SVG</button>
+          <button type="button" class="rail-button" id="railExportPngBtn" data-i18n="exportPng">Export PNG</button>
+        </div>
+      </aside>
+
       <section class="workspace-panel editor-panel">
         <div class="panel-header">
           <div>
@@ -145,11 +165,29 @@
             <p class="panel-kicker" data-i18n="memoryArea">Memory</p>
             <h2 data-i18n="historyTitle">Formula History</h2>
           </div>
-          <button type="button" class="toolbar-button" id="clearHistoryBtn" data-i18n="clearHistory">Clear History</button>
+          <div class="toolbar">
+            <button type="button" class="toolbar-button" id="toggleHistoryBtn" data-i18n="collapseHistory">Collapse History</button>
+            <button type="button" class="toolbar-button" id="clearHistoryBtn" data-i18n="clearHistory">Clear History</button>
+          </div>
         </div>
 
         <p class="support-text history-intro" data-i18n="historyHint">Recent formulas are saved locally. Click one to restore it.</p>
-        <div class="history-list" id="historyList"></div>
+        <label class="history-search" for="historySearch">
+          <span class="visually-hidden">History search</span>
+          <input type="search" id="historySearch" data-i18n-placeholder="historySearchPlaceholder" placeholder="Search history">
+        </label>
+        <div class="history-section">
+          <div class="history-section-head">
+            <p class="panel-kicker" data-i18n="favoritesTitle">Favorites</p>
+          </div>
+          <div class="history-list favorites-list" id="favoritesList"></div>
+        </div>
+        <div class="history-section">
+          <div class="history-section-head">
+            <p class="panel-kicker" data-i18n="recentTitle">Recent</p>
+          </div>
+          <div class="history-list" id="historyList"></div>
+        </div>
       </aside>
     </main>
   </div>

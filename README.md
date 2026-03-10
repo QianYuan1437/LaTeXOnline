@@ -11,6 +11,8 @@ An online LaTeX formula editor that can be deployed directly to GitHub Pages, po
 - Starter templates and quick snippets
 - Automatic local persistence
 - Local formula history panel with restore actions
+- History search and favorite pinning
+- Collapsible sidebar and desktop-style workspace layout
 - One-click copy for raw, wrapped, or shareable source
 - SVG and PNG export from rendered formulas
 
