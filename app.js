@@ -311,6 +311,7 @@ const elements = {
   toolModalClose: document.getElementById("toolModalClose"),
   toolModalTitle: document.getElementById("toolModalTitle"),
   toolModalMeta: document.getElementById("toolModalMeta"),
+  toolModalNav: document.getElementById("toolModalNav"),
   toolModalBody: document.getElementById("toolModalBody"),
   historySearch: document.getElementById("historySearch"),
   favoritesList: document.getElementById("favoritesList"),
@@ -331,6 +332,7 @@ let historyCollapsed = false;
 let activePane = "templates";
 let activeTemplateId = "quadratic";
 let activeToolId = toolCatalog[0]?.id || "symbol";
+let activeToolGroupIndex = 0;
 
 function t(key) {
   return translations[language][key] || translations.en[key] || key;
@@ -544,6 +546,7 @@ function renderToolDetailPanel() {
 
 function renderToolModal(toolId) {
   const active = toolCatalog.find((tool) => tool.id === toolId);
+  elements.toolModalNav.textContent = "";
   elements.toolModalBody.textContent = "";
   if (!active) {
     return;
@@ -552,75 +555,99 @@ function renderToolModal(toolId) {
   elements.toolModalTitle.textContent = localizeText(active.title);
   elements.toolModalMeta.textContent = localizeText(active.usage);
 
-  active.groups.forEach((group) => {
-    const section = document.createElement("section");
-    section.className = "tool-group";
+  const normalizedIndex = Math.min(activeToolGroupIndex, Math.max(active.groups.length - 1, 0));
+  activeToolGroupIndex = normalizedIndex;
 
-    const head = document.createElement("div");
-    head.className = "tool-group-head";
+  active.groups.forEach((group, index) => {
+    const navButton = document.createElement("button");
+    navButton.type = "button";
+    navButton.className = "tool-modal-nav-button";
+    navButton.classList.toggle("active", index === normalizedIndex);
+    navButton.innerHTML = `
+      <span class="tool-modal-nav-title">${localizeText(group.title)}</span>
+      <span class="tool-modal-nav-subtitle">${language === "zh" ? group.title.en : group.title.zh}</span>
+    `;
+    navButton.addEventListener("click", () => {
+      activeToolGroupIndex = index;
+      renderToolModal(toolId);
+      void renderCardMath();
+    });
+    elements.toolModalNav.appendChild(navButton);
+  });
 
-    const title = document.createElement("h3");
-    title.className = "tool-group-title";
-    title.textContent = localizeText(group.title);
+  const group = active.groups[normalizedIndex];
+  if (!group) {
+    return;
+  }
 
-    const subtitle = document.createElement("span");
-    subtitle.className = "tool-group-subtitle";
-    subtitle.textContent = language === "zh" ? group.title.en : group.title.zh;
+  const section = document.createElement("section");
+  section.className = "tool-group";
 
-    head.append(title, subtitle);
+  const head = document.createElement("div");
+  head.className = "tool-group-head";
 
-    const isSymbolLike = active.id === "symbol" || active.id === "greek";
-    const grid = document.createElement("div");
-    grid.className = isSymbolLike ? "tool-symbol-grid" : "detail-example-grid";
+  const title = document.createElement("h3");
+  title.className = "tool-group-title";
+  title.textContent = localizeText(group.title);
 
-    group.items.forEach((entry) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = isSymbolLike ? "symbol-chip" : "detail-example-card tool-example-card";
-      button.addEventListener("click", () => {
-        insertSnippet(entry.insert);
-        closeToolModal();
-      });
+  const subtitle = document.createElement("span");
+  subtitle.className = "tool-group-subtitle";
+  subtitle.textContent = language === "zh" ? group.title.en : group.title.zh;
 
-      if (isSymbolLike) {
-        button.title = language === "zh" ? `${entry.zh} / ${entry.en}` : `${entry.en} / ${entry.zh}`;
-        button.appendChild(createMathNode("span", "symbol-chip-math", entry.math));
-      } else {
-        const content = document.createElement("div");
-        content.className = "detail-example-card-content";
-        content.appendChild(createMathNode("span", "detail-example-math", entry.math));
+  head.append(title, subtitle);
 
-        const labels = document.createElement("div");
-        labels.className = "detail-example-labels";
+  const isSymbolLike = active.id === "symbol" || active.id === "greek";
+  const grid = document.createElement("div");
+  grid.className = isSymbolLike ? "tool-symbol-grid" : "detail-example-grid";
 
-        const textWrap = document.createElement("div");
-        const titleNode = document.createElement("span");
-        titleNode.className = "detail-example-title";
-        titleNode.textContent = language === "zh" ? entry.zh : entry.en;
-        const subtitleNode = document.createElement("span");
-        subtitleNode.className = "detail-example-subtitle";
-        subtitleNode.textContent = language === "zh" ? entry.en : entry.zh;
-        textWrap.append(titleNode, subtitleNode);
-
-        const tag = document.createElement("span");
-        tag.className = "detail-example-tag";
-        tag.textContent = active.id.toUpperCase();
-
-        labels.append(textWrap, tag);
-        content.appendChild(labels);
-        button.appendChild(content);
-      }
-
-      grid.appendChild(button);
+  group.items.forEach((entry) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = isSymbolLike ? "symbol-chip" : "detail-example-card tool-example-card";
+    button.addEventListener("click", () => {
+      insertSnippet(entry.insert);
+      closeToolModal();
     });
 
-    section.append(head, grid);
-    elements.toolModalBody.appendChild(section);
+    if (isSymbolLike) {
+      button.title = language === "zh" ? `${entry.zh} / ${entry.en}` : `${entry.en} / ${entry.zh}`;
+      button.appendChild(createMathNode("span", "symbol-chip-math", entry.math));
+    } else {
+      const content = document.createElement("div");
+      content.className = "detail-example-card-content";
+      content.appendChild(createMathNode("span", "detail-example-math", entry.math));
+
+      const labels = document.createElement("div");
+      labels.className = "detail-example-labels";
+
+      const textWrap = document.createElement("div");
+      const titleNode = document.createElement("span");
+      titleNode.className = "detail-example-title";
+      titleNode.textContent = language === "zh" ? entry.zh : entry.en;
+      const subtitleNode = document.createElement("span");
+      subtitleNode.className = "detail-example-subtitle";
+      subtitleNode.textContent = language === "zh" ? entry.en : entry.zh;
+      textWrap.append(titleNode, subtitleNode);
+
+      const tag = document.createElement("span");
+      tag.className = "detail-example-tag";
+      tag.textContent = active.id.toUpperCase();
+
+      labels.append(textWrap, tag);
+      content.appendChild(labels);
+      button.appendChild(content);
+    }
+
+    grid.appendChild(button);
   });
+
+  section.append(head, grid);
+  elements.toolModalBody.appendChild(section);
 }
 
 function openToolModal(toolId) {
   activeToolId = toolId;
+  activeToolGroupIndex = 0;
   renderToolModal(toolId);
   elements.toolModal.classList.remove("is-hidden");
   elements.toolModal.setAttribute("aria-hidden", "false");

@@ -38,13 +38,21 @@ window.toolCatalogData = (() => {
           item(String.raw`\oslash`, String.raw`\oslash `, "圆斜杠", "oslash"),
           item(String.raw`\otimes`, String.raw`\otimes `, "张量积", "otimes"),
           item(String.raw`\diamond`, String.raw`\diamond `, "菱形", "diamond"),
+          item(String.raw`\bigcirc`, String.raw`\bigcirc `, "大圆", "big circle"),
           item(String.raw`\uplus`, String.raw`\uplus `, "并和", "uplus"),
           item(String.raw`\bigtriangleup`, String.raw`\bigtriangleup `, "上三角", "triangle up"),
           item(String.raw`\bigtriangledown`, String.raw`\bigtriangledown `, "下三角", "triangle down"),
           item(String.raw`\triangleleft`, String.raw`\triangleleft `, "左三角", "triangle left"),
           item(String.raw`\triangleright`, String.raw`\triangleright `, "右三角", "triangle right"),
+          item(String.raw`\lhd`, String.raw`\lhd `, "小于等价左三角", "lhd"),
+          item(String.raw`\rhd`, String.raw`\rhd `, "小于等价右三角", "rhd"),
+          item(String.raw`\unlhd`, String.raw`\unlhd `, "正规左三角", "unlhd"),
+          item(String.raw`\unrhd`, String.raw`\unrhd `, "正规右三角", "unrhd"),
+          item(String.raw`\amalg`, String.raw`\amalg `, "并合", "amalg"),
           item(String.raw`\setminus`, String.raw`\setminus `, "集合差", "setminus"),
-          item(String.raw`\wr`, String.raw`\wr `, "花积", "wreath product")
+          item(String.raw`\wr`, String.raw`\wr `, "花积", "wreath product"),
+          item(String.raw`\dagger`, String.raw`\dagger `, "短剑号", "dagger"),
+          item(String.raw`\ddagger`, String.raw`\ddagger `, "双短剑号", "double dagger")
         ]),
         group("二元关系符", "Binary relations", [
           item("<", "< ", "小于", "less than"),
@@ -65,15 +73,26 @@ window.toolCatalogData = (() => {
           item(String.raw`\supset`, String.raw`\supset `, "真超集", "supset"),
           item(String.raw`\subseteq`, String.raw`\subseteq `, "子集", "subseteq"),
           item(String.raw`\supseteq`, String.raw`\supseteq `, "超集", "supseteq"),
+          item(String.raw`\sqsubset`, String.raw`\sqsubset `, "方真子集", "sqsubset"),
+          item(String.raw`\sqsupset`, String.raw`\sqsupset `, "方真超集", "sqsupset"),
+          item(String.raw`\sqsubseteq`, String.raw`\sqsubseteq `, "方子集", "sqsubseteq"),
+          item(String.raw`\sqsupseteq`, String.raw`\sqsupseteq `, "方超集", "sqsupseteq"),
+          item(String.raw`\cong`, String.raw`\cong `, "全等", "congruent"),
+          item(String.raw`\Join`, String.raw`\Join `, "连接符", "join"),
           item(String.raw`\in`, String.raw`\in `, "属于", "in"),
           item(String.raw`\ni`, String.raw`\ni `, "包含", "contains"),
+          item(String.raw`\vdash`, String.raw`\vdash `, "推出", "vdash"),
+          item(String.raw`\dashv`, String.raw`\dashv `, "左推出", "dashv"),
           item(String.raw`\propto`, String.raw`\propto `, "正比于", "proportional"),
           item(String.raw`\models`, String.raw`\models `, "满足", "models"),
+          item(String.raw`\mid`, String.raw`\mid `, "整除", "mid"),
           item(String.raw`\perp`, String.raw`\perp `, "垂直", "perpendicular"),
           item(String.raw`\parallel`, String.raw`\parallel `, "平行", "parallel"),
           item(String.raw`\bowtie`, String.raw`\bowtie `, "连接", "bowtie"),
           item(String.raw`\smile`, String.raw`\smile `, "相容", "smile"),
           item(String.raw`\frown`, String.raw`\frown `, "不相容", "frown"),
+          item(String.raw`\asymp`, String.raw`\asymp `, "渐近", "asymp"),
+          item(String.raw`:`, ": ", "比", "ratio"),
           item(String.raw`\neq`, String.raw`\neq `, "不等于", "not equal")
         ]),
         group("箭头符号", "Arrows", [
@@ -172,6 +191,30 @@ window.toolCatalogData = (() => {
           item(String.raw`\varrho`, String.raw`\varrho `, "变体 rho", "variant rho"),
           item(String.raw`\varsigma`, String.raw`\varsigma `, "变体 sigma", "variant sigma"),
           item(String.raw`\varphi`, String.raw`\varphi `, "变体 phi", "variant phi")
+        ])
+      , group("其他数学符号", "Math symbols", [
+          item(String.raw`\hbar`, String.raw`\hbar `, "约化普朗克常数", "h bar"),
+          item(String.raw`\imath`, String.raw`\imath `, "数学 i", "imath"),
+          item(String.raw`\jmath`, String.raw`\jmath `, "数学 j", "jmath"),
+          item(String.raw`\ell`, String.raw`\ell `, "手写 l", "ell"),
+          item(String.raw`\Re`, String.raw`\Re `, "实部", "real part"),
+          item(String.raw`\Im`, String.raw`\Im `, "虚部", "imaginary part"),
+          item(String.raw`\aleph`, String.raw`\aleph `, "阿列夫", "aleph"),
+          item(String.raw`\beth`, String.raw`\beth `, "beth", "beth"),
+          item(String.raw`\gimel`, String.raw`\gimel `, "gimel", "gimel"),
+          item(String.raw`\daleth`, String.raw`\daleth `, "daleth", "daleth"),
+          item(String.raw`\wp`, String.raw`\wp `, "魏尔斯特拉斯 p", "wp"),
+          item(String.raw`\mho`, String.raw`\mho `, "倒欧姆", "mho"),
+          item(String.raw`\backepsilon`, String.raw`\backepsilon `, "反属于", "backepsilon"),
+          item(String.raw`\eth`, String.raw`\eth `, "eth", "eth"),
+          item(String.raw`\Bbbk`, String.raw`\Bbbk `, "黑板粗体 k", "blackboard k"),
+          item(String.raw`\complement`, String.raw`\complement `, "补集", "complement"),
+          item(String.raw`\circledS`, String.raw`\circledS `, "圈 S", "circled S"),
+          item(String.raw`\S`, String.raw`\S `, "章节符号", "section symbol"),
+          item(String.raw`\mathbb{R}`, String.raw`\mathbb{R}`, "黑板粗体", "blackboard bold"),
+          item(String.raw`\mathfrak{g}`, String.raw`\mathfrak{g}`, "Fraktur 字体", "fraktur"),
+          item(String.raw`\mathcal{L}`, String.raw`\mathcal{L}`, "花体", "calligraphy"),
+          item(String.raw`\mathrm{d}`, String.raw`\mathrm{d}`, "罗马体", "roman")
         ])
       ]
     },
@@ -290,19 +333,32 @@ window.toolCatalogData = (() => {
           item(String.raw`\arcsin x`, String.raw`\arcsin x`, "反正弦", "arcsin"),
           item(String.raw`\arccos x`, String.raw`\arccos x`, "反余弦", "arccos"),
           item(String.raw`\arctan x`, String.raw`\arctan x`, "反正切", "arctan"),
-          item(String.raw`\operatorname{arccot} x`, String.raw`\operatorname{arccot} x`, "反余切", "arccot")
+          item(String.raw`\operatorname{arccot} x`, String.raw`\operatorname{arccot} x`, "反余切", "arccot"),
+          item(String.raw`\sin^{-1} x`, String.raw`\sin^{-1} x`, "反正弦幂记法", "inverse sine"),
+          item(String.raw`\cos^{-1} x`, String.raw`\cos^{-1} x`, "反余弦幂记法", "inverse cosine"),
+          item(String.raw`\tan^{-1} x`, String.raw`\tan^{-1} x`, "反正切幂记法", "inverse tangent"),
+          item(String.raw`\cot^{-1} x`, String.raw`\cot^{-1} x`, "反余切幂记法", "inverse cotangent"),
+          item(String.raw`\sec^{-1} x`, String.raw`\sec^{-1} x`, "反正割", "inverse secant"),
+          item(String.raw`\csc^{-1} x`, String.raw`\csc^{-1} x`, "反余割", "inverse cosecant")
         ]),
         group("双曲函数", "Hyperbolic functions", [
           item(String.raw`\sinh x`, String.raw`\sinh x`, "双曲正弦", "sinh"),
           item(String.raw`\cosh x`, String.raw`\cosh x`, "双曲余弦", "cosh"),
           item(String.raw`\tanh x`, String.raw`\tanh x`, "双曲正切", "tanh"),
-          item(String.raw`\coth x`, String.raw`\coth x`, "双曲余切", "coth")
+          item(String.raw`\coth x`, String.raw`\coth x`, "双曲余切", "coth"),
+          item(String.raw`\operatorname{sech} x`, String.raw`\operatorname{sech} x`, "双曲正割", "sech"),
+          item(String.raw`\operatorname{csch} x`, String.raw`\operatorname{csch} x`, "双曲余割", "csch")
         ]),
         group("反双曲函数", "Inverse hyperbolic functions", [
           item(String.raw`\operatorname{arsinh} x`, String.raw`\operatorname{arsinh} x`, "反双曲正弦", "arsinh"),
           item(String.raw`\operatorname{arcosh} x`, String.raw`\operatorname{arcosh} x`, "反双曲余弦", "arcosh"),
           item(String.raw`\operatorname{artanh} x`, String.raw`\operatorname{artanh} x`, "反双曲正切", "artanh"),
-          item(String.raw`\operatorname{arcoth} x`, String.raw`\operatorname{arcoth} x`, "反双曲余切", "arcoth")
+          item(String.raw`\operatorname{arcoth} x`, String.raw`\operatorname{arcoth} x`, "反双曲余切", "arcoth"),
+          item(String.raw`\sinh^{-1} x`, String.raw`\sinh^{-1} x`, "反双曲正弦幂记法", "inverse sinh"),
+          item(String.raw`\cosh^{-1} x`, String.raw`\cosh^{-1} x`, "反双曲余弦幂记法", "inverse cosh"),
+          item(String.raw`\tanh^{-1} x`, String.raw`\tanh^{-1} x`, "反双曲正切幂记法", "inverse tanh"),
+          item(String.raw`\operatorname{sech}^{-1} x`, String.raw`\operatorname{sech}^{-1} x`, "反双曲正割", "inverse sech"),
+          item(String.raw`\operatorname{csch}^{-1} x`, String.raw`\operatorname{csch}^{-1} x`, "反双曲余割", "inverse csch")
         ])
       ]
     },
@@ -340,25 +396,39 @@ window.toolCatalogData = (() => {
       preview: String.raw`\sum_{i=1}^{n} a_i`,
       groups: [
         group("求和", "Summation", [
+          item(String.raw`\sum`, String.raw`\sum `, "求和算子", "summation operator"),
           item(String.raw`\sum_{i=1}^{n} a_i`, String.raw`\sum_{i=1}^{n} a_i`, "求和", "sum"),
           item(String.raw`\sum_{k=0}^{\infty} x^k`, String.raw`\sum_{k=0}^{\infty} x^k`, "无穷和", "infinite sum"),
+          item(String.raw`{\textstyle \sum_{i=1}^{n}} a_i`, String.raw`{\textstyle \sum_{i=1}^{n}} a_i`, "行内求和", "textstyle sum"),
           item(String.raw`\sum_{\substack{1\leq i\leq n\\ i\ \mathrm{odd}}} i`, String.raw`\sum_{\substack{1\leq i\leq n\\ i\ \mathrm{odd}}} i`, "多条件求和", "conditional sum")
         ]),
         group("乘积余积", "Product and coproduct", [
+          item(String.raw`\prod`, String.raw`\prod `, "乘积算子", "product operator"),
           item(String.raw`\prod_{i=1}^{n} a_i`, String.raw`\prod_{i=1}^{n} a_i`, "连乘", "product"),
+          item(String.raw`{\textstyle \prod_{i=1}^{n}} a_i`, String.raw`{\textstyle \prod_{i=1}^{n}} a_i`, "行内连乘", "textstyle product"),
+          item(String.raw`\coprod`, String.raw`\coprod `, "余积算子", "coproduct operator"),
           item(String.raw`\coprod_{i=1}^{n} X_i`, String.raw`\coprod_{i=1}^{n} X_i`, "余积", "coproduct"),
+          item(String.raw`{\textstyle \coprod_{i=1}^{n}} X_i`, String.raw`{\textstyle \coprod_{i=1}^{n}} X_i`, "行内余积", "textstyle coproduct"),
           item(String.raw`\bigotimes_{i=1}^{n} V_i`, String.raw`\bigotimes_{i=1}^{n} V_i`, "大张量积", "big otimes"),
           item(String.raw`\bigoplus_{i=1}^{n} V_i`, String.raw`\bigoplus_{i=1}^{n} V_i`, "大直和", "big oplus")
         ]),
         group("并集交集", "Union and intersection", [
+          item(String.raw`\bigcup`, String.raw`\bigcup `, "大并集算子", "big union operator"),
           item(String.raw`\bigcup_{i=1}^{n} A_i`, String.raw`\bigcup_{i=1}^{n} A_i`, "大并集", "big union"),
+          item(String.raw`{\textstyle \bigcup_{i=1}^{n}} A_i`, String.raw`{\textstyle \bigcup_{i=1}^{n}} A_i`, "行内大并集", "textstyle big union"),
+          item(String.raw`\bigcap`, String.raw`\bigcap `, "大交集算子", "big intersection operator"),
           item(String.raw`\bigcap_{i=1}^{n} A_i`, String.raw`\bigcap_{i=1}^{n} A_i`, "大交集", "big intersection"),
+          item(String.raw`{\textstyle \bigcap_{i=1}^{n}} A_i`, String.raw`{\textstyle \bigcap_{i=1}^{n}} A_i`, "行内大交集", "textstyle big intersection"),
           item(String.raw`\bigsqcup_{i=1}^{n} A_i`, String.raw`\bigsqcup_{i=1}^{n} A_i`, "大方并", "big sqcup"),
           item(String.raw`\bigsqcap_{i=1}^{n} A_i`, String.raw`\bigsqcap_{i=1}^{n} A_i`, "大方交", "big sqcap")
         ]),
         group("析取合取", "Disjunction and conjunction", [
+          item(String.raw`\bigvee`, String.raw`\bigvee `, "大析取算子", "big vee operator"),
           item(String.raw`\bigvee_{i=1}^{n} p_i`, String.raw`\bigvee_{i=1}^{n} p_i`, "大析取", "big vee"),
+          item(String.raw`{\textstyle \bigvee_{i=1}^{n}} p_i`, String.raw`{\textstyle \bigvee_{i=1}^{n}} p_i`, "行内大析取", "textstyle big vee"),
+          item(String.raw`\bigwedge`, String.raw`\bigwedge `, "大合取算子", "big wedge operator"),
           item(String.raw`\bigwedge_{i=1}^{n} p_i`, String.raw`\bigwedge_{i=1}^{n} p_i`, "大合取", "big wedge"),
+          item(String.raw`{\textstyle \bigwedge_{i=1}^{n}} p_i`, String.raw`{\textstyle \bigwedge_{i=1}^{n}} p_i`, "行内大合取", "textstyle big wedge"),
           item(String.raw`\bigodot_{i=1}^{n} a_i`, String.raw`\bigodot_{i=1}^{n} a_i`, "大圆点", "big odot")
         ])
       ]
@@ -384,7 +454,10 @@ window.toolCatalogData = (() => {
           item(String.raw`\left.\frac{dy}{dx}\right|_{x=0}`, String.raw`\left.\frac{dy}{dx}\right|_{x=0}`, "评价括号", "evaluation"),
           item(String.raw`\left\{ \begin{aligned} x+y&=1\\ x-y&=3 \end{aligned} \right.`, String.raw`\left\{ \begin{aligned} x+y&=1\\ x-y&=3 \end{aligned} \right.`, "方程组", "piecewise system"),
           item(String.raw`\left( \begin{matrix} a&b\\ c&d \end{matrix} \right)`, String.raw`\left( \begin{matrix} a&b\\ c&d \end{matrix} \right)`, "带括号矩阵", "bracketed matrix"),
-          item(String.raw`\left[ 0,1 \right)`, String.raw`\left[ 0,1 \right)`, "区间", "interval")
+          item(String.raw`\left[ 0,1 \right)`, String.raw`\left[ 0,1 \right)`, "区间", "interval"),
+          item(String.raw`\left\langle \psi \right|`, String.raw`\left\langle \psi \right|`, "左矢", "bra"),
+          item(String.raw`\left| \psi \right\rangle`, String.raw`\left| \psi \right\rangle`, "右矢", "ket"),
+          item(String.raw`\left\langle \psi \mid \psi \right\rangle`, String.raw`\left\langle \psi \mid \psi \right\rangle`, "内积", "inner product")
         ])
       ]
     },
@@ -401,8 +474,11 @@ window.toolCatalogData = (() => {
           item(String.raw`\begin{Bmatrix} a&b\\ c&d \end{Bmatrix}`, String.raw`\begin{Bmatrix} a & b \\ c & d \end{Bmatrix}`, "花括号矩阵", "Bmatrix"),
           item(String.raw`\begin{vmatrix} a&b\\ c&d \end{vmatrix}`, String.raw`\begin{vmatrix} a & b \\ c & d \end{vmatrix}`, "行列式", "vmatrix"),
           item(String.raw`\begin{Vmatrix} a&b\\ c&d \end{Vmatrix}`, String.raw`\begin{Vmatrix} a & b \\ c & d \end{Vmatrix}`, "双竖线矩阵", "Vmatrix"),
+          item(String.raw`\left\{\begin{matrix} a&b\\ c&d \end{matrix}\right.`, String.raw`\left\{\begin{matrix} a&b\\ c&d \end{matrix}\right.`, "左单括号矩阵", "left brace matrix"),
+          item(String.raw`\left.\begin{matrix} a&b\\ c&d \end{matrix}\right\}`, String.raw`\left.\begin{matrix} a&b\\ c&d \end{matrix}\right\}`, "右单括号矩阵", "right brace matrix"),
           item(String.raw`\begin{cases} x^2,&x\\ge 0\\\\ -x,&x<0 \end{cases}`, String.raw`\begin{cases} x^2,&x\\ge 0\\\\ -x,&x<0 \end{cases}`, "分段函数", "cases"),
-          item(String.raw`\begin{aligned} a&=b+c\\ &=d+e \end{aligned}`, String.raw`\begin{aligned} a&=b+c\\ &=d+e \end{aligned}`, "对齐多行", "aligned")
+          item(String.raw`\begin{aligned} a&=b+c\\ &=d+e \end{aligned}`, String.raw`\begin{aligned} a&=b+c\\ &=d+e \end{aligned}`, "对齐多行", "aligned"),
+          item(String.raw`\begin{align*} a&=b+c\\ d&=e+f \end{align*}`, String.raw`\begin{align*} a&=b+c\\ d&=e+f \end{align*}`, "多行对齐等式", "align*")
         ]),
         group("数组", "Arrays", [
           item(String.raw`\begin{array}{cc} a&b\\ c&d \end{array}`, String.raw`\begin{array}{cc} a&b\\ c&d \end{array}`, "数组", "array"),
