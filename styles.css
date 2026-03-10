@@ -270,7 +270,7 @@ body.history-collapsed .app-grid {
 
 .main-workspace {
   display: grid;
-  grid-template-columns: minmax(560px, 1fr) minmax(560px, 1fr);
+  grid-template-columns: 1fr;
   gap: 12px;
   align-items: stretch;
 }

@@ -50,11 +50,100 @@ function normalizeLatex(value) {
     .trim();
 }
 
+function buildSafeMath(categoryId, latex) {
+  const normalized = normalizeLatex(latex);
+  if (!normalized) {
+    return "";
+  }
+
+  const exactMap = {
+    "\\frac{}{}": "\\frac{a}{b}",
+    "\\tfrac{}{}": "\\tfrac{a}{b}",
+    "\\sqrt{}": "\\sqrt{x}",
+    "\\sqrt[]{}": "\\sqrt[n]{x}",
+    "\\dot{}": "\\dot{x}",
+    "\\ddot{}": "\\ddot{x}",
+    "{}'": "f'",
+    "{}''": "f''",
+    "{}^{(n)}": "f^{(n)}",
+    "^{}": "x^{n}",
+    "_{}": "x_{i}",
+    "_{}^{}": "x_{i}^{n}",
+    "\\hat{}": "\\hat{x}",
+    "\\check{}": "\\check{x}",
+    "\\grave{}": "\\grave{x}",
+    "\\acute{}": "\\acute{x}",
+    "\\tilde{}": "\\tilde{x}",
+    "\\breve{}": "\\breve{x}",
+    "\\bar{}": "\\bar{x}",
+    "\\vec{}": "\\vec{v}",
+    "\\not{}": "\\not=",
+    "\\widetilde{}": "\\widetilde{AB}",
+    "\\widehat{}": "\\widehat{AB}",
+    "\\overleftarrow{}": "\\overleftarrow{AB}",
+    "\\overrightarrow{}": "\\overrightarrow{AB}",
+    "\\overline{}": "\\overline{AB}",
+    "\\underline{}": "\\underline{AB}",
+    "\\overbrace{}": "\\overbrace{a+b+c}",
+    "\\underbrace{}": "\\underbrace{a+b+c}",
+    "\\overset{}{}": "\\overset{a}{b}",
+    "\\underset{}{}": "\\underset{a}{b}",
+    "\\stackrel\\frown{}": "\\stackrel{\\frown}{AB}",
+    "\\overset{}{\\leftarrow}": "\\overset{a}{\\leftarrow}",
+    "\\overset{}{\\rightarrow}": "\\overset{a}{\\rightarrow}",
+    "\\xleftarrow[]{}": "\\xleftarrow[n]{m}",
+    "\\xrightarrow[]{}": "\\xrightarrow[n]{m}",
+    "\\max_{}": "\\max_{x}",
+    "\\min_{}": "\\min_{x}",
+    "\\log_{}{}": "\\log_{a} b",
+    "\\lg_{}{}": "\\lg x",
+    "\\ln_{}{}": "\\ln x",
+    "\\int_{}^{}": "\\int_{a}^{b}",
+    "\\int\\limits_{}^{}": "\\int\\limits_{a}^{b}",
+    "\\iint_{}^{}": "\\iint_{D}",
+    "\\iint\\limits_{}^{}": "\\iint\\limits_{D}",
+    "\\iiint_{}^{}": "\\iiint_{V}",
+    "\\iiint\\limits_{}^{}": "\\iiint\\limits_{V}",
+    "\\oint_{}^{}": "\\oint_{C}",
+    "\\sum_{}^{}": "\\sum_{i=1}^{n}",
+    "{\\textstyle \\sum_{}^{}}": "{\\textstyle \\sum_{i=1}^{n}}",
+    "\\prod_{}^{}": "\\prod_{i=1}^{n}",
+    "{\\textstyle \\prod_{}^{}}": "{\\textstyle \\prod_{i=1}^{n}}",
+    "\\coprod_{}^{}": "\\coprod_{i=1}^{n}",
+    "{\\textstyle \\coprod_{}^{}}": "{\\textstyle \\coprod_{i=1}^{n}}",
+    "\\bigcup_{}^{}": "\\bigcup_{i=1}^{n}",
+    "{\\textstyle \\bigcup_{}^{}}": "{\\textstyle \\bigcup_{i=1}^{n}}",
+    "\\bigcap_{}^{}": "\\bigcap_{i=1}^{n}",
+    "{\\textstyle \\bigcap_{}^{}}": "{\\textstyle \\bigcap_{i=1}^{n}}",
+    "\\bigvee_{}^{}": "\\bigvee_{i=1}^{n}",
+    "{\\textstyle \\bigvee_{}^{}}": "{\\textstyle \\bigvee_{i=1}^{n}}",
+    "\\bigwedge_{}^{}": "\\bigwedge_{i=1}^{n}",
+    "{\\textstyle \\bigwedge_{}^{}}": "{\\textstyle \\bigwedge_{i=1}^{n}}"
+  };
+
+  if (exactMap[normalized]) {
+    return exactMap[normalized];
+  }
+
+  if (/^\\begin\{equation\}/.test(normalized)) {
+    return normalized
+      .replace(/^\\begin\{equation\}\s*/, "")
+      .replace(/\s*\\end\{equation\}$/, "")
+      .trim();
+  }
+
+  if (categoryId === "frac" && normalized === "\\mathrm{d}t") {
+    return "\\mathrm{d}t";
+  }
+
+  return normalized;
+}
+
 function buildPreview(entries) {
   const samples = entries
     .filter((entry) => entry.tag !== "divider" && normalizeLatex(entry.latex))
     .slice(0, 3)
-    .map((entry) => normalizeLatex(entry.latex).replace(/\{\}/g, "x"));
+    .map((entry) => buildSafeMath("", entry.latex));
 
   return samples.join("\\ ");
 }
@@ -110,14 +199,15 @@ function transform() {
         return;
       }
 
-      const latex = buildInsert(entry.latex);
-      if (!latex) {
+      const insertLatex = buildInsert(entry.latex);
+      const previewLatex = buildSafeMath(category.tag, entry.latex);
+      if (!insertLatex || !previewLatex) {
         return;
       }
 
       currentItems.push({
-        math: latex,
-        insert: latex,
+        math: previewLatex,
+        insert: insertLatex,
         zh:
           meaningfulText(entry.zh) ||
           meaningfulText(entry.descript) ||

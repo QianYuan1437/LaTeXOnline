@@ -1341,7 +1341,7 @@ window.toolCatalogData = [
       "zh": "分数微分",
       "en": "Fractions / Derivative / Modular"
     },
-    "preview": "\\fracxx\\ \\tfracxx\\ \\mathrm{d}t",
+    "preview": "\\frac{a}{b}\\ \\tfrac{a}{b}\\ \\mathrm{d}t",
     "groups": [
       {
         "title": {
@@ -1350,13 +1350,13 @@ window.toolCatalogData = [
         },
         "items": [
           {
-            "math": "\\frac{}{}",
+            "math": "\\frac{a}{b}",
             "insert": "\\frac{}{}",
             "zh": "分数",
             "en": "fraction"
           },
           {
-            "math": "\\tfrac{}{}",
+            "math": "\\tfrac{a}{b}",
             "insert": "\\tfrac{}{}",
             "zh": "小分数",
             "en": "tiny fraction"
@@ -1404,7 +1404,7 @@ window.toolCatalogData = [
             "en": "continued fraction"
           },
           {
-            "math": "\\begin{equation} x = a_0 + \\cfrac{1}{a_1 + \\cfrac{1}{a_2 + \\cfrac{1}{a_3 + \\cfrac{1}{a_4} } } } \\end{equation}",
+            "math": "x = a_0 + \\cfrac{1}{a_1 + \\cfrac{1}{a_2 + \\cfrac{1}{a_3 + \\cfrac{1}{a_4} } } }",
             "insert": "\\begin{equation} x = a_0 + \\cfrac{1}{a_1 + \\cfrac{1}{a_2 + \\cfrac{1}{a_3 + \\cfrac{1}{a_4} } } } \\end{equation}",
             "zh": "连分数",
             "en": "continued fraction"
@@ -1418,31 +1418,31 @@ window.toolCatalogData = [
         },
         "items": [
           {
-            "math": "\\dot{}",
+            "math": "\\dot{x}",
             "insert": "\\dot{}",
             "zh": "一阶导数",
             "en": "the first derivative"
           },
           {
-            "math": "\\ddot{}",
+            "math": "\\ddot{x}",
             "insert": "\\ddot{}",
             "zh": "二阶导数",
             "en": "the second derivative"
           },
           {
-            "math": "{}'",
+            "math": "f'",
             "insert": "{}'",
             "zh": "一阶导数",
             "en": "the first derivative"
           },
           {
-            "math": "{}''",
+            "math": "f''",
             "insert": "{}''",
             "zh": "二阶导数",
             "en": "the second derivative"
           },
           {
-            "math": "{}^{(n)}",
+            "math": "f^{(n)}",
             "insert": "{}^{(n)}",
             "zh": "n阶导数",
             "en": "the nth derivative"
@@ -1493,7 +1493,7 @@ window.toolCatalogData = [
       "zh": "根式角标",
       "en": "Radicals / Scripts / Accents"
     },
-    "preview": "\\sqrtx\\ \\sqrt[]x\\ ^x",
+    "preview": "\\sqrt{x}\\ \\sqrt[n]{x}\\ x^{n}",
     "groups": [
       {
         "title": {
@@ -1502,13 +1502,13 @@ window.toolCatalogData = [
         },
         "items": [
           {
-            "math": "\\sqrt{}",
+            "math": "\\sqrt{x}",
             "insert": "\\sqrt{}",
             "zh": "开平方",
             "en": "square root"
           },
           {
-            "math": "\\sqrt[]{}",
+            "math": "\\sqrt[n]{x}",
             "insert": "\\sqrt[]{}",
             "zh": "开方",
             "en": "nth root"
@@ -1522,25 +1522,25 @@ window.toolCatalogData = [
         },
         "items": [
           {
-            "math": "^{}",
+            "math": "x^{n}",
             "insert": "^{}",
             "zh": "上标",
             "en": "superscript"
           },
           {
-            "math": "_{}",
+            "math": "x_{i}",
             "insert": "_{}",
             "zh": "下标",
             "en": "Subscript"
           },
           {
-            "math": "_{}^{}",
+            "math": "x_{i}^{n}",
             "insert": "_{}^{}",
             "zh": "混合上下标",
             "en": "Combining sub & super"
           },
           {
-            "math": "_{}^{}",
+            "math": "x_{i}^{n}",
             "insert": "_{}^{}",
             "zh": "左侧混合上下标",
             "en": "Preceding sub & super"
@@ -1560,55 +1560,55 @@ window.toolCatalogData = [
         },
         "items": [
           {
-            "math": "\\hat{}",
+            "math": "\\hat{x}",
             "insert": "\\hat{}",
             "zh": "hat",
             "en": "hat"
           },
           {
-            "math": "\\check{}",
+            "math": "\\check{x}",
             "insert": "\\check{}",
             "zh": "check",
             "en": "check"
           },
           {
-            "math": "\\grave{}",
+            "math": "\\grave{x}",
             "insert": "\\grave{}",
             "zh": "grave",
             "en": "grave"
           },
           {
-            "math": "\\acute{}",
+            "math": "\\acute{x}",
             "insert": "\\acute{}",
             "zh": "acute",
             "en": "acute"
           },
           {
-            "math": "\\tilde{}",
+            "math": "\\tilde{x}",
             "insert": "\\tilde{}",
             "zh": "tilde",
             "en": "tilde"
           },
           {
-            "math": "\\breve{}",
+            "math": "\\breve{x}",
             "insert": "\\breve{}",
             "zh": "breve",
             "en": "breve"
           },
           {
-            "math": "\\bar{}",
+            "math": "\\bar{x}",
             "insert": "\\bar{}",
             "zh": "bar",
             "en": "bar"
           },
           {
-            "math": "\\vec{}",
+            "math": "\\vec{v}",
             "insert": "\\vec{}",
             "zh": "vec",
             "en": "vec"
           },
           {
-            "math": "\\not{}",
+            "math": "\\not=",
             "insert": "\\not{}",
             "zh": "not",
             "en": "not"
@@ -1620,73 +1620,73 @@ window.toolCatalogData = [
             "en": "degree"
           },
           {
-            "math": "\\widetilde{}",
+            "math": "\\widetilde{AB}",
             "insert": "\\widetilde{}",
             "zh": "widetilde",
             "en": "widetilde"
           },
           {
-            "math": "\\widehat{}",
+            "math": "\\widehat{AB}",
             "insert": "\\widehat{}",
             "zh": "widehat",
             "en": "widehat"
           },
           {
-            "math": "\\overleftarrow{}",
+            "math": "\\overleftarrow{AB}",
             "insert": "\\overleftarrow{}",
             "zh": "overleftarrow",
             "en": "overleftarrow"
           },
           {
-            "math": "\\overrightarrow{}",
+            "math": "\\overrightarrow{AB}",
             "insert": "\\overrightarrow{}",
             "zh": "overrightarrow",
             "en": "overrightarrow"
           },
           {
-            "math": "\\overline{}",
+            "math": "\\overline{AB}",
             "insert": "\\overline{}",
             "zh": "a",
             "en": "a"
           },
           {
-            "math": "\\underline{}",
+            "math": "\\underline{AB}",
             "insert": "\\underline{}",
             "zh": "underline",
             "en": "underline"
           },
           {
-            "math": "\\overbrace{}",
+            "math": "\\overbrace{a+b+c}",
             "insert": "\\overbrace{}",
             "zh": "overbrace",
             "en": "overbrace"
           },
           {
-            "math": "\\underbrace{}",
+            "math": "\\underbrace{a+b+c}",
             "insert": "\\underbrace{}",
             "zh": "underbrace",
             "en": "underbrace"
           },
           {
-            "math": "\\overset{}{}",
+            "math": "\\overset{a}{b}",
             "insert": "\\overset{}{}",
             "zh": "overset",
             "en": "overset"
           },
           {
-            "math": "\\underset{}{}",
+            "math": "\\underset{a}{b}",
             "insert": "\\underset{}{}",
             "zh": "underset",
             "en": "underset"
           },
           {
-            "math": "\\stackrel\\frown{}",
+            "math": "\\stackrel{\\frown}{AB}",
             "insert": "\\stackrel\\frown{}",
             "zh": "stackrelfrown",
             "en": "stackrelfrown"
           },
           {
-            "math": "\\overline{}",
+            "math": "\\overline{AB}",
             "insert": "\\overline{}",
             "zh": "b",
             "en": "b"
@@ -1698,25 +1698,25 @@ window.toolCatalogData = [
             "en": "overleftrightarrow"
           },
           {
-            "math": "\\overset{}{\\leftarrow}",
+            "math": "\\overset{a}{\\leftarrow}",
             "insert": "\\overset{}{\\leftarrow}",
             "zh": "oversetleftarrow",
             "en": "oversetleftarrow"
           },
           {
-            "math": "\\overset{}{\\rightarrow}",
+            "math": "\\overset{a}{\\rightarrow}",
             "insert": "\\overset{}{\\rightarrow}",
             "zh": "oversetrightarrow",
             "en": "oversetrightarrow"
           },
           {
-            "math": "\\xleftarrow[]{}",
+            "math": "\\xleftarrow[n]{m}",
             "insert": "\\xleftarrow[]{}",
             "zh": "xleftarrow",
             "en": "xleftarrow"
           },
           {
-            "math": "\\xrightarrow[]{}",
+            "math": "\\xrightarrow[n]{m}",
             "insert": "\\xrightarrow[]{}",
             "zh": "xrightarrow",
             "en": "xrightarrow"
@@ -1768,13 +1768,13 @@ window.toolCatalogData = [
             "en": "Limit (force）"
           },
           {
-            "math": "\\max_{}",
+            "math": "\\max_{x}",
             "insert": "\\max_{}",
             "zh": "极大",
             "en": "Maximum"
           },
           {
-            "math": "\\min_{}",
+            "math": "\\min_{x}",
             "insert": "\\min_{}",
             "zh": "极小",
             "en": "Minimum"
@@ -1788,19 +1788,19 @@ window.toolCatalogData = [
         },
         "items": [
           {
-            "math": "\\log_{}{}",
+            "math": "\\log_{a} b",
             "insert": "\\log_{}{}",
             "zh": "对数",
             "en": "Logarithms"
           },
           {
-            "math": "\\lg_{}{}",
+            "math": "\\lg x",
             "insert": "\\lg_{}{}",
             "zh": "常用对数",
             "en": "Logarithms"
           },
           {
-            "math": "\\ln_{}{}",
+            "math": "\\ln x",
             "insert": "\\ln_{}{}",
             "zh": "自然对数",
             "en": "Logarithms"
@@ -2113,7 +2113,7 @@ window.toolCatalogData = [
       "zh": "积分运算",
       "en": "Single / Multiple / Path"
     },
-    "preview": "\\int\\ \\int_x^x\\ \\int\\limits_x^x",
+    "preview": "\\int\\ \\int_{a}^{b}\\ \\int\\limits_{a}^{b}",
     "groups": [
       {
         "title": {
@@ -2128,13 +2128,13 @@ window.toolCatalogData = [
             "en": "Integral"
           },
           {
-            "math": "\\int_{}^{}",
+            "math": "\\int_{a}^{b}",
             "insert": "\\int_{}^{}",
             "zh": "积分",
             "en": "Integral"
           },
           {
-            "math": "\\int\\limits_{}^{}",
+            "math": "\\int\\limits_{a}^{b}",
             "insert": "\\int\\limits_{}^{}",
             "zh": "积分",
             "en": "Integral"
@@ -2154,13 +2154,13 @@ window.toolCatalogData = [
             "en": "Double integral"
           },
           {
-            "math": "\\iint_{}^{}",
+            "math": "\\iint_{D}",
             "insert": "\\iint_{}^{}",
             "zh": "双重积分",
             "en": "Double integral"
           },
           {
-            "math": "\\iint\\limits_{}^{}",
+            "math": "\\iint\\limits_{D}",
             "insert": "\\iint\\limits_{}^{}",
             "zh": "双重积分",
             "en": "Double integral"
@@ -2180,13 +2180,13 @@ window.toolCatalogData = [
             "en": "Triple integral"
           },
           {
-            "math": "\\iiint_{}^{}",
+            "math": "\\iiint_{V}",
             "insert": "\\iiint_{}^{}",
             "zh": "三重积分",
             "en": "Triple integral"
           },
           {
-            "math": "\\iiint\\limits_{}^{}",
+            "math": "\\iiint\\limits_{V}",
             "insert": "\\iiint\\limits_{}^{}",
             "zh": "三重积分",
             "en": "Triple integral"
@@ -2206,7 +2206,7 @@ window.toolCatalogData = [
             "en": "Closed line or path integral"
           },
           {
-            "math": "\\oint_{}^{}",
+            "math": "\\oint_{C}",
             "insert": "\\oint_{}^{}",
             "zh": "曲线积分",
             "en": "Closed line or path integral"
@@ -2225,7 +2225,7 @@ window.toolCatalogData = [
       "zh": "大型运算",
       "en": "Sum / Product / Set / Logic"
     },
-    "preview": "\\sum\\ \\sum_x^x\\ {\\textstyle \\sum_x^x}",
+    "preview": "\\sum\\ \\sum_{i=1}^{n}\\ {\\textstyle \\sum_{i=1}^{n}}",
     "groups": [
       {
         "title": {
@@ -2240,13 +2240,13 @@ window.toolCatalogData = [
             "en": "Summation"
           },
           {
-            "math": "\\sum_{}^{}",
+            "math": "\\sum_{i=1}^{n}",
             "insert": "\\sum_{}^{}",
             "zh": "求和",
             "en": "Summation"
           },
           {
-            "math": "{\\textstyle \\sum_{}^{}}",
+            "math": "{\\textstyle \\sum_{i=1}^{n}}",
             "insert": "{\\textstyle \\sum_{}^{}}",
             "zh": "求和",
             "en": "Summation"
@@ -2266,13 +2266,13 @@ window.toolCatalogData = [
             "en": "Product"
           },
           {
-            "math": "\\prod_{}^{}",
+            "math": "\\prod_{i=1}^{n}",
             "insert": "\\prod_{}^{}",
             "zh": "连乘积",
             "en": "Product"
           },
           {
-            "math": "{\\textstyle \\prod_{}^{}}",
+            "math": "{\\textstyle \\prod_{i=1}^{n}}",
             "insert": "{\\textstyle \\prod_{}^{}}",
             "zh": "连乘积",
             "en": "Product"
@@ -2284,13 +2284,13 @@ window.toolCatalogData = [
             "en": "Coproduct"
           },
           {
-            "math": "\\coprod_{}^{}",
+            "math": "\\coprod_{i=1}^{n}",
             "insert": "\\coprod_{}^{}",
             "zh": "余积",
             "en": "Coproduct"
           },
           {
-            "math": "{\\textstyle \\coprod_{}^{}}",
+            "math": "{\\textstyle \\coprod_{i=1}^{n}}",
             "insert": "{\\textstyle \\coprod_{}^{}}",
             "zh": "余积",
             "en": "Coproduct"
@@ -2310,13 +2310,13 @@ window.toolCatalogData = [
             "en": "Union"
           },
           {
-            "math": "\\bigcup_{}^{}",
+            "math": "\\bigcup_{i=1}^{n}",
             "insert": "\\bigcup_{}^{}",
             "zh": "并集",
             "en": "Union"
           },
           {
-            "math": "{\\textstyle \\bigcup_{}^{}}",
+            "math": "{\\textstyle \\bigcup_{i=1}^{n}}",
             "insert": "{\\textstyle \\bigcup_{}^{}}",
             "zh": "并集",
             "en": "Union"
@@ -2328,13 +2328,13 @@ window.toolCatalogData = [
             "en": "Intersection"
           },
           {
-            "math": "\\bigcap_{}^{}",
+            "math": "\\bigcap_{i=1}^{n}",
             "insert": "\\bigcap_{}^{}",
             "zh": "交集",
             "en": "Intersection"
           },
           {
-            "math": "{\\textstyle \\bigcap_{}^{}}",
+            "math": "{\\textstyle \\bigcap_{i=1}^{n}}",
             "insert": "{\\textstyle \\bigcap_{}^{}}",
             "zh": "交集",
             "en": "Intersection"
@@ -2354,13 +2354,13 @@ window.toolCatalogData = [
             "en": "Disjunction"
           },
           {
-            "math": "\\bigvee_{}^{}",
+            "math": "\\bigvee_{i=1}^{n}",
             "insert": "\\bigvee_{}^{}",
             "zh": "析取",
             "en": "Disjunction"
           },
           {
-            "math": "{\\textstyle \\bigvee_{}^{}}",
+            "math": "{\\textstyle \\bigvee_{i=1}^{n}}",
             "insert": "{\\textstyle \\bigvee_{}^{}}",
             "zh": "析取",
             "en": "Disjunction"
@@ -2372,13 +2372,13 @@ window.toolCatalogData = [
             "en": "Conjunction"
           },
           {
-            "math": "\\bigwedge_{}^{}",
+            "math": "\\bigwedge_{i=1}^{n}",
             "insert": "\\bigwedge_{}^{}",
             "zh": "合取",
             "en": "Conjunction"
           },
           {
-            "math": "{\\textstyle \\bigwedge_{}^{}}",
+            "math": "{\\textstyle \\bigwedge_{i=1}^{n}}",
             "insert": "{\\textstyle \\bigwedge_{}^{}}",
             "zh": "合取",
             "en": "Conjunction"
