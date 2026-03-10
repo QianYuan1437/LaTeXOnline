@@ -7,8 +7,10 @@ An online LaTeX formula editor that can be deployed directly to GitHub Pages, po
 - Live LaTeX formula preview
 - Inline / display mode toggle
 - English / Chinese UI toggle
+- Light / dark theme toggle
 - Starter templates and quick snippets
 - Automatic local persistence
+- Local formula history panel with restore actions
 - One-click copy for raw, wrapped, or shareable source
 - SVG and PNG export from rendered formulas
 

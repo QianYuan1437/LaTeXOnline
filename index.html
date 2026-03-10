@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet"
   >
   <link rel="stylesheet" href="styles.css">
@@ -33,39 +33,40 @@
   ></script>
 </head>
 <body>
-  <div class="page-shell">
-    <header class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">MathJax-powered GitHub Pages app</p>
-        <h1>LaTeX Online</h1>
-        <p class="hero-text">
-          Write formulas in the browser, preview typeset output live, and copy reusable source instantly.
-        </p>
-      </div>
-      <div class="hero-card">
-        <div class="hero-card-top">
-          <p class="hero-card-label" data-i18n="currentMode">Current mode</p>
-          <button type="button" class="ghost-button compact-button" id="languageToggle">中文</button>
+  <div class="app-shell">
+    <header class="app-bar">
+      <div class="brand">
+        <div class="brand-mark">L</div>
+        <div>
+          <p class="bar-label" data-i18n="mathWorkspace">Math workspace</p>
+          <h1>LaTeX Online</h1>
         </div>
-        <p class="hero-card-value" id="modeIndicator">Display Math</p>
-        <p class="hero-card-hint" data-i18n="modeHint">Switching the render mode refreshes the preview automatically.</p>
+      </div>
+
+      <div class="bar-actions">
+        <div class="bar-stat">
+          <span class="bar-label" data-i18n="currentMode">Current mode</span>
+          <strong id="modeIndicator">Display Math</strong>
+        </div>
+        <button type="button" class="toolbar-button" id="themeToggle" data-i18n="themeToggle">Dark</button>
+        <button type="button" class="toolbar-button" id="languageToggle">中文</button>
       </div>
     </header>
 
-    <main class="workspace">
-      <section class="panel panel-editor">
-        <div class="panel-head">
+    <main class="app-grid">
+      <section class="workspace-panel editor-panel">
+        <div class="panel-header">
           <div>
-            <p class="panel-kicker">Editor</p>
+            <p class="panel-kicker" data-i18n="inputArea">Input</p>
             <h2 data-i18n="formulaSource">Formula Source</h2>
           </div>
           <div class="toolbar">
-            <button type="button" class="ghost-button" id="clearBtn" data-i18n="clear">Clear</button>
-            <button type="button" class="ghost-button" id="copyBtn" data-i18n="copySource">Copy Source</button>
+            <button type="button" class="toolbar-button" id="clearBtn" data-i18n="clear">Clear</button>
+            <button type="button" class="toolbar-button" id="copyBtn" data-i18n="copySource">Copy Source</button>
           </div>
         </div>
 
-        <div class="control-row">
+        <div class="control-grid">
           <label class="field">
             <span data-i18n="starterTemplate">Starter template</span>
             <select id="templateSelect">
@@ -76,11 +77,16 @@
               <option value="statistics" data-i18n="templateStatistics">Statistics</option>
             </select>
           </label>
-          <div class="toggle-group" role="group" aria-label="Formula display mode" id="modeToggleGroup">
-            <button type="button" class="toggle active" data-mode="display" data-i18n="displayMode">Display</button>
-            <button type="button" class="toggle" data-mode="inline" data-i18n="inlineMode">Inline</button>
+
+          <div class="control-cluster">
+            <span class="field-label" data-i18n="formulaDisplayMode">Formula display mode</span>
+            <div class="toggle-group" role="group" aria-label="Formula display mode" id="modeToggleGroup">
+              <button type="button" class="toggle active" data-mode="display" data-i18n="displayMode">Display</button>
+              <button type="button" class="toggle" data-mode="inline" data-i18n="inlineMode">Inline</button>
+            </div>
           </div>
-          <button type="button" class="accent-button" id="loadTemplateBtn" data-i18n="loadTemplate">Load Template</button>
+
+          <button type="button" class="primary-button" id="loadTemplateBtn" data-i18n="loadTemplate">Load Template</button>
         </div>
 
         <label class="editor-wrap" for="latexInput">
@@ -88,9 +94,11 @@
           <textarea id="latexInput" spellcheck="false"></textarea>
         </label>
 
-        <div class="snippet-grid">
-          <article class="snippet-card">
-            <p class="snippet-label" data-i18n="quickSnippets">Quick snippets</p>
+        <div class="card-grid">
+          <article class="mini-card">
+            <div class="mini-card-head">
+              <p class="panel-kicker" data-i18n="quickSnippets">Quick snippets</p>
+            </div>
             <div class="snippet-actions">
               <button type="button" class="snippet-button" data-snippet="\\frac{a}{b}" data-i18n="snippetFraction">Fraction</button>
               <button type="button" class="snippet-button" data-snippet="\\sqrt{x^2+y^2}" data-i18n="snippetRoot">Root</button>
@@ -99,36 +107,50 @@
               <button type="button" class="snippet-button" data-snippet="\\begin{bmatrix}a & b\\\\ c & d\\end{bmatrix}" data-i18n="snippetMatrix">Matrix</button>
             </div>
           </article>
-          <article class="snippet-card status-card">
-            <p class="snippet-label" data-i18n="status">Status</p>
+
+          <article class="mini-card status-card">
+            <p class="panel-kicker" data-i18n="status">Status</p>
             <p id="statusText">Waiting for input</p>
-            <p class="status-hint" data-i18n="statusHint">Source is automatically stored in this browser.</p>
+            <p class="support-text" data-i18n="statusHint">Source is automatically stored in this browser.</p>
           </article>
         </div>
       </section>
 
-      <section class="panel panel-preview">
-        <div class="panel-head">
+      <section class="workspace-panel preview-panel">
+        <div class="panel-header">
           <div>
-            <p class="panel-kicker">Preview</p>
+            <p class="panel-kicker" data-i18n="outputArea">Output</p>
             <h2 data-i18n="livePreview">Live Preview</h2>
           </div>
           <div class="toolbar">
-            <button type="button" class="ghost-button" id="copyWrappedBtn" data-i18n="copyWrapped">Copy Wrapped Source</button>
-            <button type="button" class="ghost-button" id="copyShareBtn" data-i18n="copyShareLink">Copy Share Link</button>
-            <button type="button" class="ghost-button" id="exportSvgBtn" data-i18n="exportSvg">Export SVG</button>
-            <button type="button" class="ghost-button" id="exportPngBtn" data-i18n="exportPng">Export PNG</button>
+            <button type="button" class="toolbar-button" id="copyWrappedBtn" data-i18n="copyWrapped">Copy Wrapped Source</button>
+            <button type="button" class="toolbar-button" id="copyShareBtn" data-i18n="copyShareLink">Copy Share Link</button>
+            <button type="button" class="toolbar-button" id="exportSvgBtn" data-i18n="exportSvg">Export SVG</button>
+            <button type="button" class="toolbar-button" id="exportPngBtn" data-i18n="exportPng">Export PNG</button>
           </div>
         </div>
 
-        <div class="preview-meta">
-          <p data-i18n="previewMeta">Inspired by the live-demo direction on the MathJax homepage, shipped as a zero-build static site.</p>
+        <div class="preview-toolbar">
+          <p class="support-text" data-i18n="previewMeta">Inspired by the live-demo direction on the MathJax homepage, shipped as a zero-build static site.</p>
         </div>
 
         <div class="preview-surface">
           <div id="preview" aria-live="polite"></div>
         </div>
       </section>
+
+      <aside class="workspace-panel history-panel">
+        <div class="panel-header">
+          <div>
+            <p class="panel-kicker" data-i18n="memoryArea">Memory</p>
+            <h2 data-i18n="historyTitle">Formula History</h2>
+          </div>
+          <button type="button" class="toolbar-button" id="clearHistoryBtn" data-i18n="clearHistory">Clear History</button>
+        </div>
+
+        <p class="support-text history-intro" data-i18n="historyHint">Recent formulas are saved locally. Click one to restore it.</p>
+        <div class="history-list" id="historyList"></div>
+      </aside>
     </main>
   </div>
 
