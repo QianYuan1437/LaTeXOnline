@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LaTeX Online Editor</title>
+  <meta
+    name="description"
+    content="A MathJax-based online LaTeX formula editor with live preview, starter templates, source copy, and local persistence."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Alegreya:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      options: {
+        enableMenu: false
+      }
+    };
+  </script>
+  <script
+    id="MathJax-script"
+    async
+    src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"
+  ></script>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">MathJax-powered GitHub Pages app</p>
+        <h1>LaTeX Online</h1>
+        <p class="hero-text">
+          Write formulas in the browser, preview typeset output live, and copy reusable source instantly.
+        </p>
+      </div>
+      <div class="hero-card">
+        <p class="hero-card-label">Current mode</p>
+        <p class="hero-card-value" id="modeIndicator">Display Math</p>
+        <p class="hero-card-hint">Switching the render mode refreshes the preview automatically.</p>
+      </div>
+    </header>
+
+    <main class="workspace">
+      <section class="panel panel-editor">
+        <div class="panel-head">
+          <div>
+            <p class="panel-kicker">Editor</p>
+            <h2>Formula Source</h2>
+          </div>
+          <div class="toolbar">
+            <button type="button" class="ghost-button" id="clearBtn">Clear</button>
+            <button type="button" class="ghost-button" id="copyBtn">Copy Source</button>
+          </div>
+        </div>
+
+        <div class="control-row">
+          <label class="field">
+            <span>Starter template</span>
+            <select id="templateSelect">
+              <option value="quadratic">Quadratic equation</option>
+              <option value="matrix">Matrix and determinant</option>
+              <option value="calculus">Calculus</option>
+              <option value="physics">Physics</option>
+              <option value="statistics">Statistics</option>
+            </select>
+          </label>
+          <div class="toggle-group" role="group" aria-label="Formula display mode">
+            <button type="button" class="toggle active" data-mode="display">Display</button>
+            <button type="button" class="toggle" data-mode="inline">Inline</button>
+          </div>
+          <button type="button" class="accent-button" id="loadTemplateBtn">Load Template</button>
+        </div>
+
+        <label class="editor-wrap" for="latexInput">
+          <span class="visually-hidden">LaTeX input</span>
+          <textarea id="latexInput" spellcheck="false"></textarea>
+        </label>
+
+        <div class="snippet-grid">
+          <article class="snippet-card">
+            <p class="snippet-label">Quick snippets</p>
+            <div class="snippet-actions">
+              <button type="button" class="snippet-button" data-snippet="\\frac{a}{b}">Fraction</button>
+              <button type="button" class="snippet-button" data-snippet="\\sqrt{x^2+y^2}">Root</button>
+              <button type="button" class="snippet-button" data-snippet="\\sum_{n=1}^{\\infty} \\frac{1}{n^2}">Series</button>
+              <button type="button" class="snippet-button" data-snippet="\\int_{a}^{b} f(x)\\,dx">Integral</button>
+              <button type="button" class="snippet-button" data-snippet="\\begin{bmatrix}a & b\\\\ c & d\\end{bmatrix}">Matrix</button>
+            </div>
+          </article>
+          <article class="snippet-card status-card">
+            <p class="snippet-label">Status</p>
+            <p id="statusText">Waiting for input</p>
+            <p class="status-hint">Source is automatically stored in this browser.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel panel-preview">
+        <div class="panel-head">
+          <div>
+            <p class="panel-kicker">Preview</p>
+            <h2>Live Preview</h2>
+          </div>
+          <div class="toolbar">
+            <button type="button" class="ghost-button" id="copyWrappedBtn">Copy Wrapped Source</button>
+          </div>
+        </div>
+
+        <div class="preview-meta">
+          <p>Inspired by the live-demo direction on the MathJax homepage, shipped as a zero-build static site.</p>
+        </div>
+
+        <div class="preview-surface">
+          <div id="preview" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
