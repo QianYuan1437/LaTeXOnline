@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet"
   >
   <link rel="stylesheet" href="styles.css">
@@ -35,17 +35,33 @@
 <body>
   <div class="app-shell">
     <header class="app-bar">
-      <div class="window-chrome" aria-hidden="true">
-        <span class="chrome-dot chrome-dot-red"></span>
-        <span class="chrome-dot chrome-dot-amber"></span>
-        <span class="chrome-dot chrome-dot-green"></span>
-      </div>
-      <div class="brand">
-        <div class="brand-mark">L</div>
-        <div>
-          <p class="bar-label" data-i18n="mathWorkspace">Math workspace</p>
-          <h1>LaTeX Online</h1>
+      <div class="bar-main">
+        <div class="window-chrome" aria-hidden="true">
+          <span class="chrome-dot chrome-dot-red"></span>
+          <span class="chrome-dot chrome-dot-amber"></span>
+          <span class="chrome-dot chrome-dot-green"></span>
         </div>
+        <div class="brand">
+          <div class="brand-mark">L</div>
+          <div>
+            <p class="bar-label" data-i18n="mathWorkspace">Math workspace</p>
+            <h1>LaTeX Online</h1>
+          </div>
+        </div>
+      </div>
+
+      <div class="bar-workspace-tools">
+        <p class="bar-label" data-i18n="workspaceTools">Workspace</p>
+        <button type="button" class="toolbar-button compact" id="railEditorBtn" data-i18n="railEditor">Editor</button>
+        <button type="button" class="toolbar-button compact" id="railPreviewBtn" data-i18n="railPreview">Preview</button>
+        <button type="button" class="toolbar-button compact" id="historyCollapseBtn" data-i18n="collapseHistory">Collapse History</button>
+      </div>
+
+      <div class="bar-workspace-tools">
+        <p class="bar-label" data-i18n="quickActions">Quick Actions</p>
+        <button type="button" class="toolbar-button compact" id="railLoadTemplateBtn" data-i18n="loadTemplate">Load Template</button>
+        <button type="button" class="toolbar-button compact" id="railExportSvgBtn" data-i18n="exportSvg">Export SVG</button>
+        <button type="button" class="toolbar-button compact" id="railExportPngBtn" data-i18n="exportPng">Export PNG</button>
       </div>
 
       <div class="bar-actions">
@@ -59,21 +75,6 @@
     </header>
 
     <main class="app-grid">
-      <aside class="workspace-panel utility-rail">
-        <div class="rail-group">
-          <p class="panel-kicker" data-i18n="workspaceTools">Workspace</p>
-          <button type="button" class="rail-button active" id="railEditorBtn" data-i18n="railEditor">Editor</button>
-          <button type="button" class="rail-button" id="railPreviewBtn" data-i18n="railPreview">Preview</button>
-          <button type="button" class="rail-button" id="historyCollapseBtn" data-i18n="collapseHistory">Collapse History</button>
-        </div>
-        <div class="rail-group">
-          <p class="panel-kicker" data-i18n="quickActions">Quick Actions</p>
-          <button type="button" class="rail-button" id="railLoadTemplateBtn" data-i18n="loadTemplate">Load Template</button>
-          <button type="button" class="rail-button" id="railExportSvgBtn" data-i18n="exportSvg">Export SVG</button>
-          <button type="button" class="rail-button" id="railExportPngBtn" data-i18n="exportPng">Export PNG</button>
-        </div>
-      </aside>
-
       <section class="workspace-panel editor-panel">
         <div class="panel-header">
           <div>
