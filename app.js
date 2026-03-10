@@ -214,6 +214,7 @@ const elements = {
   snippetTabBtn: document.getElementById("snippetTabBtn"),
   templateGallery: document.getElementById("templateGallery"),
   snippetGallery: document.getElementById("snippetGallery"),
+  mathCards: Array.from(document.querySelectorAll("[data-math]")),
   historySearch: document.getElementById("historySearch"),
   favoritesList: document.getElementById("favoritesList"),
   historyList: document.getElementById("historyList"),
@@ -324,6 +325,21 @@ function showTemplatePane(pane) {
   elements.snippetTabBtn.classList.toggle("active", !templateActive);
   elements.templateGallery.classList.toggle("is-hidden", !templateActive);
   elements.snippetGallery.classList.toggle("is-hidden", templateActive);
+  void renderCardMath();
+}
+
+async function renderCardMath() {
+  elements.mathCards.forEach((node) => {
+    node.innerHTML = `\\(${node.dataset.math}\\)`;
+  });
+
+  if (window.MathJax?.typesetPromise) {
+    try {
+      await window.MathJax.typesetPromise([elements.templateGallery, elements.snippetGallery]);
+    } catch (error) {
+      // Ignore card preview failures; main editor rendering remains primary.
+    }
+  }
 }
 
 function getShareUrl() {
@@ -745,5 +761,6 @@ updateI18nUi();
 setRailActive(elements.railEditorBtn);
 showTemplatePane("templates");
 updateTemplateCardUi();
+void renderCardMath();
 renderHistory();
 scheduleRender();
