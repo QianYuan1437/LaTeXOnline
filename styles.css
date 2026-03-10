@@ -117,11 +117,23 @@ h2 {
     var(--panel-strong);
 }
 
+.hero-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .hero-card-value {
   margin: 0;
   font-family: "IBM Plex Mono", monospace;
   font-size: 1.6rem;
   font-weight: 500;
+}
+
+.compact-button {
+  min-height: 36px;
+  padding: 0 12px;
 }
 
 .workspace {

@@ -29,7 +29,7 @@
   <script
     id="MathJax-script"
     async
-    src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-mml-chtml.js"
+    src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js"
   ></script>
 </head>
 <body>
@@ -43,9 +43,12 @@
         </p>
       </div>
       <div class="hero-card">
-        <p class="hero-card-label">Current mode</p>
+        <div class="hero-card-top">
+          <p class="hero-card-label" data-i18n="currentMode">Current mode</p>
+          <button type="button" class="ghost-button compact-button" id="languageToggle">中文</button>
+        </div>
         <p class="hero-card-value" id="modeIndicator">Display Math</p>
-        <p class="hero-card-hint">Switching the render mode refreshes the preview automatically.</p>
+        <p class="hero-card-hint" data-i18n="modeHint">Switching the render mode refreshes the preview automatically.</p>
       </div>
     </header>
 
@@ -54,30 +57,30 @@
         <div class="panel-head">
           <div>
             <p class="panel-kicker">Editor</p>
-            <h2>Formula Source</h2>
+            <h2 data-i18n="formulaSource">Formula Source</h2>
           </div>
           <div class="toolbar">
-            <button type="button" class="ghost-button" id="clearBtn">Clear</button>
-            <button type="button" class="ghost-button" id="copyBtn">Copy Source</button>
+            <button type="button" class="ghost-button" id="clearBtn" data-i18n="clear">Clear</button>
+            <button type="button" class="ghost-button" id="copyBtn" data-i18n="copySource">Copy Source</button>
           </div>
         </div>
 
         <div class="control-row">
           <label class="field">
-            <span>Starter template</span>
+            <span data-i18n="starterTemplate">Starter template</span>
             <select id="templateSelect">
-              <option value="quadratic">Quadratic equation</option>
-              <option value="matrix">Matrix and determinant</option>
-              <option value="calculus">Calculus</option>
-              <option value="physics">Physics</option>
-              <option value="statistics">Statistics</option>
+              <option value="quadratic" data-i18n="templateQuadratic">Quadratic equation</option>
+              <option value="matrix" data-i18n="templateMatrix">Matrix and determinant</option>
+              <option value="calculus" data-i18n="templateCalculus">Calculus</option>
+              <option value="physics" data-i18n="templatePhysics">Physics</option>
+              <option value="statistics" data-i18n="templateStatistics">Statistics</option>
             </select>
           </label>
-          <div class="toggle-group" role="group" aria-label="Formula display mode">
-            <button type="button" class="toggle active" data-mode="display">Display</button>
-            <button type="button" class="toggle" data-mode="inline">Inline</button>
+          <div class="toggle-group" role="group" aria-label="Formula display mode" id="modeToggleGroup">
+            <button type="button" class="toggle active" data-mode="display" data-i18n="displayMode">Display</button>
+            <button type="button" class="toggle" data-mode="inline" data-i18n="inlineMode">Inline</button>
           </div>
-          <button type="button" class="accent-button" id="loadTemplateBtn">Load Template</button>
+          <button type="button" class="accent-button" id="loadTemplateBtn" data-i18n="loadTemplate">Load Template</button>
         </div>
 
         <label class="editor-wrap" for="latexInput">
@@ -87,19 +90,19 @@
 
         <div class="snippet-grid">
           <article class="snippet-card">
-            <p class="snippet-label">Quick snippets</p>
+            <p class="snippet-label" data-i18n="quickSnippets">Quick snippets</p>
             <div class="snippet-actions">
-              <button type="button" class="snippet-button" data-snippet="\\frac{a}{b}">Fraction</button>
-              <button type="button" class="snippet-button" data-snippet="\\sqrt{x^2+y^2}">Root</button>
-              <button type="button" class="snippet-button" data-snippet="\\sum_{n=1}^{\\infty} \\frac{1}{n^2}">Series</button>
-              <button type="button" class="snippet-button" data-snippet="\\int_{a}^{b} f(x)\\,dx">Integral</button>
-              <button type="button" class="snippet-button" data-snippet="\\begin{bmatrix}a & b\\\\ c & d\\end{bmatrix}">Matrix</button>
+              <button type="button" class="snippet-button" data-snippet="\\frac{a}{b}" data-i18n="snippetFraction">Fraction</button>
+              <button type="button" class="snippet-button" data-snippet="\\sqrt{x^2+y^2}" data-i18n="snippetRoot">Root</button>
+              <button type="button" class="snippet-button" data-snippet="\\sum_{n=1}^{\\infty} \\frac{1}{n^2}" data-i18n="snippetSeries">Series</button>
+              <button type="button" class="snippet-button" data-snippet="\\int_{a}^{b} f(x)\\,dx" data-i18n="snippetIntegral">Integral</button>
+              <button type="button" class="snippet-button" data-snippet="\\begin{bmatrix}a & b\\\\ c & d\\end{bmatrix}" data-i18n="snippetMatrix">Matrix</button>
             </div>
           </article>
           <article class="snippet-card status-card">
-            <p class="snippet-label">Status</p>
+            <p class="snippet-label" data-i18n="status">Status</p>
             <p id="statusText">Waiting for input</p>
-            <p class="status-hint">Source is automatically stored in this browser.</p>
+            <p class="status-hint" data-i18n="statusHint">Source is automatically stored in this browser.</p>
           </article>
         </div>
       </section>
@@ -108,15 +111,18 @@
         <div class="panel-head">
           <div>
             <p class="panel-kicker">Preview</p>
-            <h2>Live Preview</h2>
+            <h2 data-i18n="livePreview">Live Preview</h2>
           </div>
           <div class="toolbar">
-            <button type="button" class="ghost-button" id="copyWrappedBtn">Copy Wrapped Source</button>
+            <button type="button" class="ghost-button" id="copyWrappedBtn" data-i18n="copyWrapped">Copy Wrapped Source</button>
+            <button type="button" class="ghost-button" id="copyShareBtn" data-i18n="copyShareLink">Copy Share Link</button>
+            <button type="button" class="ghost-button" id="exportSvgBtn" data-i18n="exportSvg">Export SVG</button>
+            <button type="button" class="ghost-button" id="exportPngBtn" data-i18n="exportPng">Export PNG</button>
           </div>
         </div>
 
         <div class="preview-meta">
-          <p>Inspired by the live-demo direction on the MathJax homepage, shipped as a zero-build static site.</p>
+          <p data-i18n="previewMeta">Inspired by the live-demo direction on the MathJax homepage, shipped as a zero-build static site.</p>
         </div>
 
         <div class="preview-surface">
