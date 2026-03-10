@@ -75,90 +75,131 @@
     </header>
 
     <main class="app-grid">
-      <section class="workspace-panel editor-panel">
-        <div class="panel-header">
-          <div>
-            <p class="panel-kicker" data-i18n="inputArea">Input</p>
-            <h2 data-i18n="formulaSource">Formula Source</h2>
+      <div class="main-workspace">
+        <section class="workspace-panel editor-panel">
+          <div class="panel-header">
+            <div>
+              <p class="panel-kicker" data-i18n="inputArea">Input</p>
+              <h2 data-i18n="formulaSource">Formula Source</h2>
+            </div>
+            <div class="toolbar">
+              <button type="button" class="toolbar-button" id="clearBtn" data-i18n="clear">Clear</button>
+              <button type="button" class="toolbar-button" id="copyBtn" data-i18n="copySource">Copy Source</button>
+            </div>
           </div>
-          <div class="toolbar">
-            <button type="button" class="toolbar-button" id="clearBtn" data-i18n="clear">Clear</button>
-            <button type="button" class="toolbar-button" id="copyBtn" data-i18n="copySource">Copy Source</button>
-          </div>
-        </div>
 
-        <div class="control-grid">
-          <label class="field">
-            <span data-i18n="starterTemplate">Starter template</span>
-            <select id="templateSelect">
-              <option value="quadratic" data-i18n="templateQuadratic">Quadratic equation</option>
-              <option value="matrix" data-i18n="templateMatrix">Matrix and determinant</option>
-              <option value="calculus" data-i18n="templateCalculus">Calculus</option>
-              <option value="physics" data-i18n="templatePhysics">Physics</option>
-              <option value="statistics" data-i18n="templateStatistics">Statistics</option>
-            </select>
+          <div class="template-browser">
+            <div class="template-browser-head">
+              <div class="template-tabs">
+                <button type="button" class="template-tab active" id="templateTabBtn" data-i18n="templateTab">Templates</button>
+                <button type="button" class="template-tab" id="snippetTabBtn" data-i18n="quickTab">Quick Tools</button>
+              </div>
+              <button type="button" class="primary-button" id="loadTemplateBtn" data-i18n="loadTemplate">Load Template</button>
+            </div>
+
+            <div class="template-gallery" id="templateGallery">
+              <button type="button" class="template-card active" data-template-card="quadratic">
+                <span class="template-card-formula">x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}</span>
+                <span class="template-card-title" data-i18n="templateQuadratic">Quadratic equation</span>
+              </button>
+              <button type="button" class="template-card" data-template-card="matrix">
+                <span class="template-card-formula">\begin{bmatrix}a&b\\c&d\end{bmatrix}</span>
+                <span class="template-card-title" data-i18n="templateMatrix">Matrix and determinant</span>
+              </button>
+              <button type="button" class="template-card" data-template-card="calculus">
+                <span class="template-card-formula">\int_0^1 x^n\,dx</span>
+                <span class="template-card-title" data-i18n="templateCalculus">Calculus</span>
+              </button>
+              <button type="button" class="template-card" data-template-card="physics">
+                <span class="template-card-formula">i\hbar\frac{\partial \Psi}{\partial t}</span>
+                <span class="template-card-title" data-i18n="templatePhysics">Physics</span>
+              </button>
+              <button type="button" class="template-card" data-template-card="statistics">
+                <span class="template-card-formula">\binom{n}{k}p^k(1-p)^{n-k}</span>
+                <span class="template-card-title" data-i18n="templateStatistics">Statistics</span>
+              </button>
+            </div>
+
+            <div class="snippet-gallery is-hidden" id="snippetGallery">
+              <button type="button" class="tool-card snippet-button" data-snippet="\\frac{a}{b}">
+                <span class="tool-card-formula">\frac{a}{b}</span>
+                <span class="tool-card-title" data-i18n="snippetFraction">Fraction</span>
+              </button>
+              <button type="button" class="tool-card snippet-button" data-snippet="\\sqrt{x^2+y^2}">
+                <span class="tool-card-formula">\sqrt{x^2+y^2}</span>
+                <span class="tool-card-title" data-i18n="snippetRoot">Root</span>
+              </button>
+              <button type="button" class="tool-card snippet-button" data-snippet="\\sum_{n=1}^{\\infty} \\frac{1}{n^2}">
+                <span class="tool-card-formula">\sum_{n=1}^{\infty}</span>
+                <span class="tool-card-title" data-i18n="snippetSeries">Series</span>
+              </button>
+              <button type="button" class="tool-card snippet-button" data-snippet="\\int_{a}^{b} f(x)\\,dx">
+                <span class="tool-card-formula">\int_a^b f(x)\,dx</span>
+                <span class="tool-card-title" data-i18n="snippetIntegral">Integral</span>
+              </button>
+              <button type="button" class="tool-card snippet-button" data-snippet="\\begin{bmatrix}a & b\\\\ c & d\\end{bmatrix}">
+                <span class="tool-card-formula">\begin{bmatrix}a&b\\c&d\end{bmatrix}</span>
+                <span class="tool-card-title" data-i18n="snippetMatrix">Matrix</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="control-grid">
+            <label class="field">
+              <span data-i18n="starterTemplate">Starter template</span>
+              <select id="templateSelect">
+                <option value="quadratic" data-i18n="templateQuadratic">Quadratic equation</option>
+                <option value="matrix" data-i18n="templateMatrix">Matrix and determinant</option>
+                <option value="calculus" data-i18n="templateCalculus">Calculus</option>
+                <option value="physics" data-i18n="templatePhysics">Physics</option>
+                <option value="statistics" data-i18n="templateStatistics">Statistics</option>
+              </select>
+            </label>
+
+            <div class="control-cluster">
+              <span class="field-label" data-i18n="formulaDisplayMode">Formula display mode</span>
+              <div class="toggle-group" role="group" aria-label="Formula display mode" id="modeToggleGroup">
+                <button type="button" class="toggle active" data-mode="display" data-i18n="displayMode">Display</button>
+                <button type="button" class="toggle" data-mode="inline" data-i18n="inlineMode">Inline</button>
+              </div>
+            </div>
+          </div>
+
+          <label class="editor-wrap" for="latexInput">
+            <span class="visually-hidden">LaTeX input</span>
+            <textarea id="latexInput" spellcheck="false"></textarea>
           </label>
-
-          <div class="control-cluster">
-            <span class="field-label" data-i18n="formulaDisplayMode">Formula display mode</span>
-            <div class="toggle-group" role="group" aria-label="Formula display mode" id="modeToggleGroup">
-              <button type="button" class="toggle active" data-mode="display" data-i18n="displayMode">Display</button>
-              <button type="button" class="toggle" data-mode="inline" data-i18n="inlineMode">Inline</button>
-            </div>
-          </div>
-
-          <button type="button" class="primary-button" id="loadTemplateBtn" data-i18n="loadTemplate">Load Template</button>
-        </div>
-
-        <label class="editor-wrap" for="latexInput">
-          <span class="visually-hidden">LaTeX input</span>
-          <textarea id="latexInput" spellcheck="false"></textarea>
-        </label>
-
-        <div class="card-grid">
-          <article class="mini-card">
-            <div class="mini-card-head">
-              <p class="panel-kicker" data-i18n="quickSnippets">Quick snippets</p>
-            </div>
-            <div class="snippet-actions">
-              <button type="button" class="snippet-button" data-snippet="\\frac{a}{b}" data-i18n="snippetFraction">Fraction</button>
-              <button type="button" class="snippet-button" data-snippet="\\sqrt{x^2+y^2}" data-i18n="snippetRoot">Root</button>
-              <button type="button" class="snippet-button" data-snippet="\\sum_{n=1}^{\\infty} \\frac{1}{n^2}" data-i18n="snippetSeries">Series</button>
-              <button type="button" class="snippet-button" data-snippet="\\int_{a}^{b} f(x)\\,dx" data-i18n="snippetIntegral">Integral</button>
-              <button type="button" class="snippet-button" data-snippet="\\begin{bmatrix}a & b\\\\ c & d\\end{bmatrix}" data-i18n="snippetMatrix">Matrix</button>
-            </div>
-          </article>
 
           <article class="mini-card status-card">
             <p class="panel-kicker" data-i18n="status">Status</p>
             <p id="statusText">Waiting for input</p>
             <p class="support-text" data-i18n="statusHint">Source is automatically stored in this browser.</p>
           </article>
-        </div>
-      </section>
+        </section>
 
-      <section class="workspace-panel preview-panel">
-        <div class="panel-header">
-          <div>
-            <p class="panel-kicker" data-i18n="outputArea">Output</p>
-            <h2 data-i18n="livePreview">Live Preview</h2>
+        <section class="workspace-panel preview-panel">
+          <div class="panel-header">
+            <div>
+              <p class="panel-kicker" data-i18n="outputArea">Output</p>
+              <h2 data-i18n="livePreview">Live Preview</h2>
+            </div>
+            <div class="toolbar">
+              <button type="button" class="toolbar-button" id="copyWrappedBtn" data-i18n="copyWrapped">Copy Wrapped Source</button>
+              <button type="button" class="toolbar-button" id="copyShareBtn" data-i18n="copyShareLink">Copy Share Link</button>
+              <button type="button" class="toolbar-button" id="exportSvgBtn" data-i18n="exportSvg">Export SVG</button>
+              <button type="button" class="toolbar-button" id="exportPngBtn" data-i18n="exportPng">Export PNG</button>
+            </div>
           </div>
-          <div class="toolbar">
-            <button type="button" class="toolbar-button" id="copyWrappedBtn" data-i18n="copyWrapped">Copy Wrapped Source</button>
-            <button type="button" class="toolbar-button" id="copyShareBtn" data-i18n="copyShareLink">Copy Share Link</button>
-            <button type="button" class="toolbar-button" id="exportSvgBtn" data-i18n="exportSvg">Export SVG</button>
-            <button type="button" class="toolbar-button" id="exportPngBtn" data-i18n="exportPng">Export PNG</button>
+
+          <div class="preview-toolbar">
+            <p class="support-text" data-i18n="previewMeta">Inspired by the live-demo direction on the MathJax homepage, shipped as a zero-build static site.</p>
           </div>
-        </div>
 
-        <div class="preview-toolbar">
-          <p class="support-text" data-i18n="previewMeta">Inspired by the live-demo direction on the MathJax homepage, shipped as a zero-build static site.</p>
-        </div>
-
-        <div class="preview-surface">
-          <div id="preview" aria-live="polite"></div>
-        </div>
-      </section>
+          <div class="preview-surface">
+            <div id="preview" aria-live="polite"></div>
+          </div>
+        </section>
+      </div>
 
       <aside class="workspace-panel history-panel">
         <div class="panel-header">

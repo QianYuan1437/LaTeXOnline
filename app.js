@@ -39,6 +39,8 @@ const translations = {
     quickActions: "Quick Actions",
     railEditor: "Editor",
     railPreview: "Preview",
+    templateTab: "Templates",
+    quickTab: "Quick Tools",
     currentMode: "Current mode",
     themeToggle: "Dark",
     themeLight: "Light",
@@ -114,6 +116,8 @@ const translations = {
     quickActions: "快捷操作",
     railEditor: "编辑",
     railPreview: "预览",
+    templateTab: "公式模板",
+    quickTab: "快捷工具",
     currentMode: "当前模式",
     themeToggle: "暗色",
     themeLight: "亮色",
@@ -206,11 +210,16 @@ const elements = {
   railExportPngBtn: document.getElementById("railExportPngBtn"),
   railEditorBtn: document.getElementById("railEditorBtn"),
   railPreviewBtn: document.getElementById("railPreviewBtn"),
+  templateTabBtn: document.getElementById("templateTabBtn"),
+  snippetTabBtn: document.getElementById("snippetTabBtn"),
+  templateGallery: document.getElementById("templateGallery"),
+  snippetGallery: document.getElementById("snippetGallery"),
   historySearch: document.getElementById("historySearch"),
   favoritesList: document.getElementById("favoritesList"),
   historyList: document.getElementById("historyList"),
   toggles: Array.from(document.querySelectorAll(".toggle")),
   snippetButtons: Array.from(document.querySelectorAll(".snippet-button")),
+  templateCards: Array.from(document.querySelectorAll("[data-template-card]")),
   i18nNodes: Array.from(document.querySelectorAll("[data-i18n]"))
 };
 
@@ -301,6 +310,20 @@ function setRailActive(activeButton) {
   [elements.railEditorBtn, elements.railPreviewBtn].forEach((button) => {
     button.classList.toggle("active", button === activeButton);
   });
+}
+
+function updateTemplateCardUi() {
+  elements.templateCards.forEach((card) => {
+    card.classList.toggle("active", card.dataset.templateCard === elements.templateSelect.value);
+  });
+}
+
+function showTemplatePane(pane) {
+  const templateActive = pane === "templates";
+  elements.templateTabBtn.classList.toggle("active", templateActive);
+  elements.snippetTabBtn.classList.toggle("active", !templateActive);
+  elements.templateGallery.classList.toggle("is-hidden", !templateActive);
+  elements.snippetGallery.classList.toggle("is-hidden", templateActive);
 }
 
 function getShareUrl() {
@@ -593,6 +616,7 @@ function insertSnippet(snippet) {
 
 function loadTemplate() {
   elements.latexInput.value = templates[elements.templateSelect.value];
+  updateTemplateCardUi();
   scheduleRender();
 }
 
@@ -640,6 +664,7 @@ elements.railExportSvgBtn.addEventListener("click", exportSvg);
 elements.railExportPngBtn.addEventListener("click", exportPng);
 elements.loadTemplateBtn.addEventListener("click", loadTemplate);
 elements.railLoadTemplateBtn.addEventListener("click", loadTemplate);
+elements.templateSelect.addEventListener("change", updateTemplateCardUi);
 
 elements.clearHistoryBtn.addEventListener("click", () => {
   historyItems = [];
@@ -692,6 +717,22 @@ elements.railPreviewBtn.addEventListener("click", () => {
   document.querySelector(".preview-panel").scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
+elements.templateTabBtn.addEventListener("click", () => {
+  showTemplatePane("templates");
+});
+
+elements.snippetTabBtn.addEventListener("click", () => {
+  showTemplatePane("snippets");
+});
+
+elements.templateCards.forEach((card) => {
+  card.addEventListener("click", () => {
+    elements.templateSelect.value = card.dataset.templateCard;
+    updateTemplateCardUi();
+    loadTemplate();
+  });
+});
+
 elements.snippetButtons.forEach((button) => {
   button.addEventListener("click", () => {
     insertSnippet(button.dataset.snippet);
@@ -702,5 +743,7 @@ restoreState();
 updateThemeUi();
 updateI18nUi();
 setRailActive(elements.railEditorBtn);
+showTemplatePane("templates");
+updateTemplateCardUi();
 renderHistory();
 scheduleRender();
