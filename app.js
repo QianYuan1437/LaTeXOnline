@@ -29,6 +29,152 @@ P(X = k) = \binom{n}{k} p^k (1-p)^{n-k}, \quad k = 0,1,\dots,n
 \]`
 };
 
+const templateCatalog = [
+  {
+    id: "quadratic",
+    titleKey: "templateQuadratic",
+    preview: String.raw`x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}`,
+    examples: [
+      { math: String.raw`ax^2+bx+c=0`, insert: String.raw`ax^2 + bx + c = 0` },
+      { math: String.raw`x_1+x_2=-\frac{b}{a}`, insert: String.raw`x_1 + x_2 = -\frac{b}{a}` },
+      { math: String.raw`x_1x_2=\frac{c}{a}`, insert: String.raw`x_1x_2=\frac{c}{a}` },
+      { math: String.raw`\Delta=b^2-4ac`, insert: String.raw`\Delta=b^2-4ac` }
+    ]
+  },
+  {
+    id: "matrix",
+    titleKey: "templateMatrix",
+    preview: String.raw`\begin{bmatrix}a&b\\c&d\end{bmatrix}`,
+    examples: [
+      { math: String.raw`\det\begin{pmatrix}a&b\\c&d\end{pmatrix}=ad-bc`, insert: String.raw`\det\begin{pmatrix}a & b\\ c & d\end{pmatrix}=ad-bc` },
+      { math: String.raw`A^{-1}=\frac{1}{\det(A)}\operatorname{adj}(A)`, insert: String.raw`A^{-1}=\frac{1}{\det(A)}\operatorname{adj}(A)` },
+      { math: String.raw`A\mathbf{x}=\mathbf{b}`, insert: String.raw`A\mathbf{x}=\mathbf{b}` },
+      { math: String.raw`\begin{pmatrix}1&0\\0&1\end{pmatrix}`, insert: String.raw`\begin{pmatrix}1&0\\0&1\end{pmatrix}` }
+    ]
+  },
+  {
+    id: "calculus",
+    titleKey: "templateCalculus",
+    preview: String.raw`\int_0^1 x^n\,dx`,
+    examples: [
+      { math: String.raw`\frac{d}{dx}\sin x=\cos x`, insert: String.raw`\frac{d}{dx}\sin x=\cos x` },
+      { math: String.raw`\int_a^b f'(x)\,dx=f(b)-f(a)`, insert: String.raw`\int_a^b f'(x)\,dx=f(b)-f(a)` },
+      { math: String.raw`\lim_{x\to 0}\frac{\sin x}{x}=1`, insert: String.raw`\lim_{x\to 0}\frac{\sin x}{x}=1` },
+      { math: String.raw`\sum_{n=1}^{\infty}\frac{1}{n^2}=\frac{\pi^2}{6}`, insert: String.raw`\sum_{n=1}^{\infty}\frac{1}{n^2}=\frac{\pi^2}{6}` }
+    ]
+  },
+  {
+    id: "physics",
+    titleKey: "templatePhysics",
+    preview: String.raw`i\hbar\frac{\partial \Psi}{\partial t}`,
+    examples: [
+      { math: String.raw`E=mc^2`, insert: String.raw`E=mc^2` },
+      { math: String.raw`F=ma`, insert: String.raw`F=ma` },
+      { math: String.raw`\lambda=\frac{h}{p}`, insert: String.raw`\lambda=\frac{h}{p}` },
+      { math: String.raw`\oint \mathbf{E}\cdot d\mathbf{A}=\frac{Q}{\varepsilon_0}`, insert: String.raw`\oint \mathbf{E}\cdot d\mathbf{A}=\frac{Q}{\varepsilon_0}` }
+    ]
+  },
+  {
+    id: "statistics",
+    titleKey: "templateStatistics",
+    preview: String.raw`\binom{n}{k}p^k(1-p)^{n-k}`,
+    examples: [
+      { math: String.raw`\mu=\frac{1}{n}\sum_{i=1}^{n}x_i`, insert: String.raw`\mu=\frac{1}{n}\sum_{i=1}^{n}x_i` },
+      { math: String.raw`\sigma^2=\frac{1}{n}\sum_{i=1}^{n}(x_i-\mu)^2`, insert: String.raw`\sigma^2=\frac{1}{n}\sum_{i=1}^{n}(x_i-\mu)^2` },
+      { math: String.raw`P(A\mid B)=\frac{P(A\cap B)}{P(B)}`, insert: String.raw`P(A\mid B)=\frac{P(A\cap B)}{P(B)}` },
+      { math: String.raw`X\sim\mathcal{N}(\mu,\sigma^2)`, insert: String.raw`X\sim\mathcal{N}(\mu,\sigma^2)` }
+    ]
+  }
+];
+
+const toolCatalog = [
+  {
+    id: "symbols",
+    labelKey: "toolSymbols",
+    preview: String.raw`\times\ \cap\ \propto`,
+    groups: [
+      {
+        titleKey: "groupBinaryOps",
+        items: ["+", "-", String.raw`\times`, String.raw`\div`, String.raw`\pm`, String.raw`\cap`, String.raw`\cup`, String.raw`\otimes`, String.raw`\oplus`, String.raw`\star`, String.raw`\diamond`, String.raw`\triangleleft`]
+      },
+      {
+        titleKey: "groupRelations",
+        items: ["<", ">", String.raw`\leq`, String.raw`\geq`, String.raw`\neq`, String.raw`\approx`, String.raw`\equiv`, String.raw`\subseteq`, String.raw`\supseteq`, String.raw`\in`, String.raw`\ni`, String.raw`\propto`]
+      },
+      {
+        titleKey: "groupArrows",
+        items: [String.raw`\leftarrow`, String.raw`\rightarrow`, String.raw`\leftrightarrow`, String.raw`\uparrow`, String.raw`\downarrow`, String.raw`\Rightarrow`, String.raw`\Leftarrow`, String.raw`\Leftrightarrow`, String.raw`\mapsto`, String.raw`\hookrightarrow`]
+      },
+      {
+        titleKey: "groupOthers",
+        items: [String.raw`\infty`, String.raw`\partial`, String.raw`\nabla`, String.raw`\forall`, String.raw`\exists`, String.raw`\emptyset`, String.raw`\angle`, String.raw`\triangle`, String.raw`\square`, String.raw`\heartsuit`]
+      }
+    ]
+  },
+  {
+    id: "geometry",
+    labelKey: "toolGeometry",
+    preview: String.raw`\triangle ABC`,
+    groups: [
+      {
+        titleKey: "groupGeometryExamples",
+        items: [
+          String.raw`\triangle ABC`,
+          String.raw`a \parallel c,\ b \parallel c \Rightarrow a \parallel b`,
+          String.raw`l \perp \beta,\ l\subset \alpha \Rightarrow \alpha \perp \beta`,
+          String.raw`P\in\alpha,\ P\in\beta,\ \alpha\cap\beta=l \Rightarrow P\in l`,
+          String.raw`a\subset\beta,\ b\subset\beta,\ a\cap b=P \Rightarrow \beta \parallel \partial`,
+          String.raw`m\subset\alpha,\ n\subset\alpha,\ m\cap n=P \Rightarrow a \perp \alpha`
+        ]
+      }
+    ]
+  },
+  {
+    id: "algebra",
+    labelKey: "toolAlgebra",
+    preview: String.raw`\sqrt{a^2+b^2}`,
+    groups: [
+      {
+        titleKey: "groupAlgebraExamples",
+        items: [String.raw`\sqrt{a^2+b^2}`, String.raw`(a+b)^2=a^2+2ab+b^2`, String.raw`\frac{x^2-1}{x-1}=x+1`, String.raw`\log_a b=\frac{\ln b}{\ln a}`]
+      }
+    ]
+  },
+  {
+    id: "calculus",
+    labelKey: "toolCalculus",
+    preview: String.raw`\frac{\partial y}{\partial x}`,
+    groups: [
+      {
+        titleKey: "groupCalculusExamples",
+        items: [String.raw`\frac{dy}{dx}`, String.raw`\frac{\partial y}{\partial x}`, String.raw`\int_0^{\infty} e^{-x}\,dx=1`, String.raw`\sum_{n=1}^{\infty}\frac{1}{n^2}=\frac{\pi^2}{6}`]
+      }
+    ]
+  },
+  {
+    id: "matrix",
+    labelKey: "toolMatrix",
+    preview: String.raw`\begin{pmatrix}1&0\\0&1\end{pmatrix}`,
+    groups: [
+      {
+        titleKey: "groupMatrixExamples",
+        items: [String.raw`\begin{pmatrix}1&0\\0&1\end{pmatrix}`, String.raw`\left|\begin{matrix}a&b\\c&d\end{matrix}\right|`, String.raw`\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix}`]
+      }
+    ]
+  },
+  {
+    id: "physics",
+    labelKey: "toolPhysics",
+    preview: String.raw`E=mc^2`,
+    groups: [
+      {
+        titleKey: "groupPhysicsExamples",
+        items: [String.raw`E=mc^2`, String.raw`F=G\frac{m_1m_2}{r^2}`, String.raw`pV=nRT`, String.raw`H_2O`]
+      }
+    ]
+  }
+];
+
 const translations = {
   en: {
     mathWorkspace: "Math workspace",
@@ -86,7 +232,7 @@ const translations = {
     langToggle: "中文",
     historyTitle: "Formula History",
     clearHistory: "Clear History",
-    collapseHistory: "Collapse History",
+    collapseHistory: "Hide History",
     expandHistory: "Show History",
     historyHint: "Recent formulas are saved locally. Click one to restore it.",
     historySearchPlaceholder: "Search history",
@@ -105,7 +251,22 @@ const translations = {
     historyHoursAgo: "h ago",
     historyDaysAgo: "d ago",
     historyCleared: "History cleared.",
-    historyRestored: "History item restored."
+    historyRestored: "History item restored.",
+    toolSymbols: "Symbols",
+    toolGeometry: "Geometry",
+    toolAlgebra: "Algebra",
+    toolCalculus: "Calculus",
+    toolMatrix: "Matrix",
+    toolPhysics: "Physics",
+    groupBinaryOps: "Binary operations",
+    groupRelations: "Binary relations",
+    groupArrows: "Arrows",
+    groupOthers: "Others",
+    groupGeometryExamples: "Geometry examples",
+    groupAlgebraExamples: "Algebra examples",
+    groupCalculusExamples: "Calculus examples",
+    groupMatrixExamples: "Matrix examples",
+    groupPhysicsExamples: "Physics examples"
   },
   zh: {
     mathWorkspace: "数学工作台",
@@ -182,7 +343,22 @@ const translations = {
     historyHoursAgo: "小时前",
     historyDaysAgo: "天前",
     historyCleared: "历史记录已清空。",
-    historyRestored: "已恢复历史公式。"
+    historyRestored: "已恢复历史公式。",
+    toolSymbols: "常用符号",
+    toolGeometry: "几何",
+    toolAlgebra: "代数",
+    toolCalculus: "积分",
+    toolMatrix: "矩阵",
+    toolPhysics: "物理",
+    groupBinaryOps: "二元运算符",
+    groupRelations: "二元关系符",
+    groupArrows: "箭头符号",
+    groupOthers: "其他符号",
+    groupGeometryExamples: "几何示例",
+    groupAlgebraExamples: "代数示例",
+    groupCalculusExamples: "积分示例",
+    groupMatrixExamples: "矩阵示例",
+    groupPhysicsExamples: "物理示例"
   }
 };
 
@@ -213,14 +389,13 @@ const elements = {
   templateTabBtn: document.getElementById("templateTabBtn"),
   snippetTabBtn: document.getElementById("snippetTabBtn"),
   templateGallery: document.getElementById("templateGallery"),
+  templateDetailPanel: document.getElementById("templateDetailPanel"),
   snippetGallery: document.getElementById("snippetGallery"),
-  mathCards: Array.from(document.querySelectorAll("[data-math]")),
+  toolDetailPanel: document.getElementById("toolDetailPanel"),
   historySearch: document.getElementById("historySearch"),
   favoritesList: document.getElementById("favoritesList"),
   historyList: document.getElementById("historyList"),
   toggles: Array.from(document.querySelectorAll(".toggle")),
-  snippetButtons: Array.from(document.querySelectorAll(".snippet-button")),
-  templateCards: Array.from(document.querySelectorAll("[data-template-card]")),
   i18nNodes: Array.from(document.querySelectorAll("[data-i18n]"))
 };
 
@@ -233,6 +408,9 @@ let lastStatusKey = "waiting";
 let historyItems = [];
 let historySearchQuery = "";
 let historyCollapsed = false;
+let activePane = "templates";
+let activeTemplateId = "quadratic";
+let activeToolId = toolCatalog[0].id;
 
 function t(key) {
   return translations[language][key] || translations.en[key] || key;
@@ -256,6 +434,7 @@ function updateI18nUi() {
   updateHistoryCollapseUi();
   elements.statusText.textContent = t(lastStatusKey);
   renderHistory();
+  renderToolCenter();
 }
 
 function updateThemeUi() {
@@ -269,7 +448,10 @@ function persistState() {
     mode,
     language,
     theme,
-    historyCollapsed
+    historyCollapsed,
+    activeTemplateId,
+    activeToolId,
+    activePane
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
 }
@@ -313,31 +495,164 @@ function setRailActive(activeButton) {
   });
 }
 
-function updateTemplateCardUi() {
-  elements.templateCards.forEach((card) => {
-    card.classList.toggle("active", card.dataset.templateCard === elements.templateSelect.value);
+function createMathNode(tag, className, math) {
+  const node = document.createElement(tag);
+  node.className = className;
+  node.dataset.math = math;
+  return node;
+}
+
+function renderTemplateGallery() {
+  elements.templateGallery.textContent = "";
+  templateCatalog.forEach((item) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "template-card";
+    if (item.id === activeTemplateId) {
+      button.classList.add("active");
+    }
+
+    const formula = createMathNode("span", "template-card-formula", item.preview);
+    const title = document.createElement("span");
+    title.className = "template-card-title";
+    title.textContent = t(item.titleKey);
+    button.append(formula, title);
+    button.addEventListener("click", () => {
+      activeTemplateId = item.id;
+      elements.templateSelect.value = item.id;
+      persistState();
+      renderTemplateGallery();
+      renderTemplateDetailPanel();
+      loadTemplate();
+    });
+    elements.templateGallery.appendChild(button);
   });
 }
 
+function renderTemplateDetailPanel() {
+  elements.templateDetailPanel.textContent = "";
+  const active = templateCatalog.find((item) => item.id === activeTemplateId);
+  if (!active) {
+    return;
+  }
+
+  const head = document.createElement("div");
+  head.className = "detail-panel-head";
+  const title = document.createElement("p");
+  title.className = "detail-panel-title";
+  title.textContent = t(active.titleKey);
+  head.appendChild(title);
+
+  const grid = document.createElement("div");
+  grid.className = "detail-example-grid";
+  active.examples.forEach((example) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "detail-example-card";
+    button.appendChild(createMathNode("span", "detail-example-math", example.math));
+    button.addEventListener("click", () => {
+      elements.latexInput.value = mode === "display" ? `\\[\n${example.insert}\n\\]` : example.insert;
+      scheduleRender();
+    });
+    grid.appendChild(button);
+  });
+
+  elements.templateDetailPanel.append(head, grid);
+}
+
+function renderToolGallery() {
+  elements.snippetGallery.textContent = "";
+  toolCatalog.forEach((tool) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "tool-card";
+    if (tool.id === activeToolId) {
+      button.classList.add("active");
+    }
+    button.append(
+      createMathNode("span", "tool-card-formula", tool.preview),
+      Object.assign(document.createElement("span"), { className: "tool-card-title", textContent: t(tool.labelKey) })
+    );
+    button.addEventListener("click", () => {
+      activeToolId = tool.id;
+      persistState();
+      renderToolGallery();
+      renderToolDetailPanel();
+      void renderCardMath();
+    });
+    elements.snippetGallery.appendChild(button);
+  });
+}
+
+function renderToolDetailPanel() {
+  elements.toolDetailPanel.textContent = "";
+  const active = toolCatalog.find((tool) => tool.id === activeToolId);
+  if (!active) {
+    return;
+  }
+
+  active.groups.forEach((group) => {
+    const section = document.createElement("section");
+    section.className = "tool-group";
+    const title = document.createElement("h3");
+    title.className = "tool-group-title";
+    title.textContent = t(group.titleKey);
+    const grid = document.createElement("div");
+    grid.className = active.id === "symbols" ? "tool-symbol-grid" : "detail-example-grid";
+
+    group.items.forEach((item) => {
+      const formulaText = typeof item === "string" ? item : item.math;
+      const insertText = typeof item === "string" ? item : item.insert;
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = active.id === "symbols" ? "symbol-chip" : "detail-example-card";
+      button.appendChild(createMathNode("span", active.id === "symbols" ? "symbol-chip-math" : "detail-example-math", formulaText));
+      button.addEventListener("click", () => {
+        insertSnippet(insertText);
+      });
+      grid.appendChild(button);
+    });
+
+    section.append(title, grid);
+    elements.toolDetailPanel.appendChild(section);
+  });
+}
+
+function renderToolCenter() {
+  renderTemplateGallery();
+  renderTemplateDetailPanel();
+  renderToolGallery();
+  renderToolDetailPanel();
+  void renderCardMath();
+}
+
 function showTemplatePane(pane) {
+  activePane = pane;
   const templateActive = pane === "templates";
   elements.templateTabBtn.classList.toggle("active", templateActive);
   elements.snippetTabBtn.classList.toggle("active", !templateActive);
   elements.templateGallery.classList.toggle("is-hidden", !templateActive);
+  elements.templateDetailPanel.classList.toggle("is-hidden", !templateActive);
   elements.snippetGallery.classList.toggle("is-hidden", templateActive);
+  elements.toolDetailPanel.classList.toggle("is-hidden", templateActive);
+  persistState();
   void renderCardMath();
 }
 
 async function renderCardMath() {
-  elements.mathCards.forEach((node) => {
+  document.querySelectorAll("[data-math]").forEach((node) => {
     node.innerHTML = `\\(${node.dataset.math}\\)`;
   });
 
   if (window.MathJax?.typesetPromise) {
     try {
-      await window.MathJax.typesetPromise([elements.templateGallery, elements.snippetGallery]);
+      await window.MathJax.typesetPromise([
+        elements.templateGallery,
+        elements.templateDetailPanel,
+        elements.snippetGallery,
+        elements.toolDetailPanel
+      ]);
     } catch (error) {
-      // Ignore card preview failures; main editor rendering remains primary.
     }
   }
 }
@@ -631,8 +946,11 @@ function insertSnippet(snippet) {
 }
 
 function loadTemplate() {
-  elements.latexInput.value = templates[elements.templateSelect.value];
-  updateTemplateCardUi();
+  activeTemplateId = elements.templateSelect.value;
+  elements.latexInput.value = templates[activeTemplateId];
+  renderTemplateGallery();
+  renderTemplateDetailPanel();
+  void renderCardMath();
   scheduleRender();
 }
 
@@ -649,10 +967,15 @@ function restoreState() {
     language = query.get("lang") === "zh" || saved.language === "zh" ? "zh" : "en";
     theme = query.get("theme") === "dark" || saved.theme === "dark" ? "dark" : "light";
     historyCollapsed = Boolean(saved.historyCollapsed);
+    activeTemplateId = saved.activeTemplateId || "quadratic";
+    activeToolId = saved.activeToolId || toolCatalog[0].id;
+    activePane = saved.activePane || "templates";
   } catch (error) {
     elements.latexInput.value = templates.quadratic;
     historyItems = [];
   }
+
+  elements.templateSelect.value = activeTemplateId;
 }
 
 elements.latexInput.addEventListener("input", scheduleRender);
@@ -680,7 +1003,7 @@ elements.railExportSvgBtn.addEventListener("click", exportSvg);
 elements.railExportPngBtn.addEventListener("click", exportPng);
 elements.loadTemplateBtn.addEventListener("click", loadTemplate);
 elements.railLoadTemplateBtn.addEventListener("click", loadTemplate);
-elements.templateSelect.addEventListener("change", updateTemplateCardUi);
+elements.templateSelect.addEventListener("change", loadTemplate);
 
 elements.clearHistoryBtn.addEventListener("click", () => {
   historyItems = [];
@@ -741,26 +1064,11 @@ elements.snippetTabBtn.addEventListener("click", () => {
   showTemplatePane("snippets");
 });
 
-elements.templateCards.forEach((card) => {
-  card.addEventListener("click", () => {
-    elements.templateSelect.value = card.dataset.templateCard;
-    updateTemplateCardUi();
-    loadTemplate();
-  });
-});
-
-elements.snippetButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    insertSnippet(button.dataset.snippet);
-  });
-});
-
 restoreState();
+renderToolCenter();
 updateThemeUi();
 updateI18nUi();
 setRailActive(elements.railEditorBtn);
-showTemplatePane("templates");
-updateTemplateCardUi();
-void renderCardMath();
+showTemplatePane(activePane);
 renderHistory();
 scheduleRender();
