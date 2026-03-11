@@ -413,7 +413,16 @@ body.history-collapsed .app-grid {
   flex-wrap: nowrap;
   gap: 8px;
   margin-bottom: 10px;
+  justify-content: space-between;
   overflow-x: auto;
+}
+
+.editor-controls-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 1 auto;
+  min-width: 0;
 }
 
 .panel-launcher,
@@ -448,8 +457,9 @@ body.history-collapsed .app-grid {
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
-  flex: 1 1 280px;
-  min-width: 0;
+  flex: 0 1 340px;
+  min-width: 180px;
+  max-width: 340px;
 }
 
 .button-meta {
@@ -1124,6 +1134,14 @@ body.history-collapsed .history-panel {
 
   .mode-cluster {
     justify-content: flex-start;
+  }
+
+  .editor-controls {
+    flex-wrap: wrap;
+  }
+
+  .editor-controls-left {
+    flex-wrap: wrap;
   }
 
   .detail-example-grid {
