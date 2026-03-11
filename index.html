@@ -88,26 +88,20 @@
             </div>
           </div>
 
-          <div class="workspace-launchers">
-            <button type="button" class="panel-launcher" id="openTemplateModalBtn">
+          <div class="editor-controls">
+            <button type="button" class="panel-launcher compact-control" id="openTemplateModalBtn">
               <span class="panel-kicker" data-i18n="templateTab">Templates</span>
               <strong data-i18n="loadTemplate">Load Template</strong>
             </button>
-            <button type="button" class="panel-launcher" id="openToolModalBtn">
+            <button type="button" class="panel-launcher compact-control" id="openToolModalBtn">
               <span class="panel-kicker" data-i18n="quickTab">Quick Tools</span>
               <strong data-i18n="quickActions">Quick Actions</strong>
             </button>
-          </div>
-
-          <div class="control-grid">
-            <label class="field">
-              <span data-i18n="starterTemplate">Starter template</span>
-              <button type="button" class="picker-button" id="templatePickerBtn">
-                <span id="templatePickerLabel">Quadratic equation</span>
-              </button>
-            </label>
-
-            <div class="control-cluster">
+            <button type="button" class="picker-button compact-control" id="templatePickerBtn">
+              <span class="panel-kicker" data-i18n="starterTemplate">Starter template</span>
+              <span id="templatePickerLabel">Quadratic equation</span>
+            </button>
+            <div class="control-cluster mode-cluster">
               <span class="field-label" data-i18n="formulaDisplayMode">Formula display mode</span>
               <div class="toggle-group" role="group" aria-label="Formula display mode" id="modeToggleGroup">
                 <button type="button" class="toggle active" data-mode="display" data-i18n="displayMode">Display</button>
@@ -121,11 +115,11 @@
             <textarea id="latexInput" spellcheck="false"></textarea>
           </label>
 
-          <article class="mini-card status-card">
-            <p class="panel-kicker" data-i18n="status">Status</p>
-            <p id="statusText">Waiting for input</p>
-            <p class="support-text" data-i18n="statusHint">Source is automatically stored in this browser.</p>
-          </article>
+          <div class="status-inline">
+            <span class="panel-kicker" data-i18n="status">Status</span>
+            <strong id="statusText">Waiting for input</strong>
+            <span class="support-text" data-i18n="statusHint">Source is automatically stored in this browser.</span>
+          </div>
         </section>
 
         <section class="workspace-panel preview-panel">
