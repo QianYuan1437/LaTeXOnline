@@ -336,7 +336,7 @@ body.history-collapsed .app-grid {
 .main-workspace {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: repeat(2, minmax(0, 1fr));
+  grid-template-rows: minmax(520px, 1.08fr) minmax(420px, 0.92fr);
   gap: 12px;
   align-items: stretch;
   height: calc(100dvh - 152px);
@@ -353,7 +353,7 @@ body.history-collapsed .app-grid {
 .preview-panel {
   min-height: 0;
   height: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .editor-panel {
@@ -880,9 +880,9 @@ body.history-collapsed .app-grid {
   align-self: stretch;
   margin-bottom: 0;
   min-height: 0;
-  flex: 1 1 auto;
-  height: auto;
-  min-height: 420px;
+  flex: 0 0 460px;
+  height: 460px;
+  min-height: 460px;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: var(--panel-elevated);
@@ -943,7 +943,7 @@ textarea {
 
 .preview-scroll {
   height: 100%;
-  padding: 14px 8px 14px 14px;
+  padding: 14px 12px 14px 14px;
   overflow: auto;
   scrollbar-gutter: stable both-edges;
   scrollbar-width: thin;
@@ -955,6 +955,14 @@ textarea {
 }
 
 .preview-scroll::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.preview-scroll::-webkit-scrollbar-button:single-button,
+.preview-scroll::-webkit-scrollbar-button:start:decrement,
+.preview-scroll::-webkit-scrollbar-button:end:increment {
   width: 0;
   height: 0;
   display: none;
@@ -1105,7 +1113,7 @@ body.history-collapsed .history-panel {
 
   .main-workspace {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(2, minmax(0, 1fr));
+    grid-template-rows: minmax(480px, 1fr) minmax(380px, 1fr);
     height: calc(100dvh - 152px);
   }
 
