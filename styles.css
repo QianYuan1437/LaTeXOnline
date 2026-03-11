@@ -934,6 +934,7 @@ textarea {
 }
 
 .preview-surface {
+  position: relative;
   min-height: 0;
   height: 100%;
   border: 1px solid var(--line);
@@ -943,6 +944,20 @@ textarea {
     linear-gradient(180deg, color-mix(in srgb, var(--panel-elevated) 92%, transparent), var(--panel));
   padding: 0;
   overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--line) 64%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--line) 92%, transparent);
+}
+
+.preview-surface::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 0;
+  height: 1px;
+  background: color-mix(in srgb, var(--line) 92%, transparent);
+  pointer-events: none;
 }
 
 .preview-scroll {
