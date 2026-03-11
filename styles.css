@@ -857,7 +857,7 @@ body.history-collapsed .app-grid {
 }
 
 #modeToggleGroup .toggle {
-  min-height: 42px;
+  min-height: 32px;
   padding: 0 14px;
   font-size: 0.98rem;
 }
