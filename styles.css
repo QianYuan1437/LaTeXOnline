@@ -860,12 +860,12 @@ body.history-collapsed .app-grid {
   min-height: 32px;
   padding: 0 14px;
   font-size: 0.98rem;
+  position: relative;
+  z-index: 1;
 }
 
-.editor-panel > .panel-header {
-  min-height: 56px;
-  padding-top: 4px;
-  padding-bottom: 4px;
+#modeToggleGroup .toggle:hover {
+  transform: none;
 }
 
 .field span {
