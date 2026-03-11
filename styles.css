@@ -373,10 +373,10 @@ body.history-collapsed .app-grid {
 
 .editor-controls {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) auto;
-  gap: 10px;
-  align-items: end;
-  margin-bottom: 12px;
+  grid-template-columns: auto auto minmax(220px, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
 .panel-launcher,
@@ -397,6 +397,30 @@ body.history-collapsed .app-grid {
 .compact-control {
   min-height: 58px;
   padding: 10px 12px;
+}
+
+.editor-action {
+  min-height: 42px;
+  padding: 0 14px;
+  white-space: nowrap;
+}
+
+.template-picker-inline {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+}
+
+.button-meta {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.template-picker-inline strong {
+  font-size: 0.9rem;
+  font-weight: 800;
 }
 
 .panel-launcher strong,
@@ -768,6 +792,10 @@ body.history-collapsed .app-grid {
   gap: 6px;
 }
 
+.mode-cluster {
+  justify-items: end;
+}
+
 .field span {
   color: var(--muted);
   font-size: 0.79rem;
@@ -1019,6 +1047,10 @@ body.history-collapsed .history-panel {
 
   .editor-controls {
     grid-template-columns: 1fr;
+  }
+
+  .mode-cluster {
+    justify-items: start;
   }
 
   .detail-example-grid {
