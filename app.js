@@ -379,6 +379,7 @@ let activeToolGroupIndex = 0;
 let activeToolSearch = "";
 let activeTemplateSearch = "";
 let activeTemplateCategory = "templateCategoryAll";
+let toolCenterInitialized = false;
 
 function t(key) {
   return translations[language][key] || translations.en[key] || key;
@@ -420,12 +421,12 @@ function updateI18nUi() {
     elements.statusText.textContent = t(lastStatusKey);
   }
   renderHistory();
-  renderToolCenter();
-  if (!elements.toolModal.classList.contains("is-hidden")) {
+  if (toolCenterInitialized && !elements.toolModal.classList.contains("is-hidden")) {
+    renderToolCenter();
     renderToolModal(activeToolId);
     void renderCardMath();
   }
-  if (!elements.templateModal.classList.contains("is-hidden")) {
+  if (toolCenterInitialized && !elements.templateModal.classList.contains("is-hidden")) {
     renderTemplateGallery();
     renderTemplateDetailPanel();
     void renderCardMath();
@@ -771,6 +772,7 @@ function renderToolModal(toolId) {
 
 function openToolModal(toolId) {
   closeTemplateModal();
+  ensureToolCenterRendered();
   activeToolId = toolId;
   activeToolGroupIndex = 0;
   activeToolSearch = "";
@@ -796,6 +798,14 @@ function renderToolCenter() {
   renderTemplateDetailPanel();
   renderToolGallery();
   void renderCardMath();
+}
+
+function ensureToolCenterRendered() {
+  if (toolCenterInitialized) {
+    return;
+  }
+  toolCenterInitialized = true;
+  renderToolCenter();
 }
 
 function renderTemplateFilters() {
@@ -824,6 +834,7 @@ function updateTemplatePickerLabel() {
 
 function openTemplateModal() {
   closeToolModal();
+  ensureToolCenterRendered();
   renderTemplateGallery();
   renderTemplateDetailPanel();
   renderTemplateFilters();
@@ -1303,6 +1314,7 @@ elements.templateModalClose.addEventListener("click", closeTemplateModal);
 elements.templateModalBackdrop.addEventListener("click", closeTemplateModal);
 elements.templateModalSearch.addEventListener("input", (event) => {
   activeTemplateSearch = event.target.value;
+  ensureToolCenterRendered();
   renderTemplateGallery();
   renderTemplateDetailPanel();
   void renderCardMath();
@@ -1310,6 +1322,7 @@ elements.templateModalSearch.addEventListener("input", (event) => {
 elements.toolModalSearch.addEventListener("input", (event) => {
   activeToolSearch = event.target.value;
   activeToolGroupIndex = 0;
+  ensureToolCenterRendered();
   renderToolModal(activeToolId);
   void renderCardMath();
 });
@@ -1323,7 +1336,6 @@ document.addEventListener("keydown", (event) => {
 });
 
 restoreState();
-renderToolCenter();
 updateThemeUi();
 updateI18nUi();
 setRailActive(elements.railEditorBtn);
