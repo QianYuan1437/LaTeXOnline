@@ -856,6 +856,12 @@ body.history-collapsed .app-grid {
   white-space: nowrap;
 }
 
+#modeToggleGroup .toggle {
+  min-height: 42px;
+  padding: 0 14px;
+  font-size: 0.98rem;
+}
+
 .field span {
   color: var(--muted);
   font-size: 0.79rem;
