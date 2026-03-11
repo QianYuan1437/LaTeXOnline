@@ -136,7 +136,7 @@ button {
   padding: 10px 12px;
   border-radius: 18px;
   margin-bottom: 12px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   overflow-x: auto;
 }
 
@@ -153,7 +153,7 @@ button {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .bar-main,
@@ -161,9 +161,18 @@ button {
   min-width: 0;
 }
 
+.bar-main {
+  flex: 0 0 auto;
+}
+
+.bar-workspace-tools {
+  flex: 0 0 auto;
+}
+
 .bar-actions {
   margin-left: auto;
   flex-wrap: nowrap;
+  flex: 0 0 auto;
 }
 
 .bar-workspace-tools {
@@ -354,14 +363,32 @@ body.history-collapsed .app-grid {
 
 .panel-header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 10px;
 }
 
+.panel-title {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.panel-title .panel-kicker {
+  font-size: 1rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.panel-title h2 {
+  font-size: 1.52rem;
+}
+
 .toolbar {
   justify-content: flex-end;
+  align-items: center;
 }
 
 .workspace-launchers {
@@ -821,7 +848,7 @@ body.history-collapsed .app-grid {
 }
 
 .editor-wrap {
-  display: block;
+  display: flex;
   margin-bottom: 10px;
   min-height: 0;
   height: 100%;
@@ -829,10 +856,11 @@ body.history-collapsed .app-grid {
 
 textarea {
   display: block;
+  flex: 1 1 auto;
   width: 100%;
-  height: clamp(220px, 28vh, 360px);
+  height: auto;
   min-height: 220px;
-  max-height: 100%;
+  max-height: none;
   resize: vertical;
   padding: 14px;
   border-radius: 14px;
@@ -883,6 +911,15 @@ textarea {
     linear-gradient(180deg, color-mix(in srgb, var(--panel-elevated) 92%, transparent), var(--panel));
   padding: 14px;
   overflow: auto;
+  scrollbar-gutter: stable;
+}
+
+.preview-surface::-webkit-scrollbar {
+  width: 8px;
+}
+
+.preview-surface::-webkit-scrollbar-thumb {
+  border-width: 2px;
 }
 
 #preview {
@@ -1023,10 +1060,6 @@ body.history-collapsed .history-panel {
     max-height: none;
   }
 
-  textarea {
-    min-height: 0;
-  }
-
   .preview-surface {
     min-height: 0;
   }
@@ -1042,6 +1075,10 @@ body.history-collapsed .history-panel {
   .template-browser-head {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .panel-title {
+    align-items: flex-start;
   }
 
   .bar-actions,
