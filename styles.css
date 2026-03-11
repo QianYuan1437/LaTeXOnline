@@ -935,13 +935,14 @@ textarea {
 
 .preview-surface {
   position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr);
+  align-self: stretch;
   min-height: 0;
   height: 100%;
   border: 1px solid var(--line);
   border-radius: 18px;
-  background:
-    linear-gradient(90deg, color-mix(in srgb, var(--panel) 40%, transparent), transparent 25%, transparent 75%, color-mix(in srgb, var(--panel) 40%, transparent)),
-    linear-gradient(180deg, color-mix(in srgb, var(--panel-elevated) 92%, transparent), var(--panel));
+  background: var(--panel-elevated);
   padding: 0;
   overflow: hidden;
   box-shadow:
