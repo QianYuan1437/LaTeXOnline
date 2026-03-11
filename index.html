@@ -112,6 +112,7 @@
             <span class="visually-hidden">LaTeX input</span>
             <textarea id="latexInput" spellcheck="false"></textarea>
           </label>
+          <p class="support-text editor-hint" data-i18n="statusHint">Source is automatically stored in this browser.</p>
         </section>
 
         <section class="workspace-panel preview-panel">
@@ -129,7 +130,9 @@
           </div>
 
           <div class="preview-surface">
-            <div id="preview" aria-live="polite"></div>
+            <div class="preview-scroll">
+              <div id="preview" aria-live="polite"></div>
+            </div>
           </div>
         </section>
       </div>
