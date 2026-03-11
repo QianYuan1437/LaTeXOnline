@@ -35,13 +35,12 @@
 
 - MathJax 官方：`https://www.mathjax.org/`
 - LaTeXLive 参考仓库（上游）：`https://github.com/MosRat/LaTeXLive`
-- LaTeXLive 参考仓库（Fork）：`https://github.com/QianYuan1437/LaTeXLive`
 
 说明：本项目在交互形态与工具分类上参考了上述资源，并结合 GitHub Pages 的纯静态部署方式做了适配实现。
 
 ### 许可证
 
-本项目使用 MIT 协议，详见 [LICENSE](./LICENSE)。
+本项目使用 Apache-2.0 协议，详见 [LICENSE](./LICENSE)。
 
 <a id="english"></a>
 ## English
@@ -75,10 +74,9 @@ Expected URL:
 
 - MathJax official: `https://www.mathjax.org/`
 - LaTeXLive upstream reference: `https://github.com/MosRat/LaTeXLive`
-- LaTeXLive fork reference: `https://github.com/QianYuan1437/LaTeXLive`
 
 Note: This project references those resources for interaction patterns and tool taxonomy, then adapts the implementation to a pure static GitHub Pages workflow.
 
 ### License
 
-This project is licensed under the MIT License. See [LICENSE](./LICENSE).
+This project is licensed under the Apache-2.0 License. See [LICENSE](./LICENSE).
