@@ -281,6 +281,13 @@ body.history-collapsed .app-grid {
   min-width: 0;
 }
 
+.editor-panel,
+.preview-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(50vh - 96px);
+}
+
 .panel-header {
   display: flex;
   align-items: flex-start;
@@ -546,6 +553,8 @@ body.history-collapsed .app-grid {
 
 .tool-modal-panel {
   position: relative;
+  display: flex;
+  flex-direction: column;
   z-index: 1;
   width: min(1200px, calc(100vw - 36px));
   max-height: min(82vh, 980px);
@@ -558,9 +567,17 @@ body.history-collapsed .app-grid {
 }
 
 .template-modal-body {
-  max-height: calc(82vh - 150px);
+  max-height: calc(82vh - 210px);
   overflow: auto;
   padding: 16px 18px 10px;
+}
+
+.template-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 12px 18px 0;
 }
 
 .template-modal-foot {
@@ -602,21 +619,22 @@ body.history-collapsed .app-grid {
 }
 
 .tool-modal-body {
-  max-height: calc(82vh - 84px);
+  max-height: calc(82vh - 320px);
   overflow: hidden;
   padding: 0;
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr);
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .tool-modal-catalog {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 8px;
-  padding: 14px 18px 0;
+  padding: 14px 18px 14px;
   border-bottom: 1px solid var(--line);
-  max-height: 220px;
-  overflow: auto;
+  flex: 0 0 auto;
 }
 
 .tool-modal-nav {
@@ -687,11 +705,14 @@ body.history-collapsed .app-grid {
 .editor-wrap {
   display: block;
   margin-bottom: 10px;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 textarea {
   width: 100%;
-  min-height: 840px;
+  height: 100%;
+  min-height: 260px;
   resize: vertical;
   padding: 14px;
   border-radius: 14px;
@@ -728,7 +749,8 @@ textarea {
 }
 
 .preview-surface {
-  min-height: 1038px;
+  min-height: 260px;
+  flex: 1 1 auto;
   border: 1px solid var(--line);
   border-radius: 14px;
   background:
@@ -931,12 +953,12 @@ body.history-collapsed .history-panel {
   }
 
   .tool-modal-body {
-    max-height: calc(100vh - 110px);
+    max-height: calc(100vh - 260px);
     grid-template-columns: 1fr;
   }
 
   .template-modal-body {
-    max-height: calc(100vh - 180px);
+    max-height: calc(100vh - 240px);
   }
 
   .tool-modal-nav {

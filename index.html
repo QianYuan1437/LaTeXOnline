@@ -215,13 +215,19 @@
           <p class="panel-kicker" data-i18n="templateTab">Templates</p>
           <h2 id="templateModalTitle" data-i18n="starterTemplate">Starter template</h2>
         </div>
+        <label class="tool-modal-search" for="templateModalSearch">
+          <span class="visually-hidden">Template search</span>
+          <input type="search" id="templateModalSearch" placeholder="Search templates">
+        </label>
         <button type="button" class="toolbar-button" id="templateModalClose">Close</button>
       </div>
+      <div class="template-filter-bar" id="templateFilterBar"></div>
       <div class="template-modal-body">
         <div class="template-gallery" id="templateGallery"></div>
         <div class="template-detail-panel" id="templateDetailPanel"></div>
       </div>
       <div class="template-modal-foot">
+        <button type="button" class="toolbar-button" id="templatePreviewBtn">Preview Only</button>
         <button type="button" class="toolbar-button" id="templateUseBtn" data-i18n="loadTemplate">Load Template</button>
       </div>
     </section>

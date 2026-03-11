@@ -33,6 +33,7 @@ const templateCatalog = [
   {
     id: "quadratic",
     titleKey: "templateQuadratic",
+    categoryKey: "templateCategoryAlgebra",
     preview: String.raw`x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}`,
     examples: [
       { math: String.raw`ax^2+bx+c=0`, insert: String.raw`ax^2 + bx + c = 0` },
@@ -44,6 +45,7 @@ const templateCatalog = [
   {
     id: "matrix",
     titleKey: "templateMatrix",
+    categoryKey: "templateCategoryLinear",
     preview: String.raw`\begin{bmatrix}a&b\\c&d\end{bmatrix}`,
     examples: [
       { math: String.raw`\det\begin{pmatrix}a&b\\c&d\end{pmatrix}=ad-bc`, insert: String.raw`\det\begin{pmatrix}a & b\\ c & d\end{pmatrix}=ad-bc` },
@@ -55,6 +57,7 @@ const templateCatalog = [
   {
     id: "calculus",
     titleKey: "templateCalculus",
+    categoryKey: "templateCategoryCalculus",
     preview: String.raw`\int_0^1 x^n\,dx`,
     examples: [
       { math: String.raw`\frac{d}{dx}\sin x=\cos x`, insert: String.raw`\frac{d}{dx}\sin x=\cos x` },
@@ -66,6 +69,7 @@ const templateCatalog = [
   {
     id: "physics",
     titleKey: "templatePhysics",
+    categoryKey: "templateCategoryPhysics",
     preview: String.raw`i\hbar\frac{\partial \Psi}{\partial t}`,
     examples: [
       { math: String.raw`E=mc^2`, insert: String.raw`E=mc^2` },
@@ -77,6 +81,7 @@ const templateCatalog = [
   {
     id: "statistics",
     titleKey: "templateStatistics",
+    categoryKey: "templateCategoryStatistics",
     preview: String.raw`\binom{n}{k}p^k(1-p)^{n-k}`,
     examples: [
       { math: String.raw`\mu=\frac{1}{n}\sum_{i=1}^{n}x_i`, insert: String.raw`\mu=\frac{1}{n}\sum_{i=1}^{n}x_i` },
@@ -114,6 +119,12 @@ const translations = {
     templateCalculus: "Calculus",
     templatePhysics: "Physics",
     templateStatistics: "Statistics",
+    templateCategoryAll: "All",
+    templateCategoryAlgebra: "Algebra",
+    templateCategoryLinear: "Linear Algebra",
+    templateCategoryCalculus: "Calculus",
+    templateCategoryPhysics: "Physics",
+    templateCategoryStatistics: "Statistics",
     displayMode: "Display",
     inlineMode: "Inline",
     loadTemplate: "Load Template",
@@ -186,7 +197,12 @@ const translations = {
     ,
     openTemplates: "Browse Templates",
     openTools: "Browse Tools",
-    close: "Close"
+    close: "Close",
+    templateSearchPlaceholder: "Search templates",
+    previewOnly: "Preview Only",
+    loadIntoInput: "Load Into Input",
+    templateEmpty: "No matching templates.",
+    templateExamples: "Template examples"
   },
   zh: {
     mathWorkspace: "数学工作台",
@@ -212,6 +228,12 @@ const translations = {
     templateCalculus: "积分与极限",
     templatePhysics: "物理公式",
     templateStatistics: "统计分布",
+    templateCategoryAll: "全部",
+    templateCategoryAlgebra: "代数",
+    templateCategoryLinear: "线性代数",
+    templateCategoryCalculus: "微积分",
+    templateCategoryPhysics: "物理",
+    templateCategoryStatistics: "统计",
     displayMode: "块级",
     inlineMode: "行内",
     loadTemplate: "载入模板",
@@ -283,7 +305,12 @@ const translations = {
     toolEmpty: "当前分组没有匹配项。",
     openTemplates: "打开模板库",
     openTools: "打开快捷工具",
-    close: "关闭"
+    close: "关闭",
+    templateSearchPlaceholder: "搜索模板",
+    previewOnly: "仅预览",
+    loadIntoInput: "载入到输入区",
+    templateEmpty: "没有匹配的模板。",
+    templateExamples: "模板示例"
   }
 };
 
@@ -328,6 +355,9 @@ const elements = {
   templateModalBackdrop: document.getElementById("templateModalBackdrop"),
   templateModalClose: document.getElementById("templateModalClose"),
   templateModalTitle: document.getElementById("templateModalTitle"),
+  templateModalSearch: document.getElementById("templateModalSearch"),
+  templateFilterBar: document.getElementById("templateFilterBar"),
+  templatePreviewBtn: document.getElementById("templatePreviewBtn"),
   templateUseBtn: document.getElementById("templateUseBtn"),
   historySearch: document.getElementById("historySearch"),
   favoritesList: document.getElementById("favoritesList"),
@@ -349,6 +379,8 @@ let activeTemplateId = "quadratic";
 let activeToolId = toolCatalog[0]?.id || "symbol";
 let activeToolGroupIndex = 0;
 let activeToolSearch = "";
+let activeTemplateSearch = "";
+let activeTemplateCategory = "templateCategoryAll";
 
 function t(key) {
   return translations[language][key] || translations.en[key] || key;
@@ -375,6 +407,9 @@ function updateI18nUi() {
   elements.toolModalClose.textContent = language === "zh" ? "关闭" : "Close";
   elements.templateModalClose.textContent = t("close");
   elements.toolModalSearch.placeholder = t("toolSearchPlaceholder");
+  elements.templateModalSearch.placeholder = t("templateSearchPlaceholder");
+  elements.templatePreviewBtn.textContent = t("previewOnly");
+  elements.templateUseBtn.textContent = t("loadIntoInput");
   updateTemplatePickerLabel();
   elements.historySearch.placeholder = t("historySearchPlaceholder");
   elements.modeToggleGroup.setAttribute("aria-label", t("formulaDisplayMode"));
@@ -459,9 +494,37 @@ function createMathNode(tag, className, math) {
   return node;
 }
 
+function getFilteredTemplates() {
+  const searchTerm = activeTemplateSearch.trim().toLowerCase();
+  return templateCatalog.filter((item) => {
+    const categoryMatch = activeTemplateCategory === "templateCategoryAll" || item.categoryKey === activeTemplateCategory;
+    const searchMatch =
+      !searchTerm ||
+      [t(item.titleKey), t(item.categoryKey), item.preview]
+        .join(" ")
+        .toLowerCase()
+        .includes(searchTerm);
+    return categoryMatch && searchMatch;
+  });
+}
+
 function renderTemplateGallery() {
   elements.templateGallery.textContent = "";
-  templateCatalog.forEach((item) => {
+  const filteredTemplates = getFilteredTemplates();
+
+  if (!filteredTemplates.some((item) => item.id === activeTemplateId) && filteredTemplates[0]) {
+    activeTemplateId = filteredTemplates[0].id;
+  }
+
+  if (!filteredTemplates.length) {
+    const empty = document.createElement("div");
+    empty.className = "history-empty";
+    empty.textContent = t("templateEmpty");
+    elements.templateGallery.appendChild(empty);
+    return;
+  }
+
+  filteredTemplates.forEach((item) => {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "template-card";
@@ -473,7 +536,10 @@ function renderTemplateGallery() {
     const title = document.createElement("span");
     title.className = "template-card-title";
     title.textContent = t(item.titleKey);
-    button.append(formula, title);
+    const tag = document.createElement("span");
+    tag.className = "tool-card-tag";
+    tag.textContent = t(item.categoryKey);
+    button.append(formula, title, tag);
     button.addEventListener("click", () => {
       activeTemplateId = item.id;
       persistState();
@@ -488,7 +554,7 @@ function renderTemplateGallery() {
 
 function renderTemplateDetailPanel() {
   elements.templateDetailPanel.textContent = "";
-  const active = templateCatalog.find((item) => item.id === activeTemplateId);
+  const active = getFilteredTemplates().find((item) => item.id === activeTemplateId);
   if (!active) {
     return;
   }
@@ -498,7 +564,14 @@ function renderTemplateDetailPanel() {
   const title = document.createElement("p");
   title.className = "detail-panel-title";
   title.textContent = t(active.titleKey);
-  head.appendChild(title);
+  const tag = document.createElement("span");
+  tag.className = "detail-example-tag";
+  tag.textContent = t(active.categoryKey);
+  head.append(title, tag);
+
+  const intro = document.createElement("p");
+  intro.className = "support-text";
+  intro.textContent = t("templateExamples");
 
   const grid = document.createElement("div");
   grid.className = "detail-example-grid";
@@ -508,14 +581,12 @@ function renderTemplateDetailPanel() {
     button.className = "detail-example-card";
     button.appendChild(createMathNode("span", "detail-example-math", example.math));
     button.addEventListener("click", () => {
-      elements.latexInput.value = mode === "display" ? `\\[\n${example.insert}\n\\]` : example.insert;
-      closeTemplateModal();
-      scheduleRender();
+      previewTemplateExample(example.insert);
     });
     grid.appendChild(button);
   });
 
-  elements.templateDetailPanel.append(head, grid);
+  elements.templateDetailPanel.append(head, intro, grid);
 }
 
 function renderToolGallery() {
@@ -718,10 +789,30 @@ function closeToolModal() {
 }
 
 function renderToolCenter() {
+  renderTemplateFilters();
   renderTemplateGallery();
   renderTemplateDetailPanel();
   renderToolGallery();
   void renderCardMath();
+}
+
+function renderTemplateFilters() {
+  elements.templateFilterBar.textContent = "";
+  const keys = ["templateCategoryAll", ...new Set(templateCatalog.map((item) => item.categoryKey))];
+  keys.forEach((key) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "toolbar-button compact";
+    button.classList.toggle("active", key === activeTemplateCategory);
+    button.textContent = t(key);
+    button.addEventListener("click", () => {
+      activeTemplateCategory = key;
+      renderTemplateGallery();
+      renderTemplateDetailPanel();
+      void renderCardMath();
+    });
+    elements.templateFilterBar.appendChild(button);
+  });
 }
 
 function updateTemplatePickerLabel() {
@@ -730,8 +821,10 @@ function updateTemplatePickerLabel() {
 }
 
 function openTemplateModal() {
+  closeToolModal();
   renderTemplateGallery();
   renderTemplateDetailPanel();
+  renderTemplateFilters();
   elements.templateModal.classList.remove("is-hidden");
   elements.templateModal.setAttribute("aria-hidden", "false");
   document.body.classList.add("modal-open");
@@ -743,6 +836,38 @@ function closeTemplateModal() {
   elements.templateModal.setAttribute("aria-hidden", "true");
   if (elements.toolModal.classList.contains("is-hidden")) {
     document.body.classList.remove("modal-open");
+  }
+}
+
+async function previewTemplateOnly() {
+  const source = templates[activeTemplateId];
+  if (!source) {
+    return;
+  }
+  elements.preview.textContent = "";
+  elements.preview.innerHTML = source;
+  try {
+    if (window.MathJax?.typesetPromise) {
+      await window.MathJax.typesetPromise([elements.preview]);
+    }
+    setStatus("rendered");
+  } catch (error) {
+    setStatus("renderFailed");
+  }
+}
+
+async function previewTemplateExample(exampleSource) {
+  const wrapped = mode === "display" ? `\\[\n${exampleSource}\n\\]` : `\\(${exampleSource}\\)`;
+  elements.preview.textContent = "";
+  elements.preview.innerHTML = wrapped;
+  closeTemplateModal();
+  try {
+    if (window.MathJax?.typesetPromise) {
+      await window.MathJax.typesetPromise([elements.preview]);
+    }
+    setStatus("rendered");
+  } catch (error) {
+    setStatus("renderFailed");
   }
 }
 
@@ -1111,6 +1236,10 @@ elements.railExportPngBtn.addEventListener("click", exportPng);
 elements.railLoadTemplateBtn.addEventListener("click", openTemplateModal);
 elements.openTemplateModalBtn.addEventListener("click", openTemplateModal);
 elements.templatePickerBtn.addEventListener("click", openTemplateModal);
+elements.templatePreviewBtn.addEventListener("click", () => {
+  void previewTemplateOnly();
+  closeTemplateModal();
+});
 elements.templateUseBtn.addEventListener("click", loadTemplate);
 elements.openToolModalBtn.addEventListener("click", () => openToolModal(activeToolId));
 
@@ -1169,6 +1298,12 @@ elements.toolModalClose.addEventListener("click", closeToolModal);
 elements.toolModalBackdrop.addEventListener("click", closeToolModal);
 elements.templateModalClose.addEventListener("click", closeTemplateModal);
 elements.templateModalBackdrop.addEventListener("click", closeTemplateModal);
+elements.templateModalSearch.addEventListener("input", (event) => {
+  activeTemplateSearch = event.target.value;
+  renderTemplateGallery();
+  renderTemplateDetailPanel();
+  void renderCardMath();
+});
 elements.toolModalSearch.addEventListener("input", (event) => {
   activeToolSearch = event.target.value;
   activeToolGroupIndex = 0;
