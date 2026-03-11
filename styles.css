@@ -937,7 +937,7 @@ textarea {
   border: 1px solid var(--line);
   border-radius: 18px;
   background: var(--panel-elevated);
-  padding: 0 0 1px;
+  padding: 0 8px 1px 0;
   overflow: hidden;
   box-shadow:
     inset 0 0 0 1px color-mix(in srgb, var(--line) 64%, transparent),
@@ -981,6 +981,15 @@ textarea {
 .preview-scroll::-webkit-scrollbar-button:single-button,
 .preview-scroll::-webkit-scrollbar-button:start:decrement,
 .preview-scroll::-webkit-scrollbar-button:end:increment {
+  width: 0;
+  height: 0;
+  display: none;
+}
+
+.preview-scroll::-webkit-scrollbar-button:vertical:start:decrement,
+.preview-scroll::-webkit-scrollbar-button:vertical:end:increment,
+.preview-scroll::-webkit-scrollbar-button:horizontal:start:decrement,
+.preview-scroll::-webkit-scrollbar-button:horizontal:end:increment {
   width: 0;
   height: 0;
   display: none;
