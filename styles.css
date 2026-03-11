@@ -293,20 +293,31 @@ body.history-collapsed .app-grid {
   justify-content: flex-end;
 }
 
-.template-browser {
-  margin-bottom: 10px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: linear-gradient(180deg, color-mix(in srgb, var(--panel-elevated) 88%, transparent), var(--panel-alt));
-  padding: 10px;
-}
-
-.template-browser-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.workspace-launchers {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 8px;
   margin-bottom: 10px;
+}
+
+.panel-launcher,
+.picker-button {
+  width: 100%;
+  min-height: 54px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--panel-elevated) 90%, transparent), var(--panel-alt));
+  color: var(--text);
+  text-align: left;
+  display: grid;
+  gap: 3px;
+}
+
+.panel-launcher strong,
+.picker-button span {
+  font-size: 0.86rem;
+  font-weight: 800;
 }
 
 .template-gallery,
@@ -546,6 +557,21 @@ body.history-collapsed .app-grid {
   overflow: hidden;
 }
 
+.template-modal-body {
+  max-height: calc(82vh - 150px);
+  overflow: auto;
+  padding: 16px 18px 10px;
+}
+
+.template-modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 0 18px 16px;
+  border-top: 1px solid var(--line);
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--panel-alt) 88%, transparent));
+}
+
 .tool-modal-head {
   display: flex;
   align-items: flex-start;
@@ -581,6 +607,16 @@ body.history-collapsed .app-grid {
   padding: 0;
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr);
+}
+
+.tool-modal-catalog {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  padding: 14px 18px 0;
+  border-bottom: 1px solid var(--line);
+  max-height: 220px;
+  overflow: auto;
 }
 
 .tool-modal-nav {
@@ -872,6 +908,14 @@ body.history-collapsed .history-panel {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .tool-modal-catalog {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .workspace-launchers {
+    grid-template-columns: 1fr;
+  }
+
   .detail-example-grid {
     grid-template-columns: 1fr;
   }
@@ -889,6 +933,10 @@ body.history-collapsed .history-panel {
   .tool-modal-body {
     max-height: calc(100vh - 110px);
     grid-template-columns: 1fr;
+  }
+
+  .template-modal-body {
+    max-height: calc(100vh - 180px);
   }
 
   .tool-modal-nav {

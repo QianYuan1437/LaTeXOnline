@@ -183,6 +183,10 @@ const translations = {
     groupPhysicsExamples: "Physics examples",
     toolSearchPlaceholder: "Search tools",
     toolEmpty: "No matching tools in this group."
+    ,
+    openTemplates: "Browse Templates",
+    openTools: "Browse Tools",
+    close: "Close"
   },
   zh: {
     mathWorkspace: "数学工作台",
@@ -276,7 +280,10 @@ const translations = {
     groupMatrixExamples: "矩阵示例",
     groupPhysicsExamples: "物理示例",
     toolSearchPlaceholder: "搜索工具条目",
-    toolEmpty: "当前分组没有匹配项。"
+    toolEmpty: "当前分组没有匹配项。",
+    openTemplates: "打开模板库",
+    openTools: "打开快捷工具",
+    close: "关闭"
   }
 };
 
@@ -289,10 +296,12 @@ const elements = {
   copyShareBtn: document.getElementById("copyShareBtn"),
   exportSvgBtn: document.getElementById("exportSvgBtn"),
   exportPngBtn: document.getElementById("exportPngBtn"),
-  loadTemplateBtn: document.getElementById("loadTemplateBtn"),
   clearHistoryBtn: document.getElementById("clearHistoryBtn"),
   toggleHistoryBtn: document.getElementById("toggleHistoryBtn"),
-  templateSelect: document.getElementById("templateSelect"),
+  templatePickerBtn: document.getElementById("templatePickerBtn"),
+  templatePickerLabel: document.getElementById("templatePickerLabel"),
+  openTemplateModalBtn: document.getElementById("openTemplateModalBtn"),
+  openToolModalBtn: document.getElementById("openToolModalBtn"),
   statusText: document.getElementById("statusText"),
   modeIndicator: document.getElementById("modeIndicator"),
   modeToggleGroup: document.getElementById("modeToggleGroup"),
@@ -304,12 +313,9 @@ const elements = {
   railExportPngBtn: document.getElementById("railExportPngBtn"),
   railEditorBtn: document.getElementById("railEditorBtn"),
   railPreviewBtn: document.getElementById("railPreviewBtn"),
-  templateTabBtn: document.getElementById("templateTabBtn"),
-  snippetTabBtn: document.getElementById("snippetTabBtn"),
   templateGallery: document.getElementById("templateGallery"),
   templateDetailPanel: document.getElementById("templateDetailPanel"),
   snippetGallery: document.getElementById("snippetGallery"),
-  toolDetailPanel: document.getElementById("toolDetailPanel"),
   toolModal: document.getElementById("toolModal"),
   toolModalBackdrop: document.getElementById("toolModalBackdrop"),
   toolModalClose: document.getElementById("toolModalClose"),
@@ -318,6 +324,11 @@ const elements = {
   toolModalSearch: document.getElementById("toolModalSearch"),
   toolModalNav: document.getElementById("toolModalNav"),
   toolModalBody: document.getElementById("toolModalBody"),
+  templateModal: document.getElementById("templateModal"),
+  templateModalBackdrop: document.getElementById("templateModalBackdrop"),
+  templateModalClose: document.getElementById("templateModalClose"),
+  templateModalTitle: document.getElementById("templateModalTitle"),
+  templateUseBtn: document.getElementById("templateUseBtn"),
   historySearch: document.getElementById("historySearch"),
   favoritesList: document.getElementById("favoritesList"),
   historyList: document.getElementById("historyList"),
@@ -334,7 +345,6 @@ let lastStatusKey = "waiting";
 let historyItems = [];
 let historySearchQuery = "";
 let historyCollapsed = false;
-let activePane = "templates";
 let activeTemplateId = "quadratic";
 let activeToolId = toolCatalog[0]?.id || "symbol";
 let activeToolGroupIndex = 0;
@@ -363,7 +373,9 @@ function updateI18nUi() {
   });
   elements.languageToggle.textContent = t("langToggle");
   elements.toolModalClose.textContent = language === "zh" ? "关闭" : "Close";
+  elements.templateModalClose.textContent = t("close");
   elements.toolModalSearch.placeholder = t("toolSearchPlaceholder");
+  updateTemplatePickerLabel();
   elements.historySearch.placeholder = t("historySearchPlaceholder");
   elements.modeToggleGroup.setAttribute("aria-label", t("formulaDisplayMode"));
   updateModeUi();
@@ -374,6 +386,11 @@ function updateI18nUi() {
   renderToolCenter();
   if (!elements.toolModal.classList.contains("is-hidden")) {
     renderToolModal(activeToolId);
+    void renderCardMath();
+  }
+  if (!elements.templateModal.classList.contains("is-hidden")) {
+    renderTemplateGallery();
+    renderTemplateDetailPanel();
     void renderCardMath();
   }
 }
@@ -391,8 +408,7 @@ function persistState() {
     theme,
     historyCollapsed,
     activeTemplateId,
-    activeToolId,
-    activePane
+    activeToolId
   };
   localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
 }
@@ -460,11 +476,11 @@ function renderTemplateGallery() {
     button.append(formula, title);
     button.addEventListener("click", () => {
       activeTemplateId = item.id;
-      elements.templateSelect.value = item.id;
       persistState();
       renderTemplateGallery();
       renderTemplateDetailPanel();
-      loadTemplate();
+      updateTemplatePickerLabel();
+      void renderCardMath();
     });
     elements.templateGallery.appendChild(button);
   });
@@ -493,6 +509,7 @@ function renderTemplateDetailPanel() {
     button.appendChild(createMathNode("span", "detail-example-math", example.math));
     button.addEventListener("click", () => {
       elements.latexInput.value = mode === "display" ? `\\[\n${example.insert}\n\\]` : example.insert;
+      closeTemplateModal();
       scheduleRender();
     });
     grid.appendChild(button);
@@ -680,6 +697,7 @@ function renderToolModal(toolId) {
 }
 
 function openToolModal(toolId) {
+  closeTemplateModal();
   activeToolId = toolId;
   activeToolGroupIndex = 0;
   activeToolSearch = "";
@@ -694,31 +712,38 @@ function openToolModal(toolId) {
 function closeToolModal() {
   elements.toolModal.classList.add("is-hidden");
   elements.toolModal.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("modal-open");
+  if (elements.templateModal.classList.contains("is-hidden")) {
+    document.body.classList.remove("modal-open");
+  }
 }
 
 function renderToolCenter() {
   renderTemplateGallery();
   renderTemplateDetailPanel();
   renderToolGallery();
-  renderToolDetailPanel();
   void renderCardMath();
 }
 
-function showTemplatePane(pane) {
-  activePane = pane;
-  const templateActive = pane === "templates";
-  elements.templateTabBtn.classList.toggle("active", templateActive);
-  elements.snippetTabBtn.classList.toggle("active", !templateActive);
-  elements.templateGallery.classList.toggle("is-hidden", !templateActive);
-  elements.templateDetailPanel.classList.toggle("is-hidden", !templateActive);
-  elements.snippetGallery.classList.toggle("is-hidden", templateActive);
-  elements.toolDetailPanel.classList.add("is-hidden");
-  if (templateActive) {
-    closeToolModal();
-  }
-  persistState();
+function updateTemplatePickerLabel() {
+  const active = templateCatalog.find((item) => item.id === activeTemplateId);
+  elements.templatePickerLabel.textContent = active ? t(active.titleKey) : t("templateQuadratic");
+}
+
+function openTemplateModal() {
+  renderTemplateGallery();
+  renderTemplateDetailPanel();
+  elements.templateModal.classList.remove("is-hidden");
+  elements.templateModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
   void renderCardMath();
+}
+
+function closeTemplateModal() {
+  elements.templateModal.classList.add("is-hidden");
+  elements.templateModal.setAttribute("aria-hidden", "true");
+  if (elements.toolModal.classList.contains("is-hidden")) {
+    document.body.classList.remove("modal-open");
+  }
 }
 
 async function renderCardMath() {
@@ -732,7 +757,6 @@ async function renderCardMath() {
         elements.templateGallery,
         elements.templateDetailPanel,
         elements.snippetGallery,
-        elements.toolDetailPanel,
         elements.toolModalBody
       ]);
     } catch (error) {
@@ -1029,11 +1053,12 @@ function insertSnippet(snippet) {
 }
 
 function loadTemplate() {
-  activeTemplateId = elements.templateSelect.value;
   elements.latexInput.value = templates[activeTemplateId];
+  updateTemplatePickerLabel();
   renderTemplateGallery();
   renderTemplateDetailPanel();
   void renderCardMath();
+  closeTemplateModal();
   scheduleRender();
 }
 
@@ -1052,13 +1077,12 @@ function restoreState() {
     historyCollapsed = Boolean(saved.historyCollapsed);
     activeTemplateId = saved.activeTemplateId || "quadratic";
     activeToolId = saved.activeToolId || toolCatalog[0]?.id || "symbol";
-    activePane = saved.activePane || "templates";
   } catch (error) {
     elements.latexInput.value = templates.quadratic;
     historyItems = [];
   }
 
-  elements.templateSelect.value = activeTemplateId;
+  updateTemplatePickerLabel();
 }
 
 elements.latexInput.addEventListener("input", scheduleRender);
@@ -1084,9 +1108,11 @@ elements.exportSvgBtn.addEventListener("click", exportSvg);
 elements.exportPngBtn.addEventListener("click", exportPng);
 elements.railExportSvgBtn.addEventListener("click", exportSvg);
 elements.railExportPngBtn.addEventListener("click", exportPng);
-elements.loadTemplateBtn.addEventListener("click", loadTemplate);
-elements.railLoadTemplateBtn.addEventListener("click", loadTemplate);
-elements.templateSelect.addEventListener("change", loadTemplate);
+elements.railLoadTemplateBtn.addEventListener("click", openTemplateModal);
+elements.openTemplateModalBtn.addEventListener("click", openTemplateModal);
+elements.templatePickerBtn.addEventListener("click", openTemplateModal);
+elements.templateUseBtn.addEventListener("click", loadTemplate);
+elements.openToolModalBtn.addEventListener("click", () => openToolModal(activeToolId));
 
 elements.clearHistoryBtn.addEventListener("click", () => {
   historyItems = [];
@@ -1139,16 +1165,10 @@ elements.railPreviewBtn.addEventListener("click", () => {
   document.querySelector(".preview-panel").scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
-elements.templateTabBtn.addEventListener("click", () => {
-  showTemplatePane("templates");
-});
-
-elements.snippetTabBtn.addEventListener("click", () => {
-  showTemplatePane("snippets");
-});
-
 elements.toolModalClose.addEventListener("click", closeToolModal);
 elements.toolModalBackdrop.addEventListener("click", closeToolModal);
+elements.templateModalClose.addEventListener("click", closeTemplateModal);
+elements.templateModalBackdrop.addEventListener("click", closeTemplateModal);
 elements.toolModalSearch.addEventListener("input", (event) => {
   activeToolSearch = event.target.value;
   activeToolGroupIndex = 0;
@@ -1159,6 +1179,9 @@ document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && !elements.toolModal.classList.contains("is-hidden")) {
     closeToolModal();
   }
+  if (event.key === "Escape" && !elements.templateModal.classList.contains("is-hidden")) {
+    closeTemplateModal();
+  }
 });
 
 restoreState();
@@ -1166,6 +1189,5 @@ renderToolCenter();
 updateThemeUi();
 updateI18nUi();
 setRailActive(elements.railEditorBtn);
-showTemplatePane(activePane);
 renderHistory();
 scheduleRender();

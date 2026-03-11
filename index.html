@@ -88,31 +88,23 @@
             </div>
           </div>
 
-          <div class="template-browser">
-            <div class="template-browser-head">
-              <div class="template-tabs">
-                <button type="button" class="template-tab active" id="templateTabBtn" data-i18n="templateTab">Templates</button>
-                <button type="button" class="template-tab" id="snippetTabBtn" data-i18n="quickTab">Quick Tools</button>
-              </div>
-              <button type="button" class="primary-button" id="loadTemplateBtn" data-i18n="loadTemplate">Load Template</button>
-            </div>
-
-            <div class="template-gallery" id="templateGallery"></div>
-            <div class="template-detail-panel" id="templateDetailPanel"></div>
-            <div class="snippet-gallery is-hidden" id="snippetGallery"></div>
-            <div class="tool-detail-panel is-hidden" id="toolDetailPanel"></div>
+          <div class="workspace-launchers">
+            <button type="button" class="panel-launcher" id="openTemplateModalBtn">
+              <span class="panel-kicker" data-i18n="templateTab">Templates</span>
+              <strong data-i18n="loadTemplate">Load Template</strong>
+            </button>
+            <button type="button" class="panel-launcher" id="openToolModalBtn">
+              <span class="panel-kicker" data-i18n="quickTab">Quick Tools</span>
+              <strong data-i18n="quickActions">Quick Actions</strong>
+            </button>
           </div>
 
           <div class="control-grid">
             <label class="field">
               <span data-i18n="starterTemplate">Starter template</span>
-              <select id="templateSelect">
-                <option value="quadratic" data-i18n="templateQuadratic">Quadratic equation</option>
-                <option value="matrix" data-i18n="templateMatrix">Matrix and determinant</option>
-                <option value="calculus" data-i18n="templateCalculus">Calculus</option>
-                <option value="physics" data-i18n="templatePhysics">Physics</option>
-                <option value="statistics" data-i18n="templateStatistics">Statistics</option>
-              </select>
+              <button type="button" class="picker-button" id="templatePickerBtn">
+                <span id="templatePickerLabel">Quadratic equation</span>
+              </button>
             </label>
 
             <div class="control-cluster">
@@ -207,9 +199,30 @@
         </label>
         <button type="button" class="toolbar-button" id="toolModalClose">Close</button>
       </div>
+      <div class="tool-modal-catalog" id="snippetGallery"></div>
       <div class="tool-modal-body">
         <aside class="tool-modal-nav" id="toolModalNav"></aside>
         <div class="tool-modal-content" id="toolModalBody"></div>
+      </div>
+    </section>
+  </div>
+
+  <div class="tool-modal is-hidden" id="templateModal" aria-hidden="true">
+    <div class="tool-modal-backdrop" id="templateModalBackdrop"></div>
+    <section class="tool-modal-panel" role="dialog" aria-modal="true" aria-labelledby="templateModalTitle">
+      <div class="tool-modal-head">
+        <div>
+          <p class="panel-kicker" data-i18n="templateTab">Templates</p>
+          <h2 id="templateModalTitle" data-i18n="starterTemplate">Starter template</h2>
+        </div>
+        <button type="button" class="toolbar-button" id="templateModalClose">Close</button>
+      </div>
+      <div class="template-modal-body">
+        <div class="template-gallery" id="templateGallery"></div>
+        <div class="template-detail-panel" id="templateDetailPanel"></div>
+      </div>
+      <div class="template-modal-foot">
+        <button type="button" class="toolbar-button" id="templateUseBtn" data-i18n="loadTemplate">Load Template</button>
       </div>
     </section>
   </div>
