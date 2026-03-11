@@ -359,27 +359,28 @@ body.history-collapsed .app-grid {
 .workspace-launchers {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 10px;
+  gap: 10px;
+  margin-bottom: 14px;
 }
 
 .panel-launcher,
 .picker-button {
   width: 100%;
-  min-height: 54px;
-  padding: 10px 12px;
-  border-radius: 14px;
+  min-height: 64px;
+  padding: 12px 14px;
+  border-radius: 16px;
   border: 1px solid var(--line);
-  background: linear-gradient(180deg, color-mix(in srgb, var(--panel-elevated) 90%, transparent), var(--panel-alt));
+  background: linear-gradient(180deg, color-mix(in srgb, var(--panel-elevated) 94%, transparent), var(--panel-alt));
   color: var(--text);
   text-align: left;
   display: grid;
-  gap: 3px;
+  gap: 5px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .panel-launcher strong,
 .picker-button span {
-  font-size: 0.86rem;
+  font-size: 0.96rem;
   font-weight: 800;
 }
 
@@ -387,19 +388,19 @@ body.history-collapsed .app-grid {
 .snippet-gallery {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 8px;
-  margin-bottom: 10px;
+  gap: 12px;
+  margin-bottom: 14px;
 }
 
 .template-card,
 .tool-card {
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 18px;
   background: var(--panel-elevated);
   color: var(--text);
-  padding: 10px;
+  padding: 14px;
   text-align: left;
-  min-height: 108px;
+  min-height: 144px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -410,8 +411,8 @@ body.history-collapsed .app-grid {
 .tool-card-formula {
   display: block;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 0.9rem;
-  line-height: 1.3;
+  font-size: 1.08rem;
+  line-height: 1.45;
   color: var(--accent);
   word-break: break-word;
 }
@@ -419,7 +420,7 @@ body.history-collapsed .app-grid {
 .template-card-title,
 .tool-card-title {
   display: block;
-  font-size: 0.76rem;
+  font-size: 0.92rem;
   font-weight: 800;
 }
 
@@ -477,9 +478,9 @@ body.history-collapsed .app-grid {
 .template-detail-panel,
 .tool-detail-panel {
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 18px;
   background: color-mix(in srgb, var(--panel-elevated) 92%, transparent);
-  padding: 12px;
+  padding: 16px;
 }
 
 .detail-panel-head {
@@ -492,22 +493,22 @@ body.history-collapsed .app-grid {
 .detail-panel-title,
 .tool-group-title {
   margin: 0;
-  font-size: 0.92rem;
+  font-size: 1.05rem;
   font-weight: 800;
 }
 
 .detail-example-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: 12px;
 }
 
 .detail-example-card {
-  min-height: 84px;
+  min-height: 108px;
   border: 1px solid var(--line);
-  border-radius: 12px;
+  border-radius: 16px;
   background: var(--panel);
-  padding: 10px;
+  padding: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -529,7 +530,7 @@ body.history-collapsed .app-grid {
 
 .detail-example-math {
   display: block;
-  font-size: 1rem;
+  font-size: 1.08rem;
   color: var(--text);
 }
 
@@ -625,22 +626,22 @@ body.history-collapsed .app-grid {
 .template-modal-body {
   max-height: calc(82vh - 210px);
   overflow: auto;
-  padding: 16px 18px 10px;
+  padding: 18px 20px 12px;
 }
 
 .template-filter-bar {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
-  padding: 12px 18px 0;
+  padding: 14px 20px 0;
 }
 
 .template-modal-foot {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-  padding: 0 18px 16px;
+  gap: 10px;
+  padding: 0 20px 18px;
   border-top: 1px solid var(--line);
   background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--panel-alt) 88%, transparent));
 }
@@ -800,16 +801,11 @@ textarea {
   line-height: 1.4;
 }
 
-.preview-toolbar {
-  margin-bottom: 8px;
-  flex: 0 0 auto;
-}
-
 .preview-surface {
   min-height: 260px;
   flex: 1 1 auto;
   border: 1px solid var(--line);
-  border-radius: 14px;
+  border-radius: 18px;
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--panel) 40%, transparent), transparent 25%, transparent 75%, color-mix(in srgb, var(--panel) 40%, transparent)),
     linear-gradient(180deg, color-mix(in srgb, var(--panel-elevated) 92%, transparent), var(--panel));
