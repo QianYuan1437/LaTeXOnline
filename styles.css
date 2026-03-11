@@ -184,6 +184,11 @@ button {
   min-width: 0;
 }
 
+.bar-workspace-tools:last-of-type {
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
 .window-chrome {
   display: flex;
   gap: 6px;
@@ -377,13 +382,17 @@ body.history-collapsed .app-grid {
 }
 
 .panel-title .panel-kicker {
-  font-size: 1rem;
+  font-size: 1.34rem;
   letter-spacing: 0;
   text-transform: none;
+  color: var(--text);
+  font-weight: 800;
 }
 
 .panel-title h2 {
-  font-size: 1.52rem;
+  font-size: 1.34rem;
+  color: color-mix(in srgb, var(--text) 58%, transparent);
+  font-weight: 800;
 }
 
 .toolbar {
@@ -852,24 +861,29 @@ body.history-collapsed .app-grid {
   margin-bottom: 10px;
   min-height: 0;
   height: 100%;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: var(--panel-elevated);
+  overflow: hidden;
 }
 
 textarea {
   display: block;
   flex: 1 1 auto;
   width: 100%;
-  height: auto;
+  height: 100%;
   min-height: 220px;
   max-height: none;
   resize: vertical;
   padding: 14px;
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: var(--panel-elevated);
+  border-radius: 0;
+  border: 0;
+  background: transparent;
   color: var(--text);
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.86rem;
   line-height: 1.5;
+  outline: none;
 }
 
 .mini-card {
@@ -909,17 +923,21 @@ textarea {
   background:
     linear-gradient(90deg, color-mix(in srgb, var(--panel) 40%, transparent), transparent 25%, transparent 75%, color-mix(in srgb, var(--panel) 40%, transparent)),
     linear-gradient(180deg, color-mix(in srgb, var(--panel-elevated) 92%, transparent), var(--panel));
-  padding: 14px;
+  padding: 14px 10px 14px 14px;
   overflow: auto;
   scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--scrollbar-thumb) 72%, transparent) transparent;
 }
 
 .preview-surface::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 .preview-surface::-webkit-scrollbar-thumb {
-  border-width: 2px;
+  background: color-mix(in srgb, var(--scrollbar-thumb) 72%, transparent);
+  border: 1px solid transparent;
+  background-clip: padding-box;
 }
 
 #preview {
