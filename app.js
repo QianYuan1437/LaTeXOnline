@@ -1128,14 +1128,15 @@ function renderHistory() {
 
 async function renderMath() {
   const source = elements.latexInput.value.trim();
-  const wrapped = getWrappedSource(source);
   elements.preview.textContent = "";
-  elements.preview.innerHTML = wrapped;
 
   if (!source) {
     setStatus("waiting");
     return;
   }
+
+  const wrapped = getWrappedSource(source);
+  elements.preview.innerHTML = wrapped;
 
   try {
     if (window.MathJax?.typesetPromise) {
@@ -1193,7 +1194,7 @@ function restoreState() {
     const rawHistory = localStorage.getItem(HISTORY_KEY);
     const saved = rawState ? JSON.parse(rawState) : {};
     historyItems = rawHistory ? JSON.parse(rawHistory) : [];
-    elements.latexInput.value = query.get("latex") || saved.source || templates.quadratic;
+    elements.latexInput.value = query.get("latex") || saved.source || "";
     mode = query.get("mode") === "inline" || saved.mode === "inline" ? "inline" : "display";
     language = query.get("lang") === "zh" || saved.language === "zh" ? "zh" : "en";
     theme = query.get("theme") === "dark" || saved.theme === "dark" ? "dark" : "light";
@@ -1201,7 +1202,7 @@ function restoreState() {
     activeTemplateId = saved.activeTemplateId || "quadratic";
     activeToolId = saved.activeToolId || toolCatalog[0]?.id || "symbol";
   } catch (error) {
-    elements.latexInput.value = templates.quadratic;
+    elements.latexInput.value = "";
     historyItems = [];
   }
 
