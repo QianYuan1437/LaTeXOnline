@@ -372,11 +372,12 @@ body.history-collapsed .app-grid {
 }
 
 .editor-controls {
-  display: grid;
-  grid-template-columns: auto auto minmax(220px, 1fr) auto;
-  gap: 8px;
+  display: flex;
   align-items: center;
+  flex-wrap: nowrap;
+  gap: 8px;
   margin-bottom: 10px;
+  overflow-x: auto;
 }
 
 .panel-launcher,
@@ -403,6 +404,7 @@ body.history-collapsed .app-grid {
   min-height: 42px;
   padding: 0 14px;
   white-space: nowrap;
+  flex: 0 0 auto;
 }
 
 .template-picker-inline {
@@ -410,6 +412,8 @@ body.history-collapsed .app-grid {
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
+  flex: 1 1 280px;
+  min-width: 0;
 }
 
 .button-meta {
@@ -421,6 +425,10 @@ body.history-collapsed .app-grid {
 .template-picker-inline strong {
   font-size: 0.9rem;
   font-weight: 800;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .panel-launcher strong,
@@ -793,12 +801,23 @@ body.history-collapsed .app-grid {
 }
 
 .mode-cluster {
-  justify-items: end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .field span {
   color: var(--muted);
   font-size: 0.79rem;
+}
+
+.field-label {
+  color: var(--muted);
+  font-size: 0.79rem;
+  white-space: nowrap;
 }
 
 .editor-wrap {
@@ -1045,12 +1064,8 @@ body.history-collapsed .history-panel {
     grid-template-columns: 1fr;
   }
 
-  .editor-controls {
-    grid-template-columns: 1fr;
-  }
-
   .mode-cluster {
-    justify-items: start;
+    justify-content: flex-start;
   }
 
   .detail-example-grid {
