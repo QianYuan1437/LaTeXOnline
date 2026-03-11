@@ -393,7 +393,9 @@ function localizeText(value) {
 
 function setStatus(key) {
   lastStatusKey = key;
-  elements.statusText.textContent = t(key);
+  if (elements.statusText) {
+    elements.statusText.textContent = t(key);
+  }
 }
 
 function updateI18nUi() {
@@ -414,7 +416,9 @@ function updateI18nUi() {
   updateModeUi();
   updateThemeUi();
   updateHistoryCollapseUi();
-  elements.statusText.textContent = t(lastStatusKey);
+  if (elements.statusText) {
+    elements.statusText.textContent = t(lastStatusKey);
+  }
   renderHistory();
   renderToolCenter();
   if (!elements.toolModal.classList.contains("is-hidden")) {

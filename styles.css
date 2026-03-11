@@ -357,8 +357,8 @@ body.history-collapsed .app-grid {
 }
 
 .editor-panel {
-  display: grid;
-  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  display: flex;
+  flex-direction: column;
 }
 
 .preview-panel {
@@ -372,6 +372,8 @@ body.history-collapsed .app-grid {
   justify-content: space-between;
   gap: 10px;
   margin-bottom: 10px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 
 .panel-title {
@@ -398,6 +400,7 @@ body.history-collapsed .app-grid {
 .toolbar {
   justify-content: flex-end;
   align-items: center;
+  flex: 0 0 auto;
 }
 
 .workspace-launchers {
@@ -412,9 +415,10 @@ body.history-collapsed .app-grid {
   align-items: center;
   flex-wrap: nowrap;
   gap: 8px;
-  margin-bottom: 10px;
-  justify-content: space-between;
-  overflow-x: auto;
+  margin: 0;
+  justify-content: flex-start;
+  flex: 1 1 auto;
+  min-width: 0;
 }
 
 .editor-controls-left {
@@ -869,10 +873,11 @@ body.history-collapsed .app-grid {
 .editor-wrap {
   display: flex;
   align-self: stretch;
-  margin-bottom: 10px;
+  margin-bottom: 0;
   min-height: 0;
-  height: 100%;
-  min-height: 320px;
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 360px;
   border: 1px solid var(--line);
   border-radius: 18px;
   background: var(--panel-elevated);
@@ -905,21 +910,6 @@ textarea {
   background: var(--panel-alt);
 }
 
-.status-inline {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 38px;
-  padding: 0 2px;
-  overflow: hidden;
-}
-
-#statusText {
-  margin: 0;
-  font-size: 0.92rem;
-  font-weight: 800;
-}
-
 .support-text {
   margin: 0;
   color: var(--muted);
@@ -939,18 +929,26 @@ textarea {
   overflow: auto;
   scrollbar-gutter: stable;
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--scrollbar-thumb) 72%, transparent) transparent;
+  scrollbar-color: color-mix(in srgb, var(--scrollbar-thumb) 56%, transparent) transparent;
 }
 
 .preview-surface::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
+}
+
+.preview-surface::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .preview-surface::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--scrollbar-thumb) 72%, transparent);
-  border: 0.5px solid transparent;
+  background: color-mix(in srgb, var(--scrollbar-thumb) 52%, transparent);
+  border: 0 solid transparent;
   background-clip: padding-box;
   border-radius: 999px;
+}
+
+.preview-surface::-webkit-scrollbar-thumb:hover {
+  background: color-mix(in srgb, var(--scrollbar-thumb-hover) 42%, transparent);
 }
 
 #preview {

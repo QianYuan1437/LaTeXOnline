@@ -81,31 +81,30 @@
               <p class="panel-kicker" data-i18n="inputArea">Input</p>
               <h2 data-i18n="formulaSource">Formula Source</h2>
             </div>
+            <div class="editor-controls">
+              <div class="editor-controls-left">
+                <button type="button" class="toolbar-button compact editor-action" id="openTemplateModalBtn">
+                  <span data-i18n="loadTemplate">Load Template</span>
+                </button>
+                <button type="button" class="toolbar-button compact editor-action" id="openToolModalBtn">
+                  <span data-i18n="quickActions">Quick Actions</span>
+                </button>
+                <button type="button" class="toolbar-button compact editor-action template-picker-inline" id="templatePickerBtn">
+                  <span class="button-meta" data-i18n="starterTemplate">Starter template</span>
+                  <strong id="templatePickerLabel">Quadratic equation</strong>
+                </button>
+              </div>
+              <div class="control-cluster mode-cluster">
+                <span class="field-label" data-i18n="formulaDisplayMode">Formula display mode</span>
+                <div class="toggle-group" role="group" aria-label="Formula display mode" id="modeToggleGroup">
+                  <button type="button" class="toggle active" data-mode="display" data-i18n="displayMode">Display</button>
+                  <button type="button" class="toggle" data-mode="inline" data-i18n="inlineMode">Inline</button>
+                </div>
+              </div>
+            </div>
             <div class="toolbar">
               <button type="button" class="toolbar-button" id="clearBtn" data-i18n="clear">Clear</button>
               <button type="button" class="toolbar-button" id="copyBtn" data-i18n="copySource">Copy Source</button>
-            </div>
-          </div>
-
-          <div class="editor-controls">
-            <div class="editor-controls-left">
-              <button type="button" class="toolbar-button compact editor-action" id="openTemplateModalBtn">
-                <span data-i18n="loadTemplate">Load Template</span>
-              </button>
-              <button type="button" class="toolbar-button compact editor-action" id="openToolModalBtn">
-                <span data-i18n="quickActions">Quick Actions</span>
-              </button>
-              <button type="button" class="toolbar-button compact editor-action template-picker-inline" id="templatePickerBtn">
-                <span class="button-meta" data-i18n="starterTemplate">Starter template</span>
-                <strong id="templatePickerLabel">Quadratic equation</strong>
-              </button>
-            </div>
-            <div class="control-cluster mode-cluster">
-              <span class="field-label" data-i18n="formulaDisplayMode">Formula display mode</span>
-              <div class="toggle-group" role="group" aria-label="Formula display mode" id="modeToggleGroup">
-                <button type="button" class="toggle active" data-mode="display" data-i18n="displayMode">Display</button>
-                <button type="button" class="toggle" data-mode="inline" data-i18n="inlineMode">Inline</button>
-              </div>
             </div>
           </div>
 
@@ -113,12 +112,6 @@
             <span class="visually-hidden">LaTeX input</span>
             <textarea id="latexInput" spellcheck="false"></textarea>
           </label>
-
-          <div class="status-inline">
-            <span class="panel-kicker" data-i18n="status">Status</span>
-            <strong id="statusText">Waiting for input</strong>
-            <span class="support-text" data-i18n="statusHint">Source is automatically stored in this browser.</span>
-          </div>
         </section>
 
         <section class="workspace-panel preview-panel">
