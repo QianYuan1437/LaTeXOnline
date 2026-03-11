@@ -1,36 +1,84 @@
 # LaTeXOnline
 
-An online LaTeX formula editor that can be deployed directly to GitHub Pages, powered by MathJax 4 for live rendering.
+[![中文](https://img.shields.io/badge/README-中文-1677ff)](#zh-cn)
+[![English](https://img.shields.io/badge/README-English-0f172a)](#english)
 
-## Features
+<a id="zh-cn"></a>
+## 中文
 
-- Live LaTeX formula preview
-- Inline / display mode toggle
-- English / Chinese UI toggle
-- Light / dark theme toggle
-- Starter templates and quick snippets
-- Automatic local persistence
-- Local formula history panel with restore actions
-- History search and favorite pinning
-- Collapsible sidebar and desktop-style workspace layout
-- One-click copy for raw, wrapped, or shareable source
-- SVG and PNG export from rendered formulas
+一个可直接部署到 GitHub Pages 的在线 LaTeX 公式编辑器，基于 MathJax 4 实现实时渲染。
 
-## Deployment
+### 功能
 
-This is a pure static site and requires no build step.
+- 实时 LaTeX 预览
+- 行内 / 块级模式切换
+- 中英文界面切换
+- 明暗主题切换
+- 示例模板与快捷工具
+- 公式历史记录与收藏
+- 一键复制源码 / 带分隔符源码 / 分享链接
+- 导出 SVG 与 PNG
 
-1. Publish the repository to GitHub.
-2. Enable GitHub Pages in the repository settings.
-3. Deploy from the root of the default branch.
+### 部署（GitHub Pages）
 
-Expected deployment URL:
+这是一个纯静态站点，不需要构建步骤。
+
+1. 将仓库推送到 GitHub。
+2. 在仓库设置中启用 GitHub Pages。
+3. 选择从默认分支根目录（`/`）部署。
+
+预期访问地址：
 
 `https://qianyuan1437.github.io/LaTeXOnline`
 
-## Tech
+### 参考仓库与来源说明
 
-- `index.html`
-- `styles.css`
-- `app.js`
-- MathJax CDN: `https://cdn.jsdelivr.net/npm/mathjax@4/tex-svg.js`
+- MathJax 官方：`https://www.mathjax.org/`
+- LaTeXLive 参考仓库（上游）：`https://github.com/MosRat/LaTeXLive`
+- LaTeXLive 参考仓库（Fork）：`https://github.com/QianYuan1437/LaTeXLive`
+
+说明：本项目在交互形态与工具分类上参考了上述资源，并结合 GitHub Pages 的纯静态部署方式做了适配实现。
+
+### 许可证
+
+本项目使用 MIT 协议，详见 [LICENSE](./LICENSE)。
+
+<a id="english"></a>
+## English
+
+An online LaTeX formula editor that can be deployed directly to GitHub Pages, powered by MathJax 4 for live rendering.
+
+### Features
+
+- Live LaTeX preview
+- Inline / display mode switch
+- Chinese / English UI switch
+- Light / dark theme switch
+- Starter templates and quick tools
+- Formula history and favorites
+- One-click copy for source, wrapped source, and share links
+- SVG and PNG export
+
+### Deployment (GitHub Pages)
+
+This is a pure static site and requires no build step.
+
+1. Push the repository to GitHub.
+2. Enable GitHub Pages in repository settings.
+3. Deploy from the default branch root (`/`).
+
+Expected URL:
+
+`https://qianyuan1437.github.io/LaTeXOnline`
+
+### References
+
+- MathJax official: `https://www.mathjax.org/`
+- LaTeXLive upstream reference: `https://github.com/MosRat/LaTeXLive`
+- LaTeXLive fork reference: `https://github.com/QianYuan1437/LaTeXLive`
+
+Note: This project references those resources for interaction patterns and tool taxonomy, then adapts the implementation to a pure static GitHub Pages workflow.
+
+### License
+
+This project is licensed under the MIT License. See [LICENSE](./LICENSE).
